@@ -14,116 +14,139 @@
     </v-row>
     <v-row class="text-center">
       <v-spacer></v-spacer>
-      <v-col cols="3">
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field
-            v-model="alumno"
-            :rules="requerido"
-            label="Nombre"
-            required
-          ></v-text-field>
+      <v-row>
+        <v-col cols="6">
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-text-field
+              v-model="alumno"
+              :rules="requerido"
+              label="Nombre*"
+              required
+            ></v-text-field>
 
-          <v-text-field
-            v-model="noControl"
-            :rules="requerido"
-            label="N° control"
-            required
-          ></v-text-field>
+            <v-text-field
+              v-model="noControl"
+              :rules="requerido"
+              label="N° control*"
+              required
+            ></v-text-field>
 
-          <v-select
-            :items="itemsCarrera"
-            v-model="carrera"
-            :rules="requerido"
-            label="Carrera"
-            required
-          ></v-select>
+            <v-select
+              :items="itemsCarrera"
+              v-model="carrera"
+              :rules="requerido"
+              label="Carrera*"
+              required
+            ></v-select>
 
-          <v-text-field
-            v-model="clave"
-            :rules="requerido"
-            label="Clave"
-            required
-          ></v-text-field>
+            <v-text-field
+              v-model="clave"
+              :rules="requerido"
+              label="Clave*"
+              required
+            ></v-text-field>
 
-          <v-select
-            v-model="selectGeneracion"
-            :items="itemsGeneracion"
-            :rules="[(v) => !!v || 'Generacion requerida']"
-            label="Generacion"
-            required
-          ></v-select
-        ></v-form>
-      </v-col>
+            <v-select
+              v-model="selectGeneracion"
+              :items="itemsGeneracion"
+              :rules="[(v) => !!v || 'Generacion requerida']"
+              label="Generacion*"
+              required
+            ></v-select
+          ></v-form>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="6">
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-text-field
+              v-model="correo"
+              :rules="emailRules"
+              label="Correo*"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="direccion"
+              :rules="requerido"
+              label="Direccion*"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="colonia"
+              :rules="requerido"
+              label="Colonia*"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="localidad"
+              :rules="requerido"
+              label="Localidad*"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="municipio"
+              :rules="requerido"
+              label="Municipio*"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="estado"
+              :rules="requerido"
+              label="Estado*"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="cp"
+              :rules="requerido"
+              label="Codigo postal*"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="telefono"
+              :rules="telRules"
+              label="Telefono*"
+              maxlength="12"
+              required
+            ></v-text-field>
+          </v-form>
+        </v-col>
+      </v-row>
       <v-spacer></v-spacer>
-      <v-col cols="3">
-        <v-form ref="form" v-model="valid" lazy-validation>
-          <v-text-field
-            v-model="correo"
-            :rules="emailRules"
-            label="Correo"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="direccion"
-            :rules="requerido"
-            label="Direccion"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="colonia"
-            :rules="requerido"
-            label="Colonia"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="localidad"
-            :rules="requerido"
-            label="Localidad"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="municipio"
-            :rules="requerido"
-            label="Municipio"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="estado"
-            :rules="requerido"
-            label="Estado"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="cp"
-            :rules="requerido"
-            label="Codigo postal"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="telefono"
-            :rules="telRules"
-            label="Telefono"
-            maxlength="12"
-            required
-          ></v-text-field>
-        </v-form>
+      <v-col cols="5">
+        <v-container fluid>
+          <v-row>
+            <iframe src="" id="pdfVer" height="1000px" width="100%"></iframe>
+          </v-row>
+        </v-container>
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
     <v-row>
-      <v-spacer></v-spacer>
-      <v-btn @click="generar()" dark color="#800000" elevation="2"
-        >Generar</v-btn
-      >
+      <small>*Datos requeridos</small>
       <v-spacer></v-spacer>
     </v-row>
+
+    <v-btn
+      fab
+      bottom
+      right
+      x-large
+      absolute
+      fixed
+      @click="generar()"
+      dark
+      color="#800000"
+      elevation="2"
+      style="margin-bottom: 3rem"
+    >
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
@@ -250,7 +273,7 @@ export default {
       doc.setFont(undefined, "normal");
       doc.text("Dirección: " + this.direccion, 30, 220);
       doc.text("Colonia: " + this.colonia, 30, 230);
-      doc.text("Localidad: " + this.colonia, 130, 230);
+      doc.text("Localidad: " + this.localidad, 130, 230);
       doc.text("Municipio: " + this.municipio, 30, 240);
       doc.text("Estado: " + this.estado, 130, 240);
       doc.text("C.P.: " + this.cp, 30, 250);
@@ -266,7 +289,8 @@ export default {
       doc.text("Julio 2017", 160, 280);
 
       if (this.$refs.form.validate()) {
-        doc.save("Solicitud de egreso.pdf");
+        //doc.save("Solicitud de egreso.pdf");
+        document.getElementById("pdfVer").src = doc.output("datauristring");
       }
     },
 
