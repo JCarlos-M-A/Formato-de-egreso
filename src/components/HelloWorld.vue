@@ -4,7 +4,12 @@
     <div style="text-decoration: underline red" hidden id="hola">Hola</div>
     <v-row class="text-center">
       <v-col cols="12">
-        <v-img :src="require(`@/assets/img/itsch.jpg`)" class="my-3" contain height="200" />
+        <v-img
+          :src="require(`@/assets/img/itsch.jpg`)"
+          class="my-3"
+          contain
+          height="200"
+        />
       </v-col>
     </v-row>
     <v-row class="text-center">
@@ -181,7 +186,8 @@ export default {
     ],
     telRules: [
       (v) => !!v || "Telefono es requerido",
-      (v) => /[0-9]{3}[-]{1}[0-9]{3}[-]{1}[0-9]{4}/.test(v) || "Telefono no valido",
+      (v) =>
+        /[0-9]{3}[-]{1}[0-9]{3}[-]{1}[0-9]{4}/.test(v) || "Telefono no valido",
     ],
     requerido: [(v) => !!v || "Dato requerido"],
   }),
@@ -259,7 +265,9 @@ export default {
       doc.text("ITSCH", 30, 280);
       doc.text("Julio 2017", 160, 280);
 
-      doc.save("Solicitud de egreso.pdf");
+      if (this.$refs.form.validate()) {
+        doc.save("Solicitud de egreso.pdf");
+      }
     },
 
     getBase64(img) {
