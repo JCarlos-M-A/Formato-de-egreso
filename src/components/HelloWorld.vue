@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <img :src="require(`@/assets/img/itsch.jpg`)" hidden id="imag" alt="MDN" />
-    <div style="text-decoration: underline red" id="hola">hola</div>
+    <div style="text-decoration: underline red" hidden id="hola">Hola</div>
     <v-row class="text-center">
       <v-col cols="12">
         <v-img :src="require(`@/assets/img/itsch.jpg`)" class="my-3" contain height="200" />
