@@ -10,7 +10,7 @@
           alt="ITSCH Logo"
           class="shrink mr-2"
           contain
-          src="img/itsch.jpg"
+          :src="require(`@/assets/img/itsch.jpg`)"
           transition="scale-transition"
           width="40"
         />

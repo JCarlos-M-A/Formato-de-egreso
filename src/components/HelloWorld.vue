@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <img src="img/itsch.jpg" hidden id="imag" alt="MDN" />
+    <img :src="require(`@/assets/img/itsch.jpg`)" hidden id="imag" alt="MDN" />
     <div style="text-decoration: underline red" id="hola">hola</div>
     <v-row class="text-center">
       <v-col cols="12">
-        <v-img src="img/itsch.jpg" class="my-3" contain height="200" />
+        <v-img :src="require(`@/assets/img/itsch.jpg`)" class="my-3" contain height="200" />
       </v-col>
     </v-row>
     <v-row class="text-center">
@@ -217,7 +217,7 @@ export default {
       doc.text("DEL INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 30, 73);
       doc.setFont(undefined, "normal");
       doc.text(
-        "Por medio de la presente, el (la) que <b>suscribe</b> " +
+        "Por medio de la presente, el (la) que suscribe " +
           this.alumno +
           " de la carrera de " +
           this.carrera +
