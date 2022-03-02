@@ -154,7 +154,6 @@
 import { jsPDF } from "jspdf";
 
 // Default export is a4 paper, portrait, using millimeters for units
-const doc = new jsPDF();
 
 export default {
   name: "HelloWorld",
@@ -217,6 +216,7 @@ export default {
 
   methods: {
     generar() {
+      const doc = new jsPDF();
       //get base64
       let itsch = this.getBase64(document.getElementById("imag"));
       //get fecha
@@ -236,7 +236,7 @@ export default {
           this.meses[date.getMonth()] +
           " de " +
           date.getFullYear(),
-        80,
+        75,
         50
       );
       doc.setFontSize(12);
@@ -245,40 +245,62 @@ export default {
       doc.text("JEFE DEL DEPARTAMENTO DE SERVICIOS ESCOLARES", 30, 68);
       doc.text("DEL INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 30, 73);
       doc.setFont(undefined, "normal");
+      doc.text("Por medio de la presente, el (la) que suscribe ", 30, 85);
+      doc.text("___________________________", 116, 85);
+      doc.text(this.alumno, 121, 85);
+      doc.text("de la carrera de ", 30, 93);
+      doc.text("__________________________________", 61, 93);
+      doc.text(this.carrera, 63, 93);
+      doc.text("con plan de estudios ", 144, 93);
+      doc.text("clave ", 30, 101);
+      doc.text("_____________", 41, 101);
+      doc.text(this.clave, 42, 101);
       doc.text(
-        "Por medio de la presente, el (la) que suscribe " +
-          this.alumno +
-          " de la carrera de " +
-          this.carrera +
-          " con plan de estudios clave " +
-          this.clave +
-          " solicita ante este departamento, darse por EGRESADO(A) al finalizar semestre " +
-          this.selectSemestre +
-          " Al firmar esta solicitud acepta en caso de cubrir la totalidad de créditos por ningún" +
-          " motivo nuevamente solicitar reinscripción y de no cubrir la totalidad de los créditos" +
-          " se cancela esta solicitud y se solicita nuevamente reinscripción.",
+        "solicita ante este departamento, darse por EGRESADO(A)",
+        72,
+        101
+      );
+      doc.text("al finalizar semestre ", 30, 109);
+      doc.text("________________", 70, 109);
+      doc.text(this.selectSemestre + ".", 72, 109);
+      doc.text("Al firmar esta solicitud acepta en caso", 110, 109);
+      doc.text(
+        "de cubrir la totalidad de créditos por ningún motivo nuevamente solicitar reinscripción y de no cubrir la totalidad de los créditos se cancela esta solicitud y se solicita nuevamente reinscripción.",
         30,
-        85,
+        117,
         { maxWidth: 150, align: "justify", lineHeightFactor: 2 }
       );
       doc.text("A T E N T A M E N T E", 30, 155);
       doc.text(this.alumno, 35, 173);
       doc.text("__________________________", 30, 175);
       doc.text("Nombre y firma del alumno", 35, 180);
-      doc.text("Generación " + this.selectGeneracion, 150, 200);
+      doc.text("Generación " + this.selectGeneracion, 140, 200);
+      doc.text("_________", 162, 200);
       doc.setFontSize(14);
       doc.setFont(undefined, "bold");
       doc.text("Domicilio del alumno:", 30, 215);
       doc.setFontSize(12);
       doc.setFont(undefined, "normal");
       doc.text("Dirección: " + this.direccion, 30, 220);
+      doc.text(
+        "_________________________________________________________",
+        50,
+        220
+      );
       doc.text("Colonia: " + this.colonia, 30, 230);
+      doc.text("____________________________", 47, 230);
       doc.text("Localidad: " + this.localidad, 130, 230);
+      doc.text("_____________", 153, 230);
       doc.text("Municipio: " + this.municipio, 30, 240);
+      doc.text("__________________________", 51, 240);
       doc.text("Estado: " + this.estado, 130, 240);
+      doc.text("________________", 146, 240);
       doc.text("C.P.: " + this.cp, 30, 250);
+      doc.text("______________", 41, 250);
       doc.text("Tel.: " + this.telefono, 80, 250);
+       doc.text("______________", 90, 250);
       doc.text("Correo: " + this.correo, 130, 250);
+       doc.text("________________", 146, 250);
       doc.text(
         "Autorizo al Instituto Tecnológico Superior de Ciudad Hidalgo, utilizar estos datos para localizarme posterior a mi egreso.",
         30,
@@ -287,7 +309,7 @@ export default {
       );
       doc.text("ITSCH", 30, 280);
       doc.text("Julio 2017", 160, 280);
-
+      document.getElementById("pdfVer").src = doc.output("datauristring");
       if (this.$refs.form.validate()) {
         //doc.save("Solicitud de egreso.pdf");
         document.getElementById("pdfVer").src = doc.output("datauristring");
