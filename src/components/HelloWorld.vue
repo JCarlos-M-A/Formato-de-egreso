@@ -153,8 +153,6 @@
 <script>
 import { jsPDF } from "jspdf";
 
-// Default export is a4 paper, portrait, using millimeters for units
-
 export default {
   name: "HelloWorld",
 
@@ -216,6 +214,7 @@ export default {
 
   methods: {
     generar() {
+      // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
       //get base64
       let itsch = this.getBase64(document.getElementById("imag"));
@@ -247,19 +246,18 @@ export default {
       doc.setFont(undefined, "normal");
       doc.text("Por medio de la presente, el (la) que suscribe ", 30, 85);
       doc.text("___________________________", 116, 85);
-      doc.text(this.alumno, 121, 85);
+      doc.text(this.alumno, 120, 85);
       doc.text("de la carrera de ", 30, 93);
-      doc.text("__________________________________", 61, 93);
+      doc.text("_________________________________", 61, 93);
       doc.text(this.carrera, 63, 93);
-      doc.text("con plan de estudios ", 144, 93);
+      doc.text("con plan de estudios ", 142, 93);
       doc.text("clave ", 30, 101);
       doc.text("_____________", 41, 101);
       doc.text(this.clave, 42, 101);
-      doc.text(
-        "solicita ante este departamento, darse por EGRESADO(A)",
-        72,
-        101
-      );
+      doc.text("solicita ante este departamento, darse por", 72, 101);
+      doc.setFont(undefined, "bold");
+      doc.text("EGRESADO(A)", 152, 101);
+      doc.setFont(undefined, "normal");
       doc.text("al finalizar semestre ", 30, 109);
       doc.text("________________", 70, 109);
       doc.text(this.selectSemestre + ".", 72, 109);
@@ -298,9 +296,9 @@ export default {
       doc.text("C.P.: " + this.cp, 30, 250);
       doc.text("______________", 41, 250);
       doc.text("Tel.: " + this.telefono, 80, 250);
-       doc.text("______________", 90, 250);
+      doc.text("______________", 90, 250);
       doc.text("Correo: " + this.correo, 130, 250);
-       doc.text("________________", 146, 250);
+      doc.text("________________", 146, 250);
       doc.text(
         "Autorizo al Instituto Tecnológico Superior de Ciudad Hidalgo, utilizar estos datos para localizarme posterior a mi egreso.",
         30,
