@@ -12,121 +12,120 @@
         />
       </v-col>
     </v-row>
-    <v-row class="text-center">
-      <v-spacer></v-spacer>
-      <v-row>
-        <v-col cols="6">
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field
-              v-model="alumno"
-              :rules="requerido"
-              label="Nombre*"
-              required
-            ></v-text-field>
 
-            <v-text-field
-              v-model="noControl"
-              :rules="requerido"
-              label="N° control*"
-              required
-            ></v-text-field>
+    <v-container fluid>
+      <v-row dense>
+        <v-col cols="12" md="3">
+          <v-card elevation="0" flat>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="alumno"
+                :rules="requerido"
+                label="Nombre*"
+                required
+              ></v-text-field>
 
-            <v-select
-              :items="itemsCarrera"
-              v-model="carrera"
-              :rules="requerido"
-              label="Carrera*"
-              required
-            ></v-select>
+              <v-text-field
+                v-model="noControl"
+                :rules="requerido"
+                label="N° control*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="clave"
-              :rules="requerido"
-              label="Clave*"
-              required
-            ></v-text-field>
+              <v-select
+                :items="itemsCarrera"
+                v-model="carrera"
+                :rules="requerido"
+                label="Carrera*"
+                required
+              ></v-select>
 
-            <v-select
-              v-model="selectGeneracion"
-              :items="itemsGeneracion"
-              :rules="[(v) => !!v || 'Generacion requerida']"
-              label="Generacion*"
-              required
-            ></v-select
-          ></v-form>
+              <v-text-field
+                v-model="clave"
+                :rules="requerido"
+                label="Clave*"
+                required
+              ></v-text-field>
+
+              <v-select
+                v-model="selectGeneracion"
+                :items="itemsGeneracion"
+                :rules="[(v) => !!v || 'Generacion requerida']"
+                label="Generacion*"
+                required
+              ></v-select
+            ></v-form>
+          </v-card>
         </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="6">
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field
-              v-model="correo"
-              :rules="emailRules"
-              label="Correo*"
-              required
-            ></v-text-field>
+        <v-col cols="12" md="3">
+          <v-card elevation="0" flat>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-text-field
+                v-model="correo"
+                :rules="emailRules"
+                label="Correo*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="direccion"
-              :rules="requerido"
-              label="Direccion*"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="direccion"
+                :rules="requerido"
+                label="Direccion*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="colonia"
-              :rules="requerido"
-              label="Colonia*"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="colonia"
+                :rules="requerido"
+                label="Colonia*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="localidad"
-              :rules="requerido"
-              label="Localidad*"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="localidad"
+                :rules="requerido"
+                label="Localidad*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="municipio"
-              :rules="requerido"
-              label="Municipio*"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="municipio"
+                :rules="requerido"
+                label="Municipio*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="estado"
-              :rules="requerido"
-              label="Estado*"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="estado"
+                :rules="requerido"
+                label="Estado*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="cp"
-              :rules="requerido"
-              label="Codigo postal*"
-              required
-            ></v-text-field>
+              <v-text-field
+                v-model="cp"
+                :rules="requerido"
+                label="Codigo postal*"
+                required
+              ></v-text-field>
 
-            <v-text-field
-              v-model="telefono"
-              :rules="telRules"
-              label="Telefono*"
-              maxlength="12"
-              required
-            ></v-text-field>
-          </v-form>
+              <v-text-field
+                v-model="telefono"
+                :rules="telRules"
+                label="Telefono*"
+                maxlength="12"
+                required
+              ></v-text-field>
+            </v-form>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-card elevation="0" flat>
+            <iframe src="" id="pdfVer" height="1000px" width="100%"></iframe>
+          </v-card>
         </v-col>
       </v-row>
-      <v-spacer></v-spacer>
-      <v-col cols="5">
-        <v-container fluid>
-          <v-row>
-            <iframe src="" id="pdfVer" height="1000px" width="100%"></iframe>
-          </v-row>
-        </v-container>
-      </v-col>
-      <v-spacer></v-spacer>
-    </v-row>
+    </v-container>
     <v-row>
       <small>*Datos requeridos</small>
       <v-spacer></v-spacer>
@@ -307,6 +306,227 @@ export default {
       );
       doc.text("ITSCH", 30, 280);
       doc.text("Julio 2017", 160, 280);
+
+      doc.addPage();
+      doc.addImage(itsch, "jpeg", 15, 5, 20, 20);
+      doc.setFontSize(12);
+      doc.setFont(undefined, "bold");
+      doc.text("INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 55, 18);
+      doc.text("ALUMNOS PRÓXIMOS A EGRESAR", 80, 28);
+      doc.text(
+        "FORMATO DE NO ADEUDOS CON EL INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO",
+        115,
+        35,
+        { maxWidth: 170, align: "center" }
+      );
+      doc.text("Nombre:", 25, 45);
+      doc.text(this.alumno, 44, 45);
+      doc.text("___________________________________", 43, 45);
+      doc.text("No. Control:", 128, 45);
+      doc.text(this.noControl, 154, 45);
+      doc.text("____________", 153, 45);
+      doc.text("Carrera:", 25, 50);
+      doc.text(this.carrera, 44, 50);
+      doc.text("___________________________________", 43, 50);
+      doc.text("Generación:", 128, 50);
+      doc.text(this.selectGeneracion, 154, 50);
+      doc.text(" ____________ ", 152, 50);
+
+      ///////////
+      doc.rect(10, 55, 95, 35);
+      doc.text("CENTRO DE INFORMACIÓN.", 30, 60);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 63);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 25, 80);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        20,
+        80
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 40, 85);
+
+      doc.rect(105, 55, 95, 35);
+      doc.setFontSize(12);
+      doc.text("JEFE DE CARRERA.", 132, 60);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 63);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 120, 80);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        115,
+        80
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 140, 85);
+
+      ///////////
+      doc.rect(10, 90, 95, 35);
+      doc.setFontSize(12);
+      doc.text("LAB. DE CÓMPUTO.", 35, 95);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 98);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 25, 115);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        20,
+        115
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 40, 120);
+
+      doc.rect(105, 90, 95, 35);
+      doc.setFontSize(12);
+      doc.text("EXTRAESCOLARES.", 132, 95);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 98);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 120, 115);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        115,
+        115
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 140, 120);
+
+      ///////////
+      doc.rect(10, 125, 95, 35);
+      doc.setFontSize(12);
+      doc.text("LAB. DE BIOQUÍMICA.", 35, 130);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 133);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 25, 150);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        20,
+        150
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 40, 155);
+
+      doc.rect(105, 125, 95, 35);
+      doc.setFontSize(12);
+      doc.text("COORD. LENGUAS EXTRANJERAS.", 117, 130);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 133);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 120, 150);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        115,
+        150
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 140, 155);
+
+      ///////////
+      doc.rect(10, 160, 95, 35);
+      doc.setFontSize(12);
+      doc.text("LAB. DE MÉTODOS.", 35, 165);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 168);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 25, 185);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        20,
+        185
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 40, 190);
+
+      doc.rect(105, 160, 95, 35);
+      doc.setFontSize(12);
+      doc.text("LAB. DE ELECTRÓNICA", 132, 165);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 168);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 120, 185);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        115,
+        185
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 140, 190);
+
+      ///////////
+      doc.rect(10, 195, 95, 35);
+      doc.setFontSize(12);
+      doc.text("DEPTO. DE TUTORIAS.", 30, 200);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 203);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 25, 220);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        20,
+        220
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 40, 225);
+
+      doc.rect(105, 195, 95, 35);
+      doc.setFontSize(12);
+      doc.text("SEGUIMIENTO A EGRESADOS.", 132, 200);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 203);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 120, 220);
+      doc.setFontSize(7);
+      doc.text(
+        "________________________________________________________",
+        115,
+        220
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 140, 225);
+      ///////
+      doc.rect(10, 230, 190, 35);
+      doc.setFontSize(12);
+      doc.text("SERVICIOS ESCOLARES.", 80, 235);
+      doc.setFontSize(7);
+      doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 70, 238);
+      doc.setFontSize(12);
+      doc.text(this.alumno, 75, 255);
+      doc.setFontSize(7);
+      doc.text(
+        "_____________________________________________________________________________________________",
+        40,
+        255
+      );
+      doc.setFontSize(10);
+      doc.text("NOMBRE Y FIRMA", 85, 260);
+      ///
+      doc.setFontSize(11);
+      doc.text(
+        "LUGAR Y FECHA __________________________ a _____de ______________del_______",
+        30,
+        275
+      );
+
+      doc.text(this.municipio + ", " + this.estado, 63, 275);
+      doc.text(date.getDate() + "", 128, 275);
+      doc.text(this.meses[date.getMonth()] + "", 142, 275);
+      doc.text(date.getFullYear() + "", 178, 275);
+
+      doc.text("ITSCH", 30, 285);
+      doc.text("Septiembre 2019", 155, 285);
+
       document.getElementById("pdfVer").src = doc.output("datauristring");
       if (this.$refs.form.validate()) {
         //doc.save("Solicitud de egreso.pdf");
