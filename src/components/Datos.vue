@@ -1,142 +1,182 @@
 <template>
   <v-stepper v-model="e1">
     <v-stepper-header>
-      <v-stepper-step :complete="valid" @click="e1 = 1" step="1">
+      <v-stepper-step
+        color="#800000"
+        class="hoverManito"
+        :complete="valid"
+        @click="e1 = 1"
+        step="1"
+      >
         Datos personales.
       </v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step :complete="valid2" @click="e1 = 2" step="2">
+      <v-stepper-step
+        color="#800000"
+        :complete="valid2"
+        @click="e1 = 2"
+        class="hoverManito"
+        step="2"
+      >
         Contacto
       </v-stepper-step>
 
       <v-divider></v-divider>
 
-      <v-stepper-step @click="e1 = 3" step="3"> Acciones </v-stepper-step>
+      <v-stepper-step
+        color="#800000"
+        @click="e1 = 3"
+        class="hoverManito"
+        step="3"
+      >
+        Salida PDF
+      </v-stepper-step>
     </v-stepper-header>
 
     <v-stepper-items>
       <v-stepper-content step="1">
-        <v-card class="mb-12" flat height="500px">
-          <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field
-              v-model="alumno"
-              :rules="requerido"
-              label="Nombre*"
-              required
-            ></v-text-field>
+        <v-card class="mb-12" flat>
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-col cols="12" lg="5">
+              <v-alert border="left" color="#80000010">
+                <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-text-field
+                    v-model="alumno"
+                    :rules="requerido"
+                    label="Nombre*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="noControl"
-              :rules="requerido"
-              label="N° control*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="noControl"
+                    :rules="requerido"
+                    label="N° control*"
+                    required
+                  ></v-text-field>
 
-            <v-select
-              :items="itemsCarrera"
-              v-model="carrera"
-              :rules="requerido"
-              label="Carrera*"
-              required
-            ></v-select>
+                  <v-select
+                    :items="itemsCarrera"
+                    v-model="carrera"
+                    :rules="requerido"
+                    label="Carrera*"
+                    required
+                  ></v-select>
 
-            <v-text-field
-              v-model="clave"
-              :rules="requerido"
-              label="Clave*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="clave"
+                    :rules="requerido"
+                    label="Clave*"
+                    required
+                  ></v-text-field>
 
-            <v-select
-              v-model="selectGeneracion"
-              :items="itemsGeneracion"
-              :rules="[(v) => !!v || 'Generacion requerida']"
-              label="Generacion*"
-              required
-            ></v-select
-          ></v-form>
+                  <v-select
+                    v-model="selectGeneracion"
+                    :items="itemsGeneracion"
+                    :rules="[(v) => !!v || 'Generacion requerida']"
+                    label="Generacion*"
+                    required
+                  ></v-select
+                ></v-form>
+              </v-alert>
+            </v-col>
+            <v-spacer></v-spacer>
+          </v-row>
         </v-card>
-
         <v-btn color="primary" @click="e1 = 2"> Siguiente </v-btn>
-
-        <v-btn text> Cancelar </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <v-card class="mb-12" flat height="500px">
-          <v-form ref="form2" v-model="valid2" lazy-validation>
-            <v-text-field
-              v-model="correo"
-              :rules="emailRules"
-              label="Correo*"
-              required
-            ></v-text-field>
+        <v-card class="mb-12" flat>
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-col cols="12" lg="5">
+              <v-alert border="left" color="#80000010">
+                <v-form ref="form2" v-model="valid2" lazy-validation>
+                  <v-text-field
+                    v-model="correo"
+                    :rules="emailRules"
+                    label="Correo*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="direccion"
-              :rules="requerido"
-              label="Direccion*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="direccion"
+                    :rules="requerido"
+                    label="Direccion*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="colonia"
-              :rules="requerido"
-              label="Colonia*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="colonia"
+                    :rules="requerido"
+                    label="Colonia*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="localidad"
-              :rules="requerido"
-              label="Localidad*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="localidad"
+                    :rules="requerido"
+                    label="Localidad*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="municipio"
-              :rules="requerido"
-              label="Municipio*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="municipio"
+                    :rules="requerido"
+                    label="Municipio*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="estado"
-              :rules="requerido"
-              label="Estado*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="estado"
+                    :rules="requerido"
+                    label="Estado*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="cp"
-              :rules="requerido"
-              label="Codigo postal*"
-              required
-            ></v-text-field>
+                  <v-text-field
+                    v-model="cp"
+                    :rules="requerido"
+                    label="Codigo postal*"
+                    required
+                  ></v-text-field>
 
-            <v-text-field
-              v-model="telefono"
-              :rules="telRules"
-              label="Telefono*"
-              maxlength="12"
-              required
-            ></v-text-field>
-          </v-form>
+                  <v-text-field
+                    v-model="telefono"
+                    :rules="telRules"
+                    label="Telefono*"
+                    maxlength="12"
+                    required
+                  ></v-text-field>
+                </v-form>
+              </v-alert>
+            </v-col>
+            <v-spacer></v-spacer>
+          </v-row>
         </v-card>
-
-        <v-btn color="primary" @click="e1 = 3"> Siguiente </v-btn>
-
-        <v-btn text> Cancelar </v-btn>
+        <v-btn color="blue-grey" @click="e1 = 2"> Anterior </v-btn>
+        <v-divider vertical class="ml-2 mr-2"></v-divider>
+        <v-btn color="primary" @click="generar()"> Generar </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="3">
-        <v-card class="mb-12" color="grey lighten-1" height="500px"></v-card>
+        <v-card class="mb-12" color="grey lighten-1">
+          <v-container fluid>
+            <v-row>
+              <v-col cols="12" md="12" lg="6">
+                <PDFVisor :srcPDF="srcPDF1" />
+              </v-col>
+              <v-col cols="12" md="12" lg="6">
+                <PDFVisor :srcPDF="srcPDF2" />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
 
-        <v-btn color="primary" @click="generar()"> Generar </v-btn>
-
-        <v-btn text> Cancelar </v-btn>
+        <v-btn color="blue-grey" @click="e1 = 2"> Anterior </v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -144,10 +184,18 @@
 
 <script>
 import { jsPDF } from "jspdf";
+import PDFVisor from "../components/PDFVisor";
 
 export default {
+  components: {
+    PDFVisor,
+  },
   data() {
     return {
+      //DATOS PDF
+      srcPDF1: "",
+      srcPDF2: "",
+
       e1: 1,
       //datos generales
       alumno: "Juan Carlos Montaño Álvarez",
@@ -212,6 +260,7 @@ export default {
   methods: {
     generar() {
       if (this.$refs.form.validate()) {
+        this.e1 = 3;
         this.generarSolicitudEgreso();
         this.generarFormatoNoAdeudos();
         //doc.save("Solicitud de egreso.pdf");
@@ -324,6 +373,7 @@ export default {
       doc.text("Julio 2017", 160, 280);
 
       this.$emit("pdfSolicitud", doc.output("datauristring"));
+      this.srcPDF1 = doc.output("datauristring");
     },
 
     generarFormatoNoAdeudos() {
@@ -554,6 +604,7 @@ export default {
       doc.text("Septiembre 2019", 155, 285);
 
       this.$emit("pdfFormatoNoAdeudos", doc.output("datauristring"));
+      this.srcPDF2 = doc.output("datauristring");
     },
 
     getBase64(img) {
@@ -567,6 +618,10 @@ export default {
       ctx.drawImage(img, 0, 0);
 
       return canvas.toDataURL("img/itsch.jpg");
+    },
+
+    hola() {
+      console.log("das");
     },
   },
   watch: {
@@ -592,3 +647,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.hoverManito:hover {
+  cursor: pointer !important;
+}
+</style>
