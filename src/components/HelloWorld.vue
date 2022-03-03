@@ -15,7 +15,7 @@
 
     <v-container fluid>
       <v-row dense>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="6">
           <v-card elevation="0" flat>
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-text-field
@@ -57,7 +57,7 @@
             ></v-form>
           </v-card>
         </v-col>
-        <v-col cols="12" md="3">
+        <v-col cols="12" md="6">
           <v-card elevation="0" flat>
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-text-field
@@ -117,6 +117,13 @@
                 required
               ></v-text-field>
             </v-form>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-card elevation="0" flat>
+            <iframe src="" id="pdfVer2" height="1000px" width="100%"></iframe>
           </v-card>
         </v-col>
         <v-col cols="12" md="6">
@@ -188,14 +195,14 @@ export default {
     ],
 
     //Direccion
-    direccion: "",
-    colonia: "",
-    localidad: "",
-    municipio: "",
-    estado: "",
-    cp: "",
-    telefono: "",
-    correo: "",
+    direccion: "Andador de la mariposa apolo",
+    colonia: "Villa natura",
+    localidad: "Celaya",
+    municipio: "Celaya",
+    estado: "Guanajuato",
+    cp: "38115",
+    telefono: "447-108-5892",
+    correo: "carlitosjl77@gmail.com",
 
     //Validacion
     valid: true,
@@ -227,16 +234,16 @@ export default {
       doc.setFontSize(14);
       doc.text("SOLICITUD DE EGRESO", 80, 38);
       doc.setFont(undefined, "normal");
-      doc.text(
-        "Ciudad Hidalgo, Michoacán, a " +
-          date.getDate() +
-          " de " +
-          this.meses[date.getMonth()] +
-          " de " +
-          date.getFullYear(),
-        75,
-        50
-      );
+      doc.text("Ciudad Hidalgo, Michoacán, a ", 75, 50);
+      doc.text(date.getDate() + "", 145, 50);
+      doc.text("___", 143, 50);
+      doc.text(" de ", 152, 50);
+      doc.text(this.meses[date.getMonth()] + "", 161, 50);
+      doc.text("______", 161, 50);
+      doc.text(" de ", 178, 50);
+      doc.text(date.getFullYear() + "", 187, 50);
+      doc.text("_____", 186, 50);
+
       doc.setFontSize(12);
       doc.setFont(undefined, "bold");
       doc.text("ING. DANIEL AGUILAR ESPINO", 30, 63);
@@ -307,7 +314,22 @@ export default {
       doc.text("ITSCH", 30, 280);
       doc.text("Julio 2017", 160, 280);
 
-      doc.addPage();
+      document.getElementById("pdfVer").src = doc.output("datauristring");
+      this.generarFormatoNoAdeudos();
+      if (this.$refs.form.validate()) {
+        //doc.save("Solicitud de egreso.pdf");
+        document.getElementById("pdfVer").src = doc.output("datauristring");
+      }
+    },
+
+    generarFormatoNoAdeudos() {
+      // Default export is a4 paper, portrait, using millimeters for units
+      const doc = new jsPDF();
+      //get base64
+      let itsch = this.getBase64(document.getElementById("imag"));
+      //get fecha
+      let date = new Date();
+
       doc.addImage(itsch, "jpeg", 15, 5, 20, 20);
       doc.setFontSize(12);
       doc.setFont(undefined, "bold");
@@ -466,7 +488,7 @@ export default {
       ///////////
       doc.rect(10, 195, 95, 35);
       doc.setFontSize(12);
-      doc.text("DEPTO. DE TUTORIAS.", 30, 200);
+      doc.text("DEPTO. DE TUTORIAS.", 35, 200);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 203);
       doc.setFontSize(12);
@@ -482,7 +504,7 @@ export default {
 
       doc.rect(105, 195, 95, 35);
       doc.setFontSize(12);
-      doc.text("SEGUIMIENTO A EGRESADOS.", 132, 200);
+      doc.text("SEGUIMIENTO A EGRESADOS.", 122, 200);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 203);
       doc.setFontSize(12);
@@ -527,11 +549,7 @@ export default {
       doc.text("ITSCH", 30, 285);
       doc.text("Septiembre 2019", 155, 285);
 
-      document.getElementById("pdfVer").src = doc.output("datauristring");
-      if (this.$refs.form.validate()) {
-        //doc.save("Solicitud de egreso.pdf");
-        document.getElementById("pdfVer").src = doc.output("datauristring");
-      }
+      document.getElementById("pdfVer2").src = doc.output("datauristring");
     },
 
     getBase64(img) {
@@ -548,7 +566,7 @@ export default {
     },
   },
   watch: {
-    // cada vez que la pregunta cambie, esta función será ejecutada
+    // cada vez que la variable cambie, esta función será ejecutada
     telefono(val) {
       let nuevo = val;
       if (val.length == 4) {
