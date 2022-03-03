@@ -12,10 +12,10 @@
     />
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="12" lg="6">
           <PDFVisor :srcPDF="srcPDF1" />
         </v-col>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="12" lg="6">
           <PDFVisor :srcPDF="srcPDF2" />
         </v-col>
       </v-row>
