@@ -8,7 +8,7 @@
         @click="e1 = 1"
         step="1"
       >
-        Datos personales.
+        Datos.
       </v-stepper-step>
 
       <v-divider></v-divider>
@@ -37,6 +37,22 @@
 
     <v-stepper-items>
       <v-stepper-content step="1">
+        <v-card class="mt-6" flat>
+          <v-row>
+            <v-spacer></v-spacer>
+            <v-text-field
+              outlined
+              label="N° de control 🔎"
+              v-model="noControlBuscar"
+              color="#800000"
+            >
+            </v-text-field>
+            <v-btn color="#800000" class="mt-2 ml-2" dark @click="buscar()">
+              Buscar
+            </v-btn>
+            <v-spacer></v-spacer>
+          </v-row>
+        </v-card>
         <v-card class="mb-12" flat>
           <v-row>
             <v-spacer></v-spacer>
@@ -47,6 +63,7 @@
                     v-model="alumno"
                     :rules="requerido"
                     label="Nombre*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -54,6 +71,7 @@
                     v-model="noControl"
                     :rules="requerido"
                     label="N° control*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -61,6 +79,7 @@
                     :items="itemsCarrera"
                     v-model="carrera"
                     :rules="requerido"
+                    color="#800000"
                     label="Carrera*"
                     required
                   ></v-select>
@@ -68,6 +87,7 @@
                   <v-text-field
                     v-model="clave"
                     :rules="requerido"
+                    color="#800000"
                     label="Clave*"
                     required
                   ></v-text-field>
@@ -77,6 +97,7 @@
                     :items="itemsGeneracion"
                     :rules="[(v) => !!v || 'Generacion requerida']"
                     label="Generacion*"
+                    color="#800000"
                     required
                   ></v-select
                 ></v-form>
@@ -85,7 +106,7 @@
             <v-spacer></v-spacer>
           </v-row>
         </v-card>
-        <v-btn color="primary" @click="e1 = 2"> Siguiente </v-btn>
+        <v-btn color="#800000" dark @click="e1 = 2"> Siguiente </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="2">
@@ -99,6 +120,7 @@
                     v-model="correo"
                     :rules="emailRules"
                     label="Correo*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -106,6 +128,7 @@
                     v-model="direccion"
                     :rules="requerido"
                     label="Direccion*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -113,6 +136,7 @@
                     v-model="colonia"
                     :rules="requerido"
                     label="Colonia*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -120,6 +144,7 @@
                     v-model="localidad"
                     :rules="requerido"
                     label="Localidad*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -127,6 +152,7 @@
                     v-model="municipio"
                     :rules="requerido"
                     label="Municipio*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -134,6 +160,7 @@
                     v-model="estado"
                     :rules="requerido"
                     label="Estado*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -141,6 +168,7 @@
                     v-model="cp"
                     :rules="requerido"
                     label="Codigo postal*"
+                    color="#800000"
                     required
                   ></v-text-field>
 
@@ -148,6 +176,7 @@
                     v-model="telefono"
                     :rules="telRules"
                     label="Telefono*"
+                    color="#800000"
                     maxlength="12"
                     required
                   ></v-text-field>
@@ -157,9 +186,9 @@
             <v-spacer></v-spacer>
           </v-row>
         </v-card>
-        <v-btn color="blue-grey" @click="e1 = 2"> Anterior </v-btn>
+        <v-btn color="red-grey" @click="e1 = 1"> Anterior </v-btn>
         <v-divider vertical class="ml-2 mr-2"></v-divider>
-        <v-btn color="primary" @click="generar()"> Generar </v-btn>
+        <v-btn color="#800000" dark @click="generar()"> Generar </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="3">
@@ -176,7 +205,7 @@
           </v-container>
         </v-card>
 
-        <v-btn color="blue-grey" @click="e1 = 2"> Anterior </v-btn>
+        <v-btn color="red-grey" @click="e1 = 2"> Anterior </v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -253,6 +282,8 @@ export default {
       ],
       requerido: [(v) => !!v || "Dato requerido"],
 
+      noControlBuscar: "",
+
       pdfSolicitud: "",
     };
   },
@@ -263,15 +294,6 @@ export default {
         this.e1 = 3;
         this.generarSolicitudEgreso();
         this.generarFormatoNoAdeudos();
-        //doc.save("Solicitud de egreso.pdf");
-        //document.getElementById("pdfVer").src = doc.output("datauristring");
-      }
-    },
-
-    descargar() {
-      if (this.$refs.form.validate()) {
-        //this.generarFormatoNoAdeudos();
-        //this.generarSolicitudEgreso();
         //doc.save("Solicitud de egreso.pdf");
         //document.getElementById("pdfVer").src = doc.output("datauristring");
       }
@@ -620,8 +642,8 @@ export default {
       return canvas.toDataURL("img/itsch.jpg");
     },
 
-    hola() {
-      console.log("das");
+    buscar() {
+      //
     },
   },
   watch: {
@@ -651,5 +673,14 @@ export default {
 <style>
 .hoverManito:hover {
   cursor: pointer !important;
+}
+
+.v-list-item--active {
+  background: #800000 !important;
+}
+
+.v-list-item--active .v-list-item__title {
+  background: #800000 !important;
+  color: white !important;
 }
 </style>
