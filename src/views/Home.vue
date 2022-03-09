@@ -10,7 +10,7 @@
       @pdfSolicitud="PDFSolicitud"
       @pdfFormatoNoAdeudos="PDFFormatoNoAdeudos"
     />
-    <embed :src="srcPDF2">
+    <!--<embed height="1000px" width="100%" :src="srcPDF2">-->
   </div>
 </template>
 

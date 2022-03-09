@@ -206,6 +206,16 @@
           </v-container>
         </v-card>
 
+        <v-card class="mb-12" color="grey lighten-1">
+          <v-container fluid>
+            <v-row>
+              <v-col cols="12" md="12" lg="6">
+                <PDFVisor :srcPDF="srcPDF3" />
+              </v-col>
+              <v-col cols="12" md="12" lg="6"> </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
         <v-btn color="red-grey" @click="e1 = 2"> Anterior </v-btn>
       </v-stepper-content>
     </v-stepper-items>
@@ -286,6 +296,8 @@ export default {
       noControlBuscar: "",
 
       pdfSolicitud: "",
+
+      srcPDF3: "",
     };
   },
 
@@ -295,6 +307,7 @@ export default {
         this.e1 = 3;
         this.generarSolicitudEgreso();
         this.generarFormatoNoAdeudos();
+        this.generarCartaAutorizacion();
         //doc.save("Solicitud de egreso.pdf");
         //document.getElementById("pdfVer").src = doc.output("datauristring");
       }
@@ -401,7 +414,7 @@ export default {
 
     generarFormatoNoAdeudos() {
       // Default export is a4 paper, portrait, using millimeters for units
-      const doc = new jsPDF({filename: 'asdasdasdad.pdf'});
+      const doc = new jsPDF({ filename: "asdasdasdad.pdf" });
       //get base64
       let itsch = this.getBase64(document.getElementById("imag"));
       //get fecha
@@ -627,7 +640,95 @@ export default {
       doc.text("Septiembre 2019", 155, 285);
 
       this.$emit("pdfFormatoNoAdeudos", doc.output("datauristring"));
-      this.srcPDF2 = doc.output("datauristring","pepe.pdf");
+      this.srcPDF2 = doc.output("datauristring", "pepe.pdf");
+      //console.log(doc.output("datauristring","pepe.pdf"))
+    },
+
+    generarCartaAutorizacion() {
+      // Default export is a4 paper, portrait, using millimeters for units
+      const doc = new jsPDF();
+      //get base64
+      let itsch = this.getBase64(document.getElementById("imag"));
+      //get fecha
+      let date = new Date();
+
+      doc.addImage(itsch, "jpeg", 20, 15, 20, 20);
+      doc.setFontSize(12);
+      doc.setFont(undefined, "bold");
+      doc.text("INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 40, 35);
+      doc.setFontSize(9);
+      doc.setFont(undefined, "normal");
+      doc.text("Cd. Hidalgo, Michoacán, " + date.getDate()+"/"+this.meses[date.getMonth()]+"/"+date.getFullYear(), 140, 50);
+
+      doc.setFont(undefined, "bold");
+      doc.text("C.", 20, 80);
+      doc.text("this.jefeCarrera", 23, 80);
+      doc.text("___________________________________", 23, 80);
+
+      doc.setFontSize(10);
+      doc.text("JEFE(A) DE CARRERA DE INGENIERÍA", 20, 85);
+      doc.text(this.carrera.toUpperCase(), 20, 90);
+      const textWidth = doc.getTextWidth(this.carrera.toUpperCase());
+      doc.line(20, 90, 20 + textWidth, 90);
+      doc.text("  DEL ITSCH", 20 + textWidth, 90);
+      doc.text("P R E S E N T E", 20, 95);
+
+      ///////////
+      doc.setFontSize(9);
+      doc.setFont(undefined, "normal");
+      doc.text(
+        "Por medio del presente se le envía un caluroso saludo y aprovechando la oportunidad para informarle que el (la) alumno(a) " +
+          this.alumno +
+          " con numero de control " +
+          this.noControl +
+          " de la carrera de " +
+          this.carrera +
+          " ha concluido su PROYECTO DE RESIDENCIAS con título " +
+          "this.tituloProyecto" +
+          "el cual ha sido autorizado para el proceso de entrega, para que pueda continuar con el proceso y normatividad correspondiente para acreditar sus residencias profesionales.",
+        20,
+        130,
+        { maxWidth: 150, align: "justify" }
+      );
+
+      //
+      doc.setFontSize(9);
+      doc.setFont(undefined, "bold");
+      doc.text(
+        "A T E N T A M E N T E",
+        doc.internal.pageSize.width / 2,
+        200,
+        "center"
+      );
+
+      doc.setFont(undefined, "italic");
+      doc.setFontSize(7);
+      doc.text(
+        "“Educación,  Herencia para el éxito”",
+        doc.internal.pageSize.width / 2,
+        203,
+        "center"
+      );
+
+      doc.text(
+        "______________________________________",
+        doc.internal.pageSize.width / 2,
+        230,
+        "center"
+      );
+
+      doc.setFontSize(9);
+      doc.setFont(undefined, "normal");
+
+      doc.text(
+        "ASESOR INTERNO",
+        doc.internal.pageSize.width / 2,
+        236,
+        "center"
+      );
+
+      //this.$emit("pdfFormatoNoAdeudos", doc.output("datauristring"));
+      this.srcPDF3 = doc.output("datauristring", "carta.pdf");
       //console.log(doc.output("datauristring","pepe.pdf"))
     },
 
