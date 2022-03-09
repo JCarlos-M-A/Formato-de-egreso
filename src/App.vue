@@ -1,39 +1,47 @@
 <template>
   <v-app>
-    <v-app-bar app :color="colorBarra" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="ITSCH Logo"
-          class="shrink mr-2"
-          contain
-          :src="require(`@/assets/img/itsch.jpg`)"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <!--<h1>ITSCH</h1>-->
-      </div>
-
-      <v-spacer></v-spacer>
-    </v-app-bar>
+    <AppBar @cambiarTema="cambiarTema" />
 
     <v-main>
       <router-view />
     </v-main>
+
+    <Footer :color="colors" />
   </v-app>
 </template>
 
 <script>
+import AppBar from "@/components/AppBar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   name: "App",
-
+  components: {
+    AppBar,
+    Footer,
+  },
   data: () => ({
     //
-
-    colorBarra: "#800000",
+    color: "#800000",
   }),
-  mounted() {
-    this.colorBarra="#025"
+  methods: {
+    //
+    cambiarTema(val) {
+      console.log(val);
+      if (this.val) {
+        this.color = "#005";
+        this.colors = "#005";
+      } else {
+        this.color = "#800000";
+        this.colors = "#800000";
+      }
+    },
+  },
+
+  computed: {
+    colors(val) {
+      
+      return "#800000";
+    },
   },
 };
 </script>
