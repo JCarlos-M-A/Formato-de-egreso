@@ -42,8 +42,9 @@
             <v-spacer></v-spacer>
             <v-text-field
               outlined
-              label="N° de control 🔎"
+              label="N° de control"
               v-model="noControlBuscar"
+              prepend-inner-icon="mdi-magnify"
               color="#800000"
             >
             </v-text-field>
@@ -400,7 +401,7 @@ export default {
 
     generarFormatoNoAdeudos() {
       // Default export is a4 paper, portrait, using millimeters for units
-      const doc = new jsPDF();
+      const doc = new jsPDF({filename: 'asdasdasdad.pdf'});
       //get base64
       let itsch = this.getBase64(document.getElementById("imag"));
       //get fecha
@@ -626,7 +627,8 @@ export default {
       doc.text("Septiembre 2019", 155, 285);
 
       this.$emit("pdfFormatoNoAdeudos", doc.output("datauristring"));
-      this.srcPDF2 = doc.output("datauristring");
+      this.srcPDF2 = doc.output("datauristring","pepe.pdf");
+      //console.log(doc.output("datauristring","pepe.pdf"))
     },
 
     getBase64(img) {

@@ -10,6 +10,7 @@
       @pdfSolicitud="PDFSolicitud"
       @pdfFormatoNoAdeudos="PDFFormatoNoAdeudos"
     />
+    <embed :src="srcPDF2">
   </div>
 </template>
 
@@ -38,7 +39,7 @@ export default {
     },
 
     PDFFormatoNoAdeudos(src) {
-      //console.log(src);
+      console.log(src);
       this.srcPDF2 = src;
     },
   },
