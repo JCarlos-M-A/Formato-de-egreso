@@ -658,7 +658,16 @@ export default {
       doc.text("INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 40, 35);
       doc.setFontSize(9);
       doc.setFont(undefined, "normal");
-      doc.text("Cd. Hidalgo, Michoacán, " + date.getDate()+"/"+this.meses[date.getMonth()]+"/"+date.getFullYear(), 140, 50);
+      doc.text(
+        "Cd. Hidalgo, Michoacán, " +
+          date.getDate() +
+          "/" +
+          this.meses[date.getMonth()] +
+          "/" +
+          date.getFullYear(),
+        140,
+        60
+      );
 
       doc.setFont(undefined, "bold");
       doc.text("C.", 20, 80);
@@ -669,7 +678,7 @@ export default {
       doc.text("JEFE(A) DE CARRERA DE INGENIERÍA", 20, 85);
       doc.text(this.carrera.toUpperCase(), 20, 90);
       const textWidth = doc.getTextWidth(this.carrera.toUpperCase());
-      doc.line(20, 90, 20 + textWidth, 90);
+      doc.line(20, 91, 20 + textWidth, 91);
       doc.text("  DEL ITSCH", 20 + textWidth, 90);
       doc.text("P R E S E N T E", 20, 95);
 
@@ -677,20 +686,68 @@ export default {
       doc.setFontSize(9);
       doc.setFont(undefined, "normal");
       doc.text(
-        "Por medio del presente se le envía un caluroso saludo y aprovechando la oportunidad para informarle que el (la) alumno(a) " +
-          this.alumno +
-          " con numero de control " +
-          this.noControl +
-          " de la carrera de " +
-          this.carrera +
-          " ha concluido su PROYECTO DE RESIDENCIAS con título " +
-          "this.tituloProyecto" +
-          "el cual ha sido autorizado para el proceso de entrega, para que pueda continuar con el proceso y normatividad correspondiente para acreditar sus residencias profesionales.",
+        "Por medio del presente se le envía un caluroso saludo y aprovechando la oportunidad para informarle que el (la) alumno(a)",
         20,
-        130,
-        { maxWidth: 150, align: "justify" }
+        130
+      );
+      doc.text(this.alumno, 20, 133);
+      const textWidth2 = doc.getTextWidth(this.alumno);
+      doc.line(20, 134, 20 + textWidth2, 134);
+      doc.text(" con numero de control ", 20 + textWidth2, 133);
+      const textWidth3 = doc.getTextWidth(" con numero de control ");
+      doc.text(this.noControl, 20 + textWidth2 + textWidth3, 133);
+      const textWidth4 = doc.getTextWidth(this.noControl);
+      doc.line(
+        20 + textWidth2 + textWidth3,
+        134,
+        20 + textWidth2 + textWidth3 + textWidth4,
+        134
+      );
+      doc.text(
+        " de la carrera de ",
+        20 + textWidth2 + textWidth3 + textWidth4,
+        133
+      );
+      const textWidth5 = doc.getTextWidth(" de la carrera de ");
+      doc.text(
+        this.carrera,
+        20 + textWidth2 + textWidth3 + textWidth4 + textWidth5,
+        133
+      );
+      const textWidth6 = doc.getTextWidth(this.carrera);
+      doc.line(
+        20 + textWidth2 + textWidth3 + textWidth4 + textWidth5,
+        134,
+        20 + textWidth2 + textWidth3 + textWidth4 + textWidth5 + textWidth6,
+        134
       );
 
+      doc.text("ha concluido su ", 20, 137);
+      doc.setFont(undefined, "bold");
+      const textWidth7 = doc.getTextWidth("ha concluido su ");
+      doc.text("PROYECTO DE RESIDENCIAS ", 20 + textWidth7, 137);
+      doc.setFont(undefined, "normal");
+      const textWidth8 = doc.getTextWidth("PROYECTO DE RESIDENCIAS ");
+      doc.text("con título ", 20 + textWidth7 + textWidth8, 137);
+      const textWidth9 = doc.getTextWidth("con título ");
+      doc.text(
+        "this.tituloResidencias",
+        20 + textWidth7 + textWidth8 + textWidth9,
+        137
+      );
+      const textWidth10 = doc.getTextWidth("this.tituloResidencias");
+      doc.line(
+        20 + textWidth7 + textWidth8 + textWidth9,
+        138,
+        20 + textWidth7 + textWidth8 + textWidth9 + textWidth10,
+        138
+      );
+      doc.text(
+        "el cual ha sido autorizado para el proceso de entrega, para que pueda continuar con el proceso y normatividad correspondiente para acreditar sus residencias profesionales.",
+        20,
+        141,
+        { maxWidth: 176, align: "justify" }
+      );
       //
       doc.setFontSize(9);
       doc.setFont(undefined, "bold");
