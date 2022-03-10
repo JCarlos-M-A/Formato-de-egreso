@@ -1,247 +1,255 @@
 <template>
-  <v-stepper v-model="e1">
-    <v-stepper-header>
-      <v-stepper-step
-        :color="color"
-        class="hoverManito"
-        :complete="valid"
-        @click="e1 = 1"
-        step="1"
-      >
-        Datos.
-      </v-stepper-step>
-
-      <v-divider></v-divider>
-
-      <v-stepper-step
-        :color="color"
-        :complete="valid2"
-        @click="e1 = 2"
-        class="hoverManito"
-        step="2"
-      >
-        Contacto
-      </v-stepper-step>
-
-      <v-divider></v-divider>
-
-      <v-stepper-step
-        :color="color"
-        @click="e1 = 3"
-        class="hoverManito"
-        step="3"
-      >
-        Salida PDF
-      </v-stepper-step>
-    </v-stepper-header>
-
-    <v-stepper-items>
-      <v-stepper-content step="1">
-        <v-card class="mt-6" flat>
-          <v-row>
-            <v-spacer></v-spacer>
-            <v-text-field
-              outlined
-              label="N° de control"
-              v-model="noControlBuscar"
-              prepend-inner-icon="mdi-magnify"
-              :color="color"
-            >
-            </v-text-field>
-            <v-btn :color="color" class="mt-2 ml-2" dark @click="buscar()">
-              Buscar
-            </v-btn>
-            <v-spacer></v-spacer>
-          </v-row>
-        </v-card>
-        <v-card class="mb-12" flat>
-          <v-row>
-            <v-spacer></v-spacer>
-            <v-col cols="12" lg="5">
-              <v-alert border="left" color="#88888810">
-                <v-form ref="form" v-model="valid" lazy-validation>
-                  <v-text-field
-                    v-model="alumno"
-                    :rules="requerido"
-                    label="Nombre*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="noControl"
-                    :rules="requerido"
-                    label="N° control*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-select
-                    :items="itemsCarrera"
-                    v-model="carrera"
-                    :rules="requerido"
-                    :color="color"
-                    label="Carrera*"
-                    required
-                  ></v-select>
-
-                  <v-text-field
-                    v-model="clave"
-                    :rules="requerido"
-                    :color="color"
-                    label="Clave*"
-                    required
-                  ></v-text-field>
-
-                  <v-select
-                    v-model="selectGeneracion"
-                    :items="itemsGeneracion"
-                    :rules="[(v) => !!v || 'Generacion requerida']"
-                    label="Generacion*"
-                    :color="color"
-                    required
-                  ></v-select
-                ></v-form>
-              </v-alert>
-            </v-col>
-            <v-spacer></v-spacer>
-          </v-row>
-        </v-card>
-        <v-btn :color="color" dark @click="e1 = 2"> Siguiente </v-btn>
-      </v-stepper-content>
-
-      <v-stepper-content step="2">
-        <v-card class="mb-12" flat>
-          <v-row>
-            <v-spacer></v-spacer>
-            <v-col cols="12" lg="5">
-              <v-alert border="left" color="#88888810">
-                <v-form ref="form2" v-model="valid2" lazy-validation>
-                  <v-text-field
-                    v-model="correo"
-                    :rules="emailRules"
-                    label="Correo*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="direccion"
-                    :rules="requerido"
-                    label="Direccion*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="colonia"
-                    :rules="requerido"
-                    label="Colonia*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="localidad"
-                    :rules="requerido"
-                    label="Localidad*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="municipio"
-                    :rules="requerido"
-                    label="Municipio*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="estado"
-                    :rules="requerido"
-                    label="Estado*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="cp"
-                    :rules="requerido"
-                    label="Codigo postal*"
-                    :color="color"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="telefono"
-                    :rules="telRules"
-                    label="Telefono*"
-                    :color="color"
-                    maxlength="12"
-                    required
-                  ></v-text-field>
-                </v-form>
-              </v-alert>
-            </v-col>
-            <v-spacer></v-spacer>
-          </v-row>
-        </v-card>
-        <v-btn color="red-grey" @click="e1 = 1"> Anterior </v-btn>
-        <v-divider vertical class="ml-2 mr-2"></v-divider>
-        <v-btn :color="color" dark @click="e1 = 3"> Generar </v-btn>
-      </v-stepper-content>
-
-      <v-stepper-content step="3">
-        <v-card class="mb-12" color="grey lighten-1">
-          <v-container fluid>
-            <v-row>
-              <v-col cols="12" md="12" lg="6">
-                <v-row>
-                  <v-btn
-                    x-large
-                    color="success"
-                    @click="generarSolicitudEgreso()"
-                    dark
-                  >
-                    <v-icon>mdi-domain</v-icon>
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    x-large
-                    color="success"
-                    @click="generarFormatoNoAdeudos()"
-                    dark
-                  >
-                    <v-icon>mdi-domain</v-icon>
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    x-large
-                    color="success"
-                    @click="generarCartaAutorizacion()"
-                    dark
-                  >
-                    <v-icon>mdi-domain</v-icon>
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
-        <v-btn color="red-grey" @click="e1 = 2"> Anterior </v-btn>
-
-        <PDFVisor
-          :srcPDF="srcPDF"
-          :dialogPDF="dialog"
-          :tituloPDF="tituloPDF"
+  <div>
+    <v-stepper v-model="e1" style="height: 100vh !important">
+      <v-stepper-header>
+        <v-stepper-step
           :color="color"
-          @update-dialog="update"
-        />
-      </v-stepper-content>
-    </v-stepper-items>
-  </v-stepper>
+          class="hoverManito"
+          :complete="valid"
+          @click="e1 = 1"
+          step="1"
+        >
+          Datos.
+        </v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step
+          :color="color"
+          :complete="valid2"
+          @click="e1 = 2"
+          class="hoverManito"
+          step="2"
+        >
+          Contacto
+        </v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step
+          :color="color"
+          @click="e1 = 3"
+          class="hoverManito"
+          step="3"
+        >
+          Salida PDF
+        </v-stepper-step>
+      </v-stepper-header>
+
+      <v-stepper-items style="height: 100% !important">
+        <v-stepper-content step="1" style="height: 100% !important">
+          <v-card class="mt-6" flat>
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-text-field
+                outlined
+                label="N° de control"
+                v-model="noControlBuscar"
+                prepend-inner-icon="mdi-magnify"
+                :color="color"
+              >
+              </v-text-field>
+              <v-btn :color="color" class="mt-2 ml-2" dark @click="buscar()">
+                Buscar
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-card>
+          <v-card class="mb-12" flat>
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-col cols="12" lg="5">
+                <v-alert border="left" color="#88888810">
+                  <v-form ref="form" v-model="valid" lazy-validation>
+                    <v-text-field
+                      v-model="alumno"
+                      :rules="requerido"
+                      label="Nombre*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="noControl"
+                      :rules="requerido"
+                      label="N° control*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-select
+                      :items="itemsCarrera"
+                      v-model="carrera"
+                      :rules="requerido"
+                      :color="color"
+                      label="Carrera*"
+                      required
+                    ></v-select>
+
+                    <v-text-field
+                      v-model="clave"
+                      :rules="requerido"
+                      :color="color"
+                      label="Clave*"
+                      required
+                    ></v-text-field>
+
+                    <v-select
+                      v-model="selectGeneracion"
+                      :items="itemsGeneracion"
+                      :rules="[(v) => !!v || 'Generacion requerida']"
+                      label="Generacion*"
+                      :color="color"
+                      required
+                    ></v-select
+                  ></v-form>
+                </v-alert>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-card>
+          <v-btn :color="color" absolute fixed bottom right style="margin-bottom: 6rem;" dark @click="e1 = 2"> Siguiente </v-btn>
+        </v-stepper-content>
+
+        <v-stepper-content step="2" style="height: 100% !important">
+          <v-card class="mb-12" flat>
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-col cols="12" lg="5">
+                <v-alert border="left" color="#88888810">
+                  <v-form ref="form2" v-model="valid2" lazy-validation>
+                    <v-text-field
+                      v-model="correo"
+                      :rules="emailRules"
+                      label="Correo*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="direccion"
+                      :rules="requerido"
+                      label="Direccion*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="colonia"
+                      :rules="requerido"
+                      label="Colonia*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="localidad"
+                      :rules="requerido"
+                      label="Localidad*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="municipio"
+                      :rules="requerido"
+                      label="Municipio*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="estado"
+                      :rules="requerido"
+                      label="Estado*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="cp"
+                      :rules="requerido"
+                      label="Codigo postal*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="telefono"
+                      :rules="telRules"
+                      label="Telefono*"
+                      :color="color"
+                      maxlength="12"
+                      required
+                    ></v-text-field>
+                  </v-form>
+                </v-alert>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-card>
+          <v-btn color="red-grey" absolute fixed bottom left style="margin-bottom: 6rem;" @click="e1 = 1"> Anterior </v-btn>
+          <v-divider vertical class="ml-2 mr-2"></v-divider>
+          <v-btn :color="color" absolute fixed bottom right style="margin-bottom: 6rem;" dark @click="e1 = 3"> Generar </v-btn>
+        </v-stepper-content>
+
+        <v-stepper-content step="3" style="height: 100% !important">
+          <v-card class="mb-12" flat style="height: 100% !important">
+            <v-container fluid>
+              <v-row>
+                <v-col cols="12" md="12" lg="6">
+                  <v-row>
+                    <v-btn
+                      x-large
+                      :color="color"
+                      @click="generarSolicitudEgreso()"
+                      dark
+                      style="text-transform: none !important"
+                    >
+                      Solicitud de egreso
+                      <v-icon right>mdi-eye-outline</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      x-large
+                      :color="color"
+                      @click="generarFormatoNoAdeudos()"
+                      dark
+                      style="text-transform: none !important"
+                    >
+                    Formato de no adeudos
+                      <v-icon right>mdi-eye-outline</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      x-large
+                      :color="color"
+                      @click="generarCartaAutorizacion()"
+                      dark
+                      style="text-transform: none !important"
+                    >
+                    Carta de autorizacion
+                      <v-icon right>mdi-eye-outline</v-icon>
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+          <v-btn color="red-grey" absolute fixed bottom left style="margin-bottom: 6rem;" @click="e1 = 2"> Anterior </v-btn>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+    <!---->
+    <PDFVisor
+      :srcPDF="srcPDF"
+      :dialogPDF="dialog"
+      :tituloPDF="tituloPDF"
+      :color="color"
+      @update-dialog="update"
+    />
+  </div>
 </template>
 
 <script>
@@ -328,9 +336,9 @@ export default {
     generar() {
       if (this.$refs.form.validate()) {
         this.e1 = 3;
-        this.generarSolicitudEgreso();
-        this.generarFormatoNoAdeudos();
-        this.generarCartaAutorizacion();
+        //this.generarSolicitudEgreso();
+        //this.generarFormatoNoAdeudos();
+        //this.generarCartaAutorizacion();
         //doc.save("Solicitud de egreso.pdf");
         //document.getElementById("pdfVer").src = doc.output("datauristring");
       }
