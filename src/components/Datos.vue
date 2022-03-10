@@ -2,7 +2,7 @@
   <v-stepper v-model="e1">
     <v-stepper-header>
       <v-stepper-step
-        color="#800000"
+        :color="color"
         class="hoverManito"
         :complete="valid"
         @click="e1 = 1"
@@ -14,7 +14,7 @@
       <v-divider></v-divider>
 
       <v-stepper-step
-        color="#800000"
+        :color="color"
         :complete="valid2"
         @click="e1 = 2"
         class="hoverManito"
@@ -26,7 +26,7 @@
       <v-divider></v-divider>
 
       <v-stepper-step
-        color="#800000"
+        :color="color"
         @click="e1 = 3"
         class="hoverManito"
         step="3"
@@ -45,10 +45,10 @@
               label="N° de control"
               v-model="noControlBuscar"
               prepend-inner-icon="mdi-magnify"
-              color="#800000"
+              :color="color"
             >
             </v-text-field>
-            <v-btn color="#800000" class="mt-2 ml-2" dark @click="buscar()">
+            <v-btn :color="color" class="mt-2 ml-2" dark @click="buscar()">
               Buscar
             </v-btn>
             <v-spacer></v-spacer>
@@ -58,13 +58,13 @@
           <v-row>
             <v-spacer></v-spacer>
             <v-col cols="12" lg="5">
-              <v-alert border="left" color="#80000010">
+              <v-alert border="left" color="#88888810">
                 <v-form ref="form" v-model="valid" lazy-validation>
                   <v-text-field
                     v-model="alumno"
                     :rules="requerido"
                     label="Nombre*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -72,7 +72,7 @@
                     v-model="noControl"
                     :rules="requerido"
                     label="N° control*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -80,7 +80,7 @@
                     :items="itemsCarrera"
                     v-model="carrera"
                     :rules="requerido"
-                    color="#800000"
+                    :color="color"
                     label="Carrera*"
                     required
                   ></v-select>
@@ -88,7 +88,7 @@
                   <v-text-field
                     v-model="clave"
                     :rules="requerido"
-                    color="#800000"
+                    :color="color"
                     label="Clave*"
                     required
                   ></v-text-field>
@@ -98,7 +98,7 @@
                     :items="itemsGeneracion"
                     :rules="[(v) => !!v || 'Generacion requerida']"
                     label="Generacion*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-select
                 ></v-form>
@@ -107,7 +107,7 @@
             <v-spacer></v-spacer>
           </v-row>
         </v-card>
-        <v-btn color="#800000" dark @click="e1 = 2"> Siguiente </v-btn>
+        <v-btn :color="color" dark @click="e1 = 2"> Siguiente </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="2">
@@ -115,13 +115,13 @@
           <v-row>
             <v-spacer></v-spacer>
             <v-col cols="12" lg="5">
-              <v-alert border="left" color="#80000010">
+              <v-alert border="left" color="#88888810">
                 <v-form ref="form2" v-model="valid2" lazy-validation>
                   <v-text-field
                     v-model="correo"
                     :rules="emailRules"
                     label="Correo*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -129,7 +129,7 @@
                     v-model="direccion"
                     :rules="requerido"
                     label="Direccion*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -137,7 +137,7 @@
                     v-model="colonia"
                     :rules="requerido"
                     label="Colonia*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -145,7 +145,7 @@
                     v-model="localidad"
                     :rules="requerido"
                     label="Localidad*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -153,7 +153,7 @@
                     v-model="municipio"
                     :rules="requerido"
                     label="Municipio*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -161,7 +161,7 @@
                     v-model="estado"
                     :rules="requerido"
                     label="Estado*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -169,7 +169,7 @@
                     v-model="cp"
                     :rules="requerido"
                     label="Codigo postal*"
-                    color="#800000"
+                    :color="color"
                     required
                   ></v-text-field>
 
@@ -177,7 +177,7 @@
                     v-model="telefono"
                     :rules="telRules"
                     label="Telefono*"
-                    color="#800000"
+                    :color="color"
                     maxlength="12"
                     required
                   ></v-text-field>
@@ -189,7 +189,7 @@
         </v-card>
         <v-btn color="red-grey" @click="e1 = 1"> Anterior </v-btn>
         <v-divider vertical class="ml-2 mr-2"></v-divider>
-        <v-btn color="#800000" dark @click="generar()"> Generar </v-btn>
+        <v-btn :color="color" dark @click="e1 = 3"> Generar </v-btn>
       </v-stepper-content>
 
       <v-stepper-content step="3">
@@ -197,26 +197,48 @@
           <v-container fluid>
             <v-row>
               <v-col cols="12" md="12" lg="6">
-                <PDFVisor :srcPDF="srcPDF1" />
+                <v-row>
+                  <v-btn
+                    x-large
+                    color="success"
+                    @click="generarSolicitudEgreso()"
+                    dark
+                  >
+                    <v-icon>mdi-domain</v-icon>
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    x-large
+                    color="success"
+                    @click="generarFormatoNoAdeudos()"
+                    dark
+                  >
+                    <v-icon>mdi-domain</v-icon>
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    x-large
+                    color="success"
+                    @click="generarCartaAutorizacion()"
+                    dark
+                  >
+                    <v-icon>mdi-domain</v-icon>
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                </v-row>
               </v-col>
-              <v-col cols="12" md="12" lg="6">
-                <PDFVisor :srcPDF="srcPDF2" />
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
-
-        <v-card class="mb-12" color="grey lighten-1">
-          <v-container fluid>
-            <v-row>
-              <v-col cols="12" md="12" lg="6">
-                <PDFVisor :srcPDF="srcPDF3" />
-              </v-col>
-              <v-col cols="12" md="12" lg="6"> </v-col>
             </v-row>
           </v-container>
         </v-card>
         <v-btn color="red-grey" @click="e1 = 2"> Anterior </v-btn>
+
+        <PDFVisor
+          :srcPDF="srcPDF"
+          :dialogPDF="dialog"
+          :tituloPDF="tituloPDF"
+          :color="color"
+          @update-dialog="update"
+        />
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
@@ -233,8 +255,9 @@ export default {
   data() {
     return {
       //DATOS PDF
-      srcPDF1: "",
-      srcPDF2: "",
+      srcPDF: "",
+      dialog: false,
+      tituloPDF: "",
 
       e1: 1,
       //datos generales
@@ -294,11 +317,11 @@ export default {
       requerido: [(v) => !!v || "Dato requerido"],
 
       noControlBuscar: "",
-
-      pdfSolicitud: "",
-
-      srcPDF3: "",
     };
+  },
+
+  props: {
+    color: String,
   },
 
   methods: {
@@ -408,8 +431,10 @@ export default {
       doc.text("ITSCH", 30, 280);
       doc.text("Julio 2017", 160, 280);
 
-      this.$emit("pdfSolicitud", doc.output("datauristring"));
-      this.srcPDF1 = doc.output("datauristring");
+      //this.$emit("pdfSolicitud", doc.output("datauristring"));
+      this.srcPDF = doc.output("datauristring", "Solicitud de egreso.pdf");
+      this.dialog = true;
+      this.tituloPDF = "Solicitud de egreso";
     },
 
     generarFormatoNoAdeudos() {
@@ -639,9 +664,9 @@ export default {
       doc.text("ITSCH", 30, 285);
       doc.text("Septiembre 2019", 155, 285);
 
-      this.$emit("pdfFormatoNoAdeudos", doc.output("datauristring"));
-      this.srcPDF2 = doc.output("datauristring", "pepe.pdf");
-      //console.log(doc.output("datauristring","pepe.pdf"))
+      this.srcPDF = doc.output("datauristring", "Formato de no adeudos.pdf");
+      this.dialog = true;
+      this.tituloPDF = "Formato de no adeudos";
     },
 
     generarCartaAutorizacion() {
@@ -784,9 +809,13 @@ export default {
         "center"
       );
 
-      //this.$emit("pdfFormatoNoAdeudos", doc.output("datauristring"));
-      this.srcPDF3 = doc.output("datauristring", "carta.pdf");
-      //console.log(doc.output("datauristring","pepe.pdf"))
+      this.srcPDF = doc.output("datauristring", "Carta de autorización.pdf");
+      this.dialog = true;
+      this.tituloPDF = "Carta de autorización";
+    },
+
+    update(dialog) {
+      this.dialog = dialog;
     },
 
     getBase64(img) {
@@ -836,11 +865,11 @@ export default {
 }
 
 .v-list-item--active {
-  background: #800000 !important;
+  background: #888888;
 }
 
 .v-list-item--active .v-list-item__title {
-  background: #800000 !important;
-  color: white !important;
+  background: #888888;
+  color: white;
 }
 </style>

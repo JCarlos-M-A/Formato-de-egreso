@@ -9,6 +9,7 @@
     <Datos
       @pdfSolicitud="PDFSolicitud"
       @pdfFormatoNoAdeudos="PDFFormatoNoAdeudos"
+      :color="color"
     />
     <!--<embed height="1000px" width="100%" :src="srcPDF2">-->
   </div>
@@ -24,6 +25,9 @@ export default {
   components: {
     Datos,
     PDFVisor,
+  },
+  props: {
+    color: String,
   },
   data() {
     return {

@@ -3,10 +3,10 @@
     <AppBar @cambiarTema="cambiarTema" />
 
     <v-main>
-      <router-view />
+      <router-view :color="color"/>
     </v-main>
 
-    <Footer :color="colors" />
+    <Footer :color="color" />
   </v-app>
 </template>
 
@@ -26,22 +26,17 @@ export default {
   methods: {
     //
     cambiarTema(val) {
-      console.log(val);
-      if (this.val) {
+      //console.log(val);
+      if (val) {
         this.color = "#005";
-        this.colors = "#005";
       } else {
         this.color = "#800000";
-        this.colors = "#800000";
       }
     },
   },
 
   computed: {
-    colors(val) {
-      
-      return "#800000";
-    },
+    //
   },
 };
 </script>
