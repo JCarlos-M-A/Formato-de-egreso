@@ -2,9 +2,7 @@
   <v-footer dark padless class="mt-6">
     <v-card class="flex" flat tile :color="color">
       <v-card-title>
-        <strong class="subheading">
-          Get connected with us on social networks!
-        </strong>
+        <strong class="subheading"> Redes sociales </strong>
 
         <v-spacer></v-spacer>
 
@@ -16,7 +14,8 @@
       </v-card-title>
 
       <v-card-text class="py-2 white--text text-center negro">
-        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        {{ new Date().getFullYear() }} —
+        <strong>Todos los derechos reservados</strong>
       </v-card-text>
     </v-card>
   </v-footer>
