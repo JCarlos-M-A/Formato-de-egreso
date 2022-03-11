@@ -40,22 +40,34 @@
         <v-stepper-content step="1" style="height: 100% !important">
           <v-card class="mt-6" flat>
             <v-row>
-              <v-spacer></v-spacer>
-              <v-text-field
-                outlined
-                label="N° de control"
-                v-model="noControlBuscar"
-                prepend-inner-icon="mdi-magnify"
-                :color="color"
-              >
-              </v-text-field>
-              <v-btn :color="color" class="mt-2 ml-2" dark @click="buscar()">
-                Buscar
-              </v-btn>
-              <v-spacer></v-spacer>
+              <v-col cols="12" md="6" lg="10">
+                <v-text-field
+                  outlined
+                  label="N° de control"
+                  v-model="noControlBuscar"
+                  prepend-inner-icon="mdi-magnify"
+                  :color="color"
+                  @keyup.enter="buscar()"
+                >
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" lg="2">
+                <v-row>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    :color="color"
+                    class="mt-4 ml-2"
+                    dark
+                    @click="buscar()"
+                  >
+                    Buscar
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                </v-row>
+              </v-col>
             </v-row>
           </v-card>
-          <v-card class="mb-12" flat>
+          <v-card class="mb-12 mt-6" flat>
             <v-row>
               <v-spacer></v-spacer>
               <v-col cols="12" lg="5">
@@ -108,7 +120,14 @@
               <v-spacer></v-spacer>
             </v-row>
           </v-card>
-          <v-btn :color="color" absolute fixed bottom right style="margin-bottom: 6rem;" dark @click="e1 = 2"> Siguiente </v-btn>
+          <v-btn
+            :color="color"
+            style="margin-bottom: 6rem"
+            dark
+            @click="e1 = 2"
+          >
+            Siguiente
+          </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="2" style="height: 100% !important">
@@ -188,18 +207,28 @@
               <v-spacer></v-spacer>
             </v-row>
           </v-card>
-          <v-btn color="red-grey" absolute fixed bottom left style="margin-bottom: 6rem;" @click="e1 = 1"> Anterior </v-btn>
+          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 1">
+            Anterior
+          </v-btn>
           <v-divider vertical class="ml-2 mr-2"></v-divider>
-          <v-btn :color="color" absolute fixed bottom right style="margin-bottom: 6rem;" dark @click="e1 = 3"> Generar </v-btn>
+          <v-btn
+            :color="color"
+            style="margin-bottom: 6rem"
+            dark
+            @click="e1 = 3"
+          >
+            Generar
+          </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="3" style="height: 100% !important">
           <v-card class="mb-12" flat style="height: 100% !important">
             <v-container fluid>
               <v-row>
-                <v-col cols="12" md="12" lg="6">
+                <v-col cols="12" md="6" lg="12">
                   <v-row>
                     <v-btn
+                      class="mt-16"
                       x-large
                       :color="color"
                       @click="generarSolicitudEgreso()"
@@ -211,24 +240,26 @@
                     </v-btn>
                     <v-spacer></v-spacer>
                     <v-btn
+                      class="mt-16"
                       x-large
                       :color="color"
                       @click="generarFormatoNoAdeudos()"
                       dark
                       style="text-transform: none !important"
                     >
-                    Formato de no adeudos
+                      Formato de no adeudos
                       <v-icon right>mdi-eye-outline</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
                     <v-btn
+                      class="mt-16"
                       x-large
                       :color="color"
                       @click="generarCartaAutorizacion()"
                       dark
                       style="text-transform: none !important"
                     >
-                    Carta de autorizacion
+                      Carta de autorizacion
                       <v-icon right>mdi-eye-outline</v-icon>
                     </v-btn>
                     <v-spacer></v-spacer>
@@ -237,7 +268,9 @@
               </v-row>
             </v-container>
           </v-card>
-          <v-btn color="red-grey" absolute fixed bottom left style="margin-bottom: 6rem;" @click="e1 = 2"> Anterior </v-btn>
+          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 2">
+            Anterior
+          </v-btn>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -255,6 +288,7 @@
 <script>
 import { jsPDF } from "jspdf";
 import PDFVisor from "../components/PDFVisor";
+import axios from "axios";
 
 export default {
   components: {
@@ -269,8 +303,8 @@ export default {
 
       e1: 1,
       //datos generales
-      alumno: "Juan Carlos Montaño Álvarez",
-      noControl: "S16030213",
+      alumno: "",
+      noControl: "",
       carrera: "Ingenieria en sistemas computacionales",
       itemsCarrera: [
         "Ingenieria en sistemas computacionales",
@@ -841,6 +875,16 @@ export default {
 
     buscar() {
       //
+      axios
+        .get("/alumno/alumnoNoControl?noControl=" + this.noControlBuscar)
+        .then((response) => {
+          console.log(response.data);
+          this.alumno =
+            response.data[0].nombre +
+            response.data[0].apellidoP +
+            response.data[0].apellidoM;
+          this.noControl = response.data[0].noControl;
+        });
     },
   },
   watch: {
