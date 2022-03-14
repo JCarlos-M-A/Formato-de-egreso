@@ -229,7 +229,7 @@
             dark
             @click="e1 = 3"
           >
-            Generar
+            Siguiente
           </v-btn>
         </v-stepper-content>
 
@@ -385,7 +385,7 @@
             dark
             @click="e1 = 4"
           >
-            Generar
+            Siguiente
           </v-btn>
         </v-stepper-content>
 
@@ -461,6 +461,15 @@
           </v-card>
           <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 3">
             Anterior
+          </v-btn>
+          <v-divider vertical class="ml-2 mr-2"></v-divider>
+          <v-btn
+            :color="color"
+            style="margin-bottom: 6rem"
+            dark
+            @click="e1 = 4"
+          >
+            Enviar
           </v-btn>
         </v-stepper-content>
       </v-stepper-items>
@@ -589,7 +598,7 @@ export default {
   methods: {
     generar() {
       if (this.$refs.form.validate()) {
-        this.e1 = 3;
+        this.e1 = 4;
         //this.generarSolicitudEgreso();
         //this.generarFormatoNoAdeudos();
         //this.generarCartaAutorizacion();
@@ -671,19 +680,19 @@ export default {
         220
       );
       doc.text("Colonia: " + this.colonia, 30, 230);
-      doc.text("____________________________", 47, 230);
-      doc.text("Localidad: " + this.localidad, 130, 230);
-      doc.text("_____________", 153, 230);
+      doc.text("___________________________", 47, 230);
+      doc.text("Localidad: " + this.localidad, 120, 230);
+      doc.text("___________________", 141, 230);
       doc.text("Municipio: " + this.municipio, 30, 240);
       doc.text("__________________________", 51, 240);
-      doc.text("Estado: " + this.estado, 130, 240);
-      doc.text("________________", 146, 240);
+      doc.text("Estado: " + this.estado, 120, 240);
+      doc.text("_____________________", 136, 240);
       doc.text("C.P.: " + this.cp, 30, 250);
       doc.text("______________", 41, 250);
-      doc.text("Tel.: " + this.telefono, 80, 250);
-      doc.text("______________", 90, 250);
-      doc.text("Correo: " + this.correo, 130, 250);
-      doc.text("________________", 146, 250);
+      doc.text("Tel.: " + this.telefono, 75, 250);
+      doc.text("____________", 85, 250);
+      doc.text("Correo: " + this.correo, 120, 250);
+      doc.text("_____________________", 136, 250);
       doc.text(
         "Autorizo al Instituto Tecnológico Superior de Ciudad Hidalgo, utilizar estos datos para localizarme posterior a mi egreso.",
         30,
