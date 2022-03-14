@@ -392,71 +392,59 @@
         <v-stepper-content step="4">
           <v-card class="mb-12" flat>
             <v-container fluid>
-              <v-row>
-                <v-col cols="12" md="6" lg="12">
-                  <v-row>
-                    <v-btn
-                      class="mt-16"
-                      x-large
-                      :color="color"
-                      @click="generarSolicitudEgreso()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Solicitud de egreso
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
-                      :color="color"
-                      @click="generarFormatoNoAdeudos()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Formato de no adeudos
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
-                      :color="color"
-                      @click="generarCartaAutorizacion()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Carta de autorizacion
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
-                      :color="color"
-                      @click="generarCronograma()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Cronograma
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
-                      :color="color"
-                      @click="generarSolicitudResidencias()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Solicitud de residencias
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                  </v-row>
-                </v-col>
-              </v-row>
+              <v-data-table
+                :headers="headers"
+                :items="itemsTabla"
+                item-key="nombre"
+                group-by="categoriaorden"
+                :items-per-page="-1"
+                hide-default-header
+                hide-default-footer
+                :footer-props="{
+                  'items-per-page-text': 'Elementos por pagina',
+                  'items-per-page-all-text': 'Todos',
+                  'page-text': '{0}-{1} de {2}',
+                }"
+                class="elevation-0 tabla"
+              >
+                <template
+                  v-slot:[`group.header`]="{
+                    group,
+                    headers,
+                    toggle,
+                    isOpen,
+                    items,
+                  }"
+                >
+                  <th
+                    :colspan="headers.length"
+                    @click="toggle"
+                    :data-open="isOpen"
+                    style="background-color: white"
+                  >
+                    <v-col>
+                      <v-row align="center">
+                        <v-btn small icon :ref="group" :data-open="isOpen">
+                          <v-icon dense>{{
+                            isOpen ? "mdi-chevron-up" : "mdi-chevron-down"
+                          }}</v-icon>
+                        </v-btn>
+                        <h3>{{ items[0].categoria }}</h3>
+                      </v-row>
+                    </v-col>
+                  </th>
+                </template>
+
+                <template v-slot:[`item.acciones`]="{ item }">
+                  <v-btn icon @click="ver(item)">
+                    <v-icon> mdi-eye</v-icon>
+                  </v-btn>
+
+                  <v-btn icon @click="descargar(item)">
+                    <v-icon> mdi-cloud-download</v-icon>
+                  </v-btn>
+                </template>
+              </v-data-table>
             </v-container>
           </v-card>
           <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 3">
@@ -511,6 +499,9 @@ export default {
       tituloPDF: "",
 
       e1: 1,
+
+      //Search
+      noControlBuscar: "",
       //datos generales
       alumno: "",
       noControl: "",
@@ -587,7 +578,37 @@ export default {
       ],
       requerido: [(v) => !!v || "Dato requerido"],
 
-      noControlBuscar: "",
+      itemsTabla: [
+        {
+          nombre: "Solicitud de egreso",
+          categoriaorden: 1,
+          categoria: "Formatos de egreso",
+        },
+        {
+          nombre: "Formato de no adeudos",
+          categoriaorden: 1,
+          categoria: "Formatos de egreso",
+        },
+        {
+          nombre: "Carta de autorizacion",
+          categoriaorden: 2,
+          categoria: "Formatos recidencias",
+        },
+        {
+          nombre: "Cronograma",
+          categoriaorden: 2,
+          categoria: "Formatos recidencias",
+        },
+        {
+          nombre: "Solicitud de recidencias",
+          categoriaorden: 2,
+          categoria: "Formatos recidencias",
+        },
+      ],
+      headers: [
+        { text: "Nombre", value: "nombre" },
+        { text: "Acciones", value: "acciones" },
+      ],
     };
   },
 
@@ -607,7 +628,53 @@ export default {
       }
     },
 
-    generarSolicitudEgreso() {
+    ver(nombre) {
+      switch (nombre) {
+        case "Solicitud de egreso":
+          this.generarSolicitudEgreso(true);
+          break;
+        case "Formato de no adeudos":
+          this.generarFormatoNoAdeudos(true);
+          break;
+        case "Carta de autorizacion":
+          this.generarCartaAutorizacion(true);
+          break;
+        case "Cronograma":
+          this.generarCronograma(true);
+          break;
+        case "Solicitud de recidencias":
+          this.generarSolicitudResidencias(true);
+          break;
+
+        default:
+          break;
+      }
+    },
+
+    descargar(nombre) {
+      switch (nombre) {
+        case "Solicitud de egreso":
+          this.generarSolicitudEgreso(false);
+          break;
+        case "Formato de no adeudos":
+          this.generarFormatoNoAdeudos(false);
+          break;
+        case "Carta de autorizacion":
+          this.generarCartaAutorizacion(false);
+          break;
+        case "Cronograma":
+          this.generarCronograma(false);
+          break;
+        case "Solicitud de recidencias":
+          this.generarSolicitudResidencias(false);
+          break;
+
+        default:
+          break;
+      }
+    },
+
+    generarSolicitudEgreso(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
       //get base64
@@ -702,13 +769,16 @@ export default {
       doc.text("ITSCH", 30, 280);
       doc.text("Julio 2017", 160, 280);
 
-      //this.$emit("pdfSolicitud", doc.output("datauristring"));
-      this.srcPDF = doc.output("datauristring", "Solicitud de egreso.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Solicitud de egreso";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Solicitud de egreso.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Solicitud de egreso";
+      } else {
+        doc.save("Solicitud de egreso.pdf");
+      }
     },
 
-    generarFormatoNoAdeudos() {
+    generarFormatoNoAdeudos(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF({ filename: "asdasdasdad.pdf" });
       //get base64
@@ -935,12 +1005,16 @@ export default {
       doc.text("ITSCH", 30, 285);
       doc.text("Septiembre 2019", 155, 285);
 
-      this.srcPDF = doc.output("datauristring", "Formato de no adeudos.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Formato de no adeudos";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Formato de no adeudos.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Formato de no adeudos";
+      } else {
+        doc.save("Formato de no adeudos.pdf");
+      }
     },
 
-    generarCartaAutorizacion() {
+    generarCartaAutorizacion(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
       //get base64
@@ -1087,12 +1161,16 @@ export default {
         "center"
       );
 
-      this.srcPDF = doc.output("datauristring", "Carta de autorización.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Carta de autorización";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Carta de autorización.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Carta de autorización";
+      } else {
+        doc.save("Carta de autorización.pdf");
+      }
     },
 
-    generarCronograma() {
+    generarCronograma(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF({ orientation: "l" });
       //get base64
@@ -1295,12 +1373,16 @@ export default {
         ],
       });
 
-      this.srcPDF = doc.output("datauristring", "Cronograma.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Cronograma";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Cronograma.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Cronograma";
+      } else {
+        doc.save("Cronograma.pdf");
+      }
     },
 
-    generarSolicitudResidencias() {
+    generarSolicitudResidencias(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
       //get base64
@@ -1557,10 +1639,16 @@ export default {
         "center"
       );
 
-      //this.$emit("pdfSolicitud", doc.output("datauristring"));
-      this.srcPDF = doc.output("datauristring", "Solicitud de residencias.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Solicitud de residencias";
+      if (accion) {
+        this.srcPDF = doc.output(
+          "datauristring",
+          "Solicitud de residencias.pdf"
+        );
+        this.dialog = true;
+        this.tituloPDF = "Solicitud de residencias";
+      } else {
+        doc.save("Solicitud de residencias.pdf");
+      }
     },
 
     update(dialog) {
@@ -1623,6 +1711,9 @@ export default {
       }
     },
   },
+  computed: {
+    //
+  },
 };
 </script>
 
@@ -1641,5 +1732,16 @@ export default {
 }
 .nms {
   border: #888888, 3px, solid;
+}
+
+.tabla {
+  margin-left: 10% !important;
+  margin-right: 10% !important;
+  margin-bottom: 5% !important;
+  margin-top: 5% !important;
+}
+
+.titulo {
+  border-bottom: #002655 solid 2px !important;
 }
 </style>
