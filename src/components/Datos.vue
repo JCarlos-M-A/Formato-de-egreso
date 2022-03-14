@@ -420,7 +420,7 @@
                     :colspan="headers.length"
                     @click="toggle"
                     :data-open="isOpen"
-                    style="background-color: white"
+                    style="background-color: white; cursor: pointer"
                   >
                     <v-col>
                       <v-row align="center">
@@ -436,13 +436,16 @@
                 </template>
 
                 <template v-slot:[`item.acciones`]="{ item }">
-                  <v-btn icon @click="ver(item)">
-                    <v-icon> mdi-eye</v-icon>
-                  </v-btn>
+                  <v-row>
+                    <v-spacer></v-spacer>
+                    <v-btn icon class="mx-2" @click="ver(item.nombre)">
+                      <v-icon large> mdi-eye</v-icon>
+                    </v-btn>
 
-                  <v-btn icon @click="descargar(item)">
-                    <v-icon> mdi-cloud-download</v-icon>
-                  </v-btn>
+                    <v-btn icon class="mx-2" @click="descargar(item.nombre)">
+                      <v-icon large> mdi-cloud-download</v-icon>
+                    </v-btn>
+                  </v-row>
                 </template>
               </v-data-table>
             </v-container>
