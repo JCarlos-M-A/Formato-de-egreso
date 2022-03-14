@@ -682,7 +682,7 @@ export default {
       doc.text("Colonia: " + this.colonia, 30, 230);
       doc.text("___________________________", 47, 230);
       doc.text("Localidad: " + this.localidad, 120, 230);
-      doc.text("___________________", 141, 230);
+      doc.text("___________________", 140, 230);
       doc.text("Municipio: " + this.municipio, 30, 240);
       doc.text("__________________________", 51, 240);
       doc.text("Estado: " + this.estado, 120, 240);
