@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-stepper v-model="e1" style="height: 100vh !important">
+    <v-stepper v-model="e1">
       <v-stepper-header>
         <v-stepper-step
           :color="color"
@@ -48,8 +48,8 @@
         </v-stepper-step>
       </v-stepper-header>
 
-      <v-stepper-items style="height: 100% !important">
-        <v-stepper-content step="1" style="height: 100% !important">
+      <v-stepper-items>
+        <v-stepper-content step="1">
           <v-card class="mt-6" flat>
             <v-row>
               <v-col cols="12" md="6" lg="10">
@@ -142,7 +142,7 @@
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="2" style="height: 100% !important">
+        <v-stepper-content step="2">
           <v-card class="mb-12" flat>
             <v-row>
               <v-spacer></v-spacer>
@@ -233,7 +233,7 @@
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="3" style="height: 100% !important">
+        <v-stepper-content step="3">
           <v-card class="mb-12" flat>
             <v-row>
               <v-spacer></v-spacer>
@@ -247,6 +247,7 @@
                       :color="color"
                       required
                     ></v-text-field>
+
                     <v-text-field
                       v-model="jefeCarrera"
                       :rules="requerido"
@@ -261,20 +262,24 @@
                       :color="color"
                       required
                     ></v-text-field>
-                    <v-text-field
-                      v-model="acesorExterno"
-                      :rules="requerido"
-                      label="Asesor externo*"
-                      :color="color"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="puestoAsesorExterno"
-                      :rules="requerido"
-                      label="Puesto del asesor(a) externo(a)*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="acesorExterno"
+                          :rules="requerido"
+                          label="Asesor externo*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="puestoAsesorExterno"
+                          :rules="requerido"
+                          label="Puesto del asesor(a) externo(a)*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
                     <v-text-field
                       v-model="nombreEmpresa"
                       :rules="requerido"
@@ -282,20 +287,24 @@
                       :color="color"
                       required
                     ></v-text-field>
-                    <v-text-field
-                      v-model="giroEmpresa"
-                      :rules="requerido"
-                      label="Giro, Ramo o Sector:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="rfcEmpresa"
-                      :rules="requerido"
-                      label="R.F.C.:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="giroEmpresa"
+                          :rules="requerido"
+                          label="Giro, Ramo o Sector:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="rfcEmpresa"
+                          :rules="requerido"
+                          label="R.F.C.:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
                     <v-text-field
                       v-model="domicilioEmpresa"
                       :rules="requerido"
@@ -303,27 +312,31 @@
                       :color="color"
                       required
                     ></v-text-field>
-                    <v-text-field
-                      v-model="coloniaEmpresa"
-                      :rules="requerido"
-                      label="Colonia:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="cpEmpresa"
-                      :rules="requerido"
-                      label="C.P.:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="faxEmpresa"
-                      :rules="requerido"
-                      label="Fax:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="coloniaEmpresa"
+                          :rules="requerido"
+                          label="Colonia:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="cpEmpresa"
+                          :rules="requerido"
+                          label="C.P.:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="faxEmpresa"
+                          :rules="requerido"
+                          label="Fax:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
                     <v-text-field
                       v-model="ciudadEmpresa"
                       :rules="requerido"
@@ -338,20 +351,24 @@
                       :color="color"
                       required
                     ></v-text-field>
-                    <v-text-field
-                      v-model="titularEmpresa"
-                      :rules="requerido"
-                      label="Nombre del Titular de la empresa:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="puestoTitularEmpresa"
-                      :rules="requerido"
-                      label="Puesto del Titular de la empresa:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="titularEmpresa"
+                          :rules="requerido"
+                          label="Nombre del Titular de la empresa:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="puestoTitularEmpresa"
+                          :rules="requerido"
+                          label="Puesto del Titular de la empresa:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
                   </v-form>
                 </v-alert>
               </v-col>
@@ -372,8 +389,8 @@
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="4" style="height: 100% !important">
-          <v-card class="mb-12" flat style="height: 100% !important">
+        <v-stepper-content step="4">
+          <v-card class="mb-12" flat>
             <v-container fluid>
               <v-row>
                 <v-col cols="12" md="6" lg="12">
