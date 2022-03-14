@@ -15,7 +15,7 @@
 
       <v-card-text class="py-2 white--text text-center negro">
         {{ new Date().getFullYear() }} —
-        <strong>Todos los derechos reservados</strong>
+        <strong></strong>
       </v-card-text>
     </v-card>
   </v-footer>

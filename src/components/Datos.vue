@@ -28,9 +28,21 @@
 
         <v-stepper-step
           :color="color"
+          :complete="valid3"
           @click="e1 = 3"
           class="hoverManito"
           step="3"
+        >
+          Datos proyecto
+        </v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step
+          :color="color"
+          @click="e1 = 4"
+          class="hoverManito"
+          step="4"
         >
           Salida PDF
         </v-stepper-step>
@@ -222,6 +234,145 @@
         </v-stepper-content>
 
         <v-stepper-content step="3" style="height: 100% !important">
+          <v-card class="mb-12" flat>
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-col cols="12" lg="5">
+                <v-alert border="left" color="#88888810">
+                  <v-form ref="form3" v-model="valid3" lazy-validation>
+                    <v-text-field
+                      v-model="nombreProyecto"
+                      :rules="requerido"
+                      label="Nombre del proyecto*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="jefeCarrera"
+                      :rules="requerido"
+                      label="Jefe de carrera*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="acesorInterno"
+                      :rules="requerido"
+                      label="Asesor interno*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="acesorExterno"
+                      :rules="requerido"
+                      label="Asesor externo*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="puestoAsesorExterno"
+                      :rules="requerido"
+                      label="Puesto del asesor(a) externo(a)*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="nombreEmpresa"
+                      :rules="requerido"
+                      label="Nombre de la empresa*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="giroEmpresa"
+                      :rules="requerido"
+                      label="Giro, Ramo o Sector:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="rfcEmpresa"
+                      :rules="requerido"
+                      label="R.F.C.:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="domicilioEmpresa"
+                      :rules="requerido"
+                      label="Domicilio de la empresa:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="coloniaEmpresa"
+                      :rules="requerido"
+                      label="Colonia:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="cpEmpresa"
+                      :rules="requerido"
+                      label="C.P.:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="faxEmpresa"
+                      :rules="requerido"
+                      label="Fax:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="ciudadEmpresa"
+                      :rules="requerido"
+                      label="Ciudad:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="misionEmpresa"
+                      :rules="requerido"
+                      label="Misión de la Empresa:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="titularEmpresa"
+                      :rules="requerido"
+                      label="Nombre del Titular de la empresa:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="puestoTitularEmpresa"
+                      :rules="requerido"
+                      label="Puesto del Titular de la empresa:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                  </v-form>
+                </v-alert>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
+          </v-card>
+          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 2">
+            Anterior
+          </v-btn>
+          <v-divider vertical class="ml-2 mr-2"></v-divider>
+          <v-btn
+            :color="color"
+            style="margin-bottom: 6rem"
+            dark
+            @click="e1 = 4"
+          >
+            Generar
+          </v-btn>
+        </v-stepper-content>
+
+        <v-stepper-content step="4" style="height: 100% !important">
           <v-card class="mb-12" flat style="height: 100% !important">
             <v-container fluid>
               <v-row>
@@ -291,7 +442,7 @@
               </v-row>
             </v-container>
           </v-card>
-          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 2">
+          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 3">
             Anterior
           </v-btn>
         </v-stepper-content>
@@ -375,9 +526,29 @@ export default {
       telefono: "447-108-5892",
       correo: "carlitosjl77@gmail.com",
 
+      //Proyecto
+      nombreProyecto: "asdasd ",
+      jefeCarrera: "asdasd asd aasd",
+      acesorInterno: "ssssssss sssss",
+      acesorExterno: "pepe",
+      puestoAsesorExterno: "asdd",
+      nombreEmpresa: "Empresa",
+      giroEmpresa: "giro",
+      rfcEmpresa: "ASAS545454",
+      domicilioEmpresa: "dasdasd",
+      coloniaEmpresa: "asdasd",
+      cpEmpresa: "454554",
+      faxEmpresa: "454554",
+      telefonoEmpresa: "000-000-0000",
+      ciudadEmpresa: "dasdad",
+      misionEmpresa: "sadad",
+      titularEmpresa: "dasda",
+      puestoTitularEmpresa: "asdasd",
+
       //Validacion
       valid: true,
       valid2: true,
+      valid3: true,
       emailRules: [
         (v) => !!v || "Correo es requerido",
         (v) => /.+@.+\..+/.test(v) || "Correo no valido",
@@ -770,7 +941,7 @@ export default {
 
       doc.setFont(undefined, "bold");
       doc.text("C.", 20, 80);
-      doc.text("this.jefeCarrera", 23, 80);
+      doc.text(this.jefeCarrera, 23, 80);
       doc.text("___________________________________", 23, 80);
 
       doc.setFontSize(10);
@@ -792,7 +963,7 @@ export default {
       doc.text(this.alumno, 20, 133);
       const textWidth2 = doc.getTextWidth(this.alumno);
       doc.line(20, 134, 20 + textWidth2, 134);
-      doc.text(" con numero de control ", 20 + textWidth2, 133);
+      doc.text("con numero de control ", 20 + textWidth2, 133);
       const textWidth3 = doc.getTextWidth(" con numero de control ");
       doc.text(this.noControl, 20 + textWidth2 + textWidth3, 133);
       const textWidth4 = doc.getTextWidth(this.noControl);
@@ -827,20 +998,20 @@ export default {
       doc.text("PROYECTO DE RESIDENCIAS ", 20 + textWidth7, 137);
       doc.setFont(undefined, "normal");
       const textWidth8 = doc.getTextWidth("PROYECTO DE RESIDENCIAS ");
-      doc.text("con título ", 20 + textWidth7 + textWidth8, 137);
-      const textWidth9 = doc.getTextWidth("con título ");
+      doc.text(" con título ", 20 + textWidth7 + textWidth8, 137);
+      const textWidth9 = doc.getTextWidth(" con título ");
       doc.text(
-        "this.tituloResidencias",
+        this.nombreProyecto,
         20 + textWidth7 + textWidth8 + textWidth9,
         137
       );
-      const textWidth10 = doc.getTextWidth("this.tituloResidencias");
-      doc.line(
+
+      doc.text(
+        "____________________________________________________",
         20 + textWidth7 + textWidth8 + textWidth9,
-        138,
-        20 + textWidth7 + textWidth8 + textWidth9 + textWidth10,
         138
       );
+
       doc.text(
         "el cual ha sido autorizado para el proceso de entrega, para que pueda continuar con el proceso y normatividad correspondiente para acreditar sus residencias profesionales.",
         20,
@@ -863,6 +1034,13 @@ export default {
         "“Educación,  Herencia para el éxito”",
         doc.internal.pageSize.width / 2,
         203,
+        "center"
+      );
+
+      doc.text(
+        this.acesorInterno,
+        doc.internal.pageSize.width / 2,
+        230,
         "center"
       );
 
@@ -950,18 +1128,22 @@ export default {
         81
       );
       doc.text("EMPRESA:", 201, 80);
+      doc.text(" " + this.nombreEmpresa, 217, 81);
       doc.text("______________________________", 217, 81);
 
       doc.text("ASESOR EXTERNO:", 54, 85);
+      doc.text(" " + this.acesorExterno, 84, 86);
       doc.text(
         "_________________________________________________________",
         84,
         86
       );
       doc.text("ASESOR INTERNO:", 188, 85);
+      doc.text(" " + this.acesorInterno, 217, 86);
       doc.text("______________________________", 217, 86);
 
       doc.text("NOMBRE DEL PROYECTO:", 44, 90);
+      doc.text(" " + this.nombreProyecto, 84, 91);
       doc.text(
         "_________________________________________________________________________________________________________",
         84,
@@ -1157,7 +1339,7 @@ export default {
         68
       );
 
-      doc.text("C.", 20, 78);
+      doc.text("C. " + this.jefeCarrera, 20, 78);
 
       doc.text("Jefe de la División de ", 20, 85);
       doc.text(
@@ -1169,7 +1351,7 @@ export default {
       doc.rect(20, 95, 50, 8);
       doc.text("NOMBRE DEL PROYECTO:", 21, 101);
       doc.rect(75, 95, 115, 8);
-      doc.text("this.nombreProyecto", 76, 101);
+      doc.text(this.nombreProyecto, 76, 101);
 
       doc.rect(20, 105, 40, 8);
       doc.text("OPCION ELEGIDA:", 21, 111);
@@ -1202,55 +1384,69 @@ export default {
       doc.rect(20, 133, 20, 8);
       doc.rect(40, 133, 150, 8);
       doc.text("Nombre:", 21, 136);
+      doc.text(this.nombreEmpresa, 41, 136);
 
       doc.rect(20, 141, 20, 8);
       doc.rect(40, 141, 100, 8);
       doc.rect(140, 141, 12, 8);
       doc.rect(152, 141, 38, 8);
-      doc.text("Giro, Ramo:", 21, 144);
+      doc.text("Giro, Ramo", 21, 144);
       doc.text("o Sector:", 21, 147);
+      doc.text(this.giroEmpresa, 41, 144);
       doc.text("R.F.C.", 141, 144);
+      doc.text(this.rfcEmpresa, 153, 144);
 
       doc.rect(20, 149, 20, 8);
       doc.rect(40, 149, 150, 8);
       doc.text("Domicilio:", 21, 152);
+      doc.text(this.domicilioEmpresa, 41, 152);
 
       doc.rect(20, 157, 20, 8);
       doc.rect(40, 157, 80, 8);
       doc.rect(120, 157, 12, 8);
       doc.text("C.P.", 121, 160);
+      doc.text(this.cpEmpresa, 133, 160);
       doc.rect(132, 157, 20, 8);
       doc.rect(152, 157, 12, 8);
       doc.text("Fax:", 153, 160);
+      doc.text(this.faxEmpresa, 165, 160);
       doc.rect(164, 157, 26, 8);
       doc.text("Colonia:", 21, 160);
+      doc.text(this.coloniaEmpresa, 41, 160);
 
       doc.rect(20, 165, 20, 8);
       doc.rect(40, 165, 80, 8);
       doc.rect(120, 165, 20, 8);
-      doc.text("Teléfono", 121, 168);
+      doc.text("Teléfono:", 121, 168);
+      doc.text(this.telefonoEmpresa, 141, 168);
       doc.rect(140, 165, 50, 8);
       doc.text("Ciudad:", 21, 168);
+      doc.text(this.ciudadEmpresa, 41, 168);
 
       doc.rect(20, 173, 20, 32);
       doc.rect(40, 173, 150, 32);
       doc.text("Misión de la", 21, 176);
       doc.text("Empresa:", 21, 180);
+      doc.text(this.misionEmpresa, 41, 176);
 
       doc.rect(20, 205, 35, 8);
       doc.text("Nombre del Titular de", 21, 208);
       doc.text("la empresa:", 21, 211);
+      doc.text(this.titularEmpresa, 56, 208);
       doc.rect(55, 205, 65, 8);
       doc.rect(120, 205, 20, 8);
       doc.text(" Puesto:", 121, 208);
+      doc.text(this.puestoTitularEmpresa, 141, 208);
       doc.rect(140, 205, 50, 8);
 
       doc.rect(20, 213, 35, 8);
       doc.text("Nombre del", 21, 216);
       doc.text("Asesor(a) Externo(a):", 21, 219);
+      doc.text(this.acesorExterno, 56, 216);
       doc.rect(55, 213, 65, 8);
       doc.rect(120, 213, 20, 8);
       doc.text(" Puesto:", 121, 216);
+      doc.text(this.puestoAsesorExterno, 141, 216);
       doc.rect(140, 213, 50, 8);
 
       doc.rect(20, 221, 50, 10);
@@ -1292,21 +1488,21 @@ export default {
         body: [
           [
             { content: "Nombre:", colSpan: 1 },
-            { content: "", colSpan: 5 },
+            { content: this.alumno, colSpan: 5 },
           ],
           [
             { content: "Carrera:", colSpan: 1 },
-            { content: "", colSpan: 2 },
+            { content: this.carrera, colSpan: 2 },
             { content: "No. de control:", colSpan: 1 },
-            { content: "", colSpan: 2 },
+            { content: this.noControl, colSpan: 2 },
           ],
           [
             { content: "Domicilio:", colSpan: 1 },
-            { content: "", colSpan: 5 },
+            { content: this.direccion, colSpan: 5 },
           ],
           [
             { content: "E-mail:", colSpan: 1, rowSpan: 2 },
-            { content: "", colSpan: 2, rowSpan: 2 },
+            { content: this.correo, colSpan: 2, rowSpan: 2 },
             { content: "Para Seguridad Social acudir", colSpan: 1, rowSpan: 2 },
             { content: "IMSS ( )", colSpan: 1, rowSpan: 1 },
             { content: "ISSSTE ( )       OTROS( )", colSpan: 1, rowSpan: 1 },
@@ -1314,7 +1510,7 @@ export default {
           [{ content: "No. :", colSpan: 2 }],
           [
             { content: "Ciudad:", colSpan: 1 },
-            { content: "", colSpan: 2 },
+            { content: this.localidad, colSpan: 2 },
             { content: "Teléfono: (no celular)", colSpan: 1 },
             { content: "", colSpan: 2 },
           ],
