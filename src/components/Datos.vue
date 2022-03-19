@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-stepper v-model="e1" style="height: 100vh !important">
+    <v-stepper v-model="e1">
       <v-stepper-header>
         <v-stepper-step
           :color="color"
@@ -28,16 +28,28 @@
 
         <v-stepper-step
           :color="color"
+          :complete="valid3"
           @click="e1 = 3"
           class="hoverManito"
           step="3"
+        >
+          Datos proyecto
+        </v-stepper-step>
+
+        <v-divider></v-divider>
+
+        <v-stepper-step
+          :color="color"
+          @click="e1 = 4"
+          class="hoverManito"
+          step="4"
         >
           Salida PDF
         </v-stepper-step>
       </v-stepper-header>
 
-      <v-stepper-items style="height: 100% !important">
-        <v-stepper-content step="1" style="height: 100% !important">
+      <v-stepper-items>
+        <v-stepper-content step="1">
           <v-card class="mt-6" flat>
             <v-row>
               <v-col cols="12" md="6" lg="10">
@@ -130,7 +142,7 @@
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="2" style="height: 100% !important">
+        <v-stepper-content step="2">
           <v-card class="mb-12" flat>
             <v-row>
               <v-spacer></v-spacer>
@@ -217,82 +229,238 @@
             dark
             @click="e1 = 3"
           >
-            Generar
+            Siguiente
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="3" style="height: 100% !important">
-          <v-card class="mb-12" flat style="height: 100% !important">
-            <v-container fluid>
-              <v-row>
-                <v-col cols="12" md="6" lg="12">
-                  <v-row>
-                    <v-btn
-                      class="mt-16"
-                      x-large
+        <v-stepper-content step="3">
+          <v-card class="mb-12" flat>
+            <v-row>
+              <v-spacer></v-spacer>
+              <v-col cols="12" lg="5">
+                <v-alert border="left" color="#88888810">
+                  <v-form ref="form3" v-model="valid3" lazy-validation>
+                    <v-text-field
+                      v-model="nombreProyecto"
+                      :rules="requerido"
+                      label="Nombre del proyecto*"
                       :color="color"
-                      @click="generarSolicitudEgreso()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Solicitud de egreso
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="jefeCarrera"
+                      :rules="requerido"
+                      label="Jefe de carrera*"
                       :color="color"
-                      @click="generarFormatoNoAdeudos()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Formato de no adeudos
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="acesorInterno"
+                      :rules="requerido"
+                      label="Asesor interno*"
                       :color="color"
-                      @click="generarCartaAutorizacion()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Carta de autorizacion
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
+                      required
+                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="acesorExterno"
+                          :rules="requerido"
+                          label="Asesor externo*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="puestoAsesorExterno"
+                          :rules="requerido"
+                          label="Puesto del asesor(a) externo(a)*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
+                    <v-text-field
+                      v-model="nombreEmpresa"
+                      :rules="requerido"
+                      label="Nombre de la empresa*"
                       :color="color"
-                      @click="generarCronograma()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Cronograma
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                      class="mt-16"
-                      x-large
+                      required
+                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="giroEmpresa"
+                          :rules="requerido"
+                          label="Giro, Ramo o Sector:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="rfcEmpresa"
+                          :rules="requerido"
+                          label="R.F.C.:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
+                    <v-text-field
+                      v-model="domicilioEmpresa"
+                      :rules="requerido"
+                      label="Domicilio de la empresa:*"
                       :color="color"
-                      @click="generarSolicitudResidencias()"
-                      dark
-                      style="text-transform: none !important"
-                    >
-                      Solicitud de residencias
-                      <v-icon right>mdi-eye-outline</v-icon>
-                    </v-btn>
-                  </v-row>
-                </v-col>
-              </v-row>
-            </v-container>
+                      required
+                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="coloniaEmpresa"
+                          :rules="requerido"
+                          label="Colonia:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="cpEmpresa"
+                          :rules="requerido"
+                          label="C.P.:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="faxEmpresa"
+                          :rules="requerido"
+                          label="Fax:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
+                    <v-text-field
+                      v-model="ciudadEmpresa"
+                      :rules="requerido"
+                      label="Ciudad:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="misionEmpresa"
+                      :rules="requerido"
+                      label="Misión de la Empresa:*"
+                      :color="color"
+                      required
+                    ></v-text-field>
+                    <v-col>
+                      <v-row>
+                        <v-text-field
+                          v-model="titularEmpresa"
+                          :rules="requerido"
+                          label="Nombre del Titular de la empresa:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="puestoTitularEmpresa"
+                          :rules="requerido"
+                          label="Puesto del Titular de la empresa:*"
+                          :color="color"
+                          required
+                        ></v-text-field>
+                      </v-row>
+                    </v-col>
+                  </v-form>
+                </v-alert>
+              </v-col>
+              <v-spacer></v-spacer>
+            </v-row>
           </v-card>
           <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 2">
             Anterior
+          </v-btn>
+          <v-divider vertical class="ml-2 mr-2"></v-divider>
+          <v-btn
+            :color="color"
+            style="margin-bottom: 6rem"
+            dark
+            @click="e1 = 4"
+          >
+            Siguiente
+          </v-btn>
+        </v-stepper-content>
+
+        <v-stepper-content step="4">
+          <v-card class="mb-12" flat>
+            <v-container fluid>
+              <v-data-table
+                :headers="headers"
+                :items="itemsTabla"
+                item-key="nombre"
+                group-by="categoriaorden"
+                :items-per-page="-1"
+                hide-default-header
+                hide-default-footer
+                :footer-props="{
+                  'items-per-page-text': 'Elementos por pagina',
+                  'items-per-page-all-text': 'Todos',
+                  'page-text': '{0}-{1} de {2}',
+                }"
+                class="elevation-0 tabla"
+              >
+                <template
+                  v-slot:[`group.header`]="{
+                    group,
+                    headers,
+                    toggle,
+                    isOpen,
+                    items,
+                  }"
+                >
+                  <th
+                    :colspan="headers.length"
+                    @click="toggle"
+                    :data-open="isOpen"
+                    style="background-color: white; cursor: pointer"
+                  >
+                    <v-col>
+                      <v-row align="center">
+                        <v-btn small icon :ref="group" :data-open="isOpen">
+                          <v-icon dense>{{
+                            isOpen ? "mdi-chevron-up" : "mdi-chevron-down"
+                          }}</v-icon>
+                        </v-btn>
+                        <h3>{{ items[0].categoria }}</h3>
+                      </v-row>
+                    </v-col>
+                  </th>
+                </template>
+
+                <template v-slot:[`item.acciones`]="{ item }">
+                  <v-row>
+                    <v-spacer></v-spacer>
+                    <v-btn icon class="mx-2" @click="ver(item.nombre)">
+                      <v-icon large> mdi-eye</v-icon>
+                    </v-btn>
+
+                    <v-btn icon class="mx-2" @click="descargar(item.nombre)">
+                      <v-icon large> mdi-cloud-download</v-icon>
+                    </v-btn>
+                  </v-row>
+                </template>
+              </v-data-table>
+            </v-container>
+          </v-card>
+          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 3">
+            Anterior
+          </v-btn>
+          <v-divider vertical class="ml-2 mr-2"></v-divider>
+          <v-btn
+            :color="color"
+            style="margin-bottom: 6rem"
+            dark
+            @click="e1 = 4"
+          >
+            Enviar
           </v-btn>
         </v-stepper-content>
       </v-stepper-items>
@@ -334,6 +502,9 @@ export default {
       tituloPDF: "",
 
       e1: 1,
+
+      //Search
+      noControlBuscar: "",
       //datos generales
       alumno: "",
       noControl: "",
@@ -375,9 +546,29 @@ export default {
       telefono: "447-108-5892",
       correo: "carlitosjl77@gmail.com",
 
+      //Proyecto
+      nombreProyecto: "asdasd ",
+      jefeCarrera: "asdasd asd aasd",
+      acesorInterno: "ssssssss sssss",
+      acesorExterno: "pepe",
+      puestoAsesorExterno: "asdd",
+      nombreEmpresa: "Empresa",
+      giroEmpresa: "giro",
+      rfcEmpresa: "ASAS545454",
+      domicilioEmpresa: "dasdasd",
+      coloniaEmpresa: "asdasd",
+      cpEmpresa: "454554",
+      faxEmpresa: "454554",
+      telefonoEmpresa: "000-000-0000",
+      ciudadEmpresa: "dasdad",
+      misionEmpresa: "sadad",
+      titularEmpresa: "dasda",
+      puestoTitularEmpresa: "asdasd",
+
       //Validacion
       valid: true,
       valid2: true,
+      valid3: true,
       emailRules: [
         (v) => !!v || "Correo es requerido",
         (v) => /.+@.+\..+/.test(v) || "Correo no valido",
@@ -390,7 +581,37 @@ export default {
       ],
       requerido: [(v) => !!v || "Dato requerido"],
 
-      noControlBuscar: "",
+      itemsTabla: [
+        {
+          nombre: "Solicitud de egreso",
+          categoriaorden: 1,
+          categoria: "Formatos de egreso",
+        },
+        {
+          nombre: "Formato de no adeudos",
+          categoriaorden: 1,
+          categoria: "Formatos de egreso",
+        },
+        {
+          nombre: "Carta de autorizacion",
+          categoriaorden: 2,
+          categoria: "Formatos recidencias",
+        },
+        {
+          nombre: "Cronograma",
+          categoriaorden: 2,
+          categoria: "Formatos recidencias",
+        },
+        {
+          nombre: "Solicitud de recidencias",
+          categoriaorden: 2,
+          categoria: "Formatos recidencias",
+        },
+      ],
+      headers: [
+        { text: "Nombre", value: "nombre" },
+        { text: "Acciones", value: "acciones" },
+      ],
     };
   },
 
@@ -401,7 +622,7 @@ export default {
   methods: {
     generar() {
       if (this.$refs.form.validate()) {
-        this.e1 = 3;
+        this.e1 = 4;
         //this.generarSolicitudEgreso();
         //this.generarFormatoNoAdeudos();
         //this.generarCartaAutorizacion();
@@ -410,7 +631,53 @@ export default {
       }
     },
 
-    generarSolicitudEgreso() {
+    ver(nombre) {
+      switch (nombre) {
+        case "Solicitud de egreso":
+          this.generarSolicitudEgreso(true);
+          break;
+        case "Formato de no adeudos":
+          this.generarFormatoNoAdeudos(true);
+          break;
+        case "Carta de autorizacion":
+          this.generarCartaAutorizacion(true);
+          break;
+        case "Cronograma":
+          this.generarCronograma(true);
+          break;
+        case "Solicitud de recidencias":
+          this.generarSolicitudResidencias(true);
+          break;
+
+        default:
+          break;
+      }
+    },
+
+    descargar(nombre) {
+      switch (nombre) {
+        case "Solicitud de egreso":
+          this.generarSolicitudEgreso(false);
+          break;
+        case "Formato de no adeudos":
+          this.generarFormatoNoAdeudos(false);
+          break;
+        case "Carta de autorizacion":
+          this.generarCartaAutorizacion(false);
+          break;
+        case "Cronograma":
+          this.generarCronograma(false);
+          break;
+        case "Solicitud de recidencias":
+          this.generarSolicitudResidencias(false);
+          break;
+
+        default:
+          break;
+      }
+    },
+
+    generarSolicitudEgreso(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
       //get base64
@@ -483,19 +750,19 @@ export default {
         220
       );
       doc.text("Colonia: " + this.colonia, 30, 230);
-      doc.text("____________________________", 47, 230);
-      doc.text("Localidad: " + this.localidad, 130, 230);
-      doc.text("_____________", 153, 230);
+      doc.text("___________________________", 47, 230);
+      doc.text("Localidad: " + this.localidad, 120, 230);
+      doc.text("___________________", 140, 230);
       doc.text("Municipio: " + this.municipio, 30, 240);
       doc.text("__________________________", 51, 240);
-      doc.text("Estado: " + this.estado, 130, 240);
-      doc.text("________________", 146, 240);
+      doc.text("Estado: " + this.estado, 120, 240);
+      doc.text("_____________________", 136, 240);
       doc.text("C.P.: " + this.cp, 30, 250);
       doc.text("______________", 41, 250);
-      doc.text("Tel.: " + this.telefono, 80, 250);
-      doc.text("______________", 90, 250);
-      doc.text("Correo: " + this.correo, 130, 250);
-      doc.text("________________", 146, 250);
+      doc.text("Tel.: " + this.telefono, 75, 250);
+      doc.text("____________", 85, 250);
+      doc.text("Correo: " + this.correo, 120, 250);
+      doc.text("_____________________", 136, 250);
       doc.text(
         "Autorizo al Instituto Tecnológico Superior de Ciudad Hidalgo, utilizar estos datos para localizarme posterior a mi egreso.",
         30,
@@ -505,13 +772,16 @@ export default {
       doc.text("ITSCH", 30, 280);
       doc.text("Julio 2017", 160, 280);
 
-      //this.$emit("pdfSolicitud", doc.output("datauristring"));
-      this.srcPDF = doc.output("datauristring", "Solicitud de egreso.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Solicitud de egreso";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Solicitud de egreso.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Solicitud de egreso";
+      } else {
+        doc.save("Solicitud de egreso.pdf");
+      }
     },
 
-    generarFormatoNoAdeudos() {
+    generarFormatoNoAdeudos(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF({ filename: "asdasdasdad.pdf" });
       //get base64
@@ -738,12 +1008,16 @@ export default {
       doc.text("ITSCH", 30, 285);
       doc.text("Septiembre 2019", 155, 285);
 
-      this.srcPDF = doc.output("datauristring", "Formato de no adeudos.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Formato de no adeudos";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Formato de no adeudos.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Formato de no adeudos";
+      } else {
+        doc.save("Formato de no adeudos.pdf");
+      }
     },
 
-    generarCartaAutorizacion() {
+    generarCartaAutorizacion(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
       //get base64
@@ -770,7 +1044,7 @@ export default {
 
       doc.setFont(undefined, "bold");
       doc.text("C.", 20, 80);
-      doc.text("this.jefeCarrera", 23, 80);
+      doc.text(this.jefeCarrera, 23, 80);
       doc.text("___________________________________", 23, 80);
 
       doc.setFontSize(10);
@@ -792,7 +1066,7 @@ export default {
       doc.text(this.alumno, 20, 133);
       const textWidth2 = doc.getTextWidth(this.alumno);
       doc.line(20, 134, 20 + textWidth2, 134);
-      doc.text(" con numero de control ", 20 + textWidth2, 133);
+      doc.text("con numero de control ", 20 + textWidth2, 133);
       const textWidth3 = doc.getTextWidth(" con numero de control ");
       doc.text(this.noControl, 20 + textWidth2 + textWidth3, 133);
       const textWidth4 = doc.getTextWidth(this.noControl);
@@ -827,20 +1101,20 @@ export default {
       doc.text("PROYECTO DE RESIDENCIAS ", 20 + textWidth7, 137);
       doc.setFont(undefined, "normal");
       const textWidth8 = doc.getTextWidth("PROYECTO DE RESIDENCIAS ");
-      doc.text("con título ", 20 + textWidth7 + textWidth8, 137);
-      const textWidth9 = doc.getTextWidth("con título ");
+      doc.text(" con título ", 20 + textWidth7 + textWidth8, 137);
+      const textWidth9 = doc.getTextWidth(" con título ");
       doc.text(
-        "this.tituloResidencias",
+        this.nombreProyecto,
         20 + textWidth7 + textWidth8 + textWidth9,
         137
       );
-      const textWidth10 = doc.getTextWidth("this.tituloResidencias");
-      doc.line(
+
+      doc.text(
+        "____________________________________________________",
         20 + textWidth7 + textWidth8 + textWidth9,
-        138,
-        20 + textWidth7 + textWidth8 + textWidth9 + textWidth10,
         138
       );
+
       doc.text(
         "el cual ha sido autorizado para el proceso de entrega, para que pueda continuar con el proceso y normatividad correspondiente para acreditar sus residencias profesionales.",
         20,
@@ -867,6 +1141,13 @@ export default {
       );
 
       doc.text(
+        this.acesorInterno,
+        doc.internal.pageSize.width / 2,
+        230,
+        "center"
+      );
+
+      doc.text(
         "______________________________________",
         doc.internal.pageSize.width / 2,
         230,
@@ -883,12 +1164,16 @@ export default {
         "center"
       );
 
-      this.srcPDF = doc.output("datauristring", "Carta de autorización.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Carta de autorización";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Carta de autorización.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Carta de autorización";
+      } else {
+        doc.save("Carta de autorización.pdf");
+      }
     },
 
-    generarCronograma() {
+    generarCronograma(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF({ orientation: "l" });
       //get base64
@@ -950,18 +1235,22 @@ export default {
         81
       );
       doc.text("EMPRESA:", 201, 80);
+      doc.text(" " + this.nombreEmpresa, 217, 81);
       doc.text("______________________________", 217, 81);
 
       doc.text("ASESOR EXTERNO:", 54, 85);
+      doc.text(" " + this.acesorExterno, 84, 86);
       doc.text(
         "_________________________________________________________",
         84,
         86
       );
       doc.text("ASESOR INTERNO:", 188, 85);
+      doc.text(" " + this.acesorInterno, 217, 86);
       doc.text("______________________________", 217, 86);
 
       doc.text("NOMBRE DEL PROYECTO:", 44, 90);
+      doc.text(" " + this.nombreProyecto, 84, 91);
       doc.text(
         "_________________________________________________________________________________________________________",
         84,
@@ -1087,12 +1376,16 @@ export default {
         ],
       });
 
-      this.srcPDF = doc.output("datauristring", "Cronograma.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Cronograma";
+      if (accion) {
+        this.srcPDF = doc.output("datauristring", "Cronograma.pdf");
+        this.dialog = true;
+        this.tituloPDF = "Cronograma";
+      } else {
+        doc.save("Cronograma.pdf");
+      }
     },
 
-    generarSolicitudResidencias() {
+    generarSolicitudResidencias(accion) {
       // Default export is a4 paper, portrait, using millimeters for units
       const doc = new jsPDF();
       //get base64
@@ -1157,7 +1450,7 @@ export default {
         68
       );
 
-      doc.text("C.", 20, 78);
+      doc.text("C. " + this.jefeCarrera, 20, 78);
 
       doc.text("Jefe de la División de ", 20, 85);
       doc.text(
@@ -1169,7 +1462,7 @@ export default {
       doc.rect(20, 95, 50, 8);
       doc.text("NOMBRE DEL PROYECTO:", 21, 101);
       doc.rect(75, 95, 115, 8);
-      doc.text("this.nombreProyecto", 76, 101);
+      doc.text(this.nombreProyecto, 76, 101);
 
       doc.rect(20, 105, 40, 8);
       doc.text("OPCION ELEGIDA:", 21, 111);
@@ -1202,55 +1495,69 @@ export default {
       doc.rect(20, 133, 20, 8);
       doc.rect(40, 133, 150, 8);
       doc.text("Nombre:", 21, 136);
+      doc.text(this.nombreEmpresa, 41, 136);
 
       doc.rect(20, 141, 20, 8);
       doc.rect(40, 141, 100, 8);
       doc.rect(140, 141, 12, 8);
       doc.rect(152, 141, 38, 8);
-      doc.text("Giro, Ramo:", 21, 144);
+      doc.text("Giro, Ramo", 21, 144);
       doc.text("o Sector:", 21, 147);
+      doc.text(this.giroEmpresa, 41, 144);
       doc.text("R.F.C.", 141, 144);
+      doc.text(this.rfcEmpresa, 153, 144);
 
       doc.rect(20, 149, 20, 8);
       doc.rect(40, 149, 150, 8);
       doc.text("Domicilio:", 21, 152);
+      doc.text(this.domicilioEmpresa, 41, 152);
 
       doc.rect(20, 157, 20, 8);
       doc.rect(40, 157, 80, 8);
       doc.rect(120, 157, 12, 8);
       doc.text("C.P.", 121, 160);
+      doc.text(this.cpEmpresa, 133, 160);
       doc.rect(132, 157, 20, 8);
       doc.rect(152, 157, 12, 8);
       doc.text("Fax:", 153, 160);
+      doc.text(this.faxEmpresa, 165, 160);
       doc.rect(164, 157, 26, 8);
       doc.text("Colonia:", 21, 160);
+      doc.text(this.coloniaEmpresa, 41, 160);
 
       doc.rect(20, 165, 20, 8);
       doc.rect(40, 165, 80, 8);
       doc.rect(120, 165, 20, 8);
-      doc.text("Teléfono", 121, 168);
+      doc.text("Teléfono:", 121, 168);
+      doc.text(this.telefonoEmpresa, 141, 168);
       doc.rect(140, 165, 50, 8);
       doc.text("Ciudad:", 21, 168);
+      doc.text(this.ciudadEmpresa, 41, 168);
 
       doc.rect(20, 173, 20, 32);
       doc.rect(40, 173, 150, 32);
       doc.text("Misión de la", 21, 176);
       doc.text("Empresa:", 21, 180);
+      doc.text(this.misionEmpresa, 41, 176);
 
       doc.rect(20, 205, 35, 8);
       doc.text("Nombre del Titular de", 21, 208);
       doc.text("la empresa:", 21, 211);
+      doc.text(this.titularEmpresa, 56, 208);
       doc.rect(55, 205, 65, 8);
       doc.rect(120, 205, 20, 8);
       doc.text(" Puesto:", 121, 208);
+      doc.text(this.puestoTitularEmpresa, 141, 208);
       doc.rect(140, 205, 50, 8);
 
       doc.rect(20, 213, 35, 8);
       doc.text("Nombre del", 21, 216);
       doc.text("Asesor(a) Externo(a):", 21, 219);
+      doc.text(this.acesorExterno, 56, 216);
       doc.rect(55, 213, 65, 8);
       doc.rect(120, 213, 20, 8);
       doc.text(" Puesto:", 121, 216);
+      doc.text(this.puestoAsesorExterno, 141, 216);
       doc.rect(140, 213, 50, 8);
 
       doc.rect(20, 221, 50, 10);
@@ -1292,21 +1599,21 @@ export default {
         body: [
           [
             { content: "Nombre:", colSpan: 1 },
-            { content: "", colSpan: 5 },
+            { content: this.alumno, colSpan: 5 },
           ],
           [
             { content: "Carrera:", colSpan: 1 },
-            { content: "", colSpan: 2 },
+            { content: this.carrera, colSpan: 2 },
             { content: "No. de control:", colSpan: 1 },
-            { content: "", colSpan: 2 },
+            { content: this.noControl, colSpan: 2 },
           ],
           [
             { content: "Domicilio:", colSpan: 1 },
-            { content: "", colSpan: 5 },
+            { content: this.direccion, colSpan: 5 },
           ],
           [
             { content: "E-mail:", colSpan: 1, rowSpan: 2 },
-            { content: "", colSpan: 2, rowSpan: 2 },
+            { content: this.correo, colSpan: 2, rowSpan: 2 },
             { content: "Para Seguridad Social acudir", colSpan: 1, rowSpan: 2 },
             { content: "IMSS ( )", colSpan: 1, rowSpan: 1 },
             { content: "ISSSTE ( )       OTROS( )", colSpan: 1, rowSpan: 1 },
@@ -1314,7 +1621,7 @@ export default {
           [{ content: "No. :", colSpan: 2 }],
           [
             { content: "Ciudad:", colSpan: 1 },
-            { content: "", colSpan: 2 },
+            { content: this.localidad, colSpan: 2 },
             { content: "Teléfono: (no celular)", colSpan: 1 },
             { content: "", colSpan: 2 },
           ],
@@ -1335,10 +1642,16 @@ export default {
         "center"
       );
 
-      //this.$emit("pdfSolicitud", doc.output("datauristring"));
-      this.srcPDF = doc.output("datauristring", "Solicitud de residencias.pdf");
-      this.dialog = true;
-      this.tituloPDF = "Solicitud de residencias";
+      if (accion) {
+        this.srcPDF = doc.output(
+          "datauristring",
+          "Solicitud de residencias.pdf"
+        );
+        this.dialog = true;
+        this.tituloPDF = "Solicitud de residencias";
+      } else {
+        doc.save("Solicitud de residencias.pdf");
+      }
     },
 
     update(dialog) {
@@ -1401,6 +1714,9 @@ export default {
       }
     },
   },
+  computed: {
+    //
+  },
 };
 </script>
 
@@ -1419,5 +1735,16 @@ export default {
 }
 .nms {
   border: #888888, 3px, solid;
+}
+
+.tabla {
+  margin-left: 10% !important;
+  margin-right: 10% !important;
+  margin-bottom: 5% !important;
+  margin-top: 5% !important;
+}
+
+.titulo {
+  border-bottom: #002655 solid 2px !important;
 }
 </style>

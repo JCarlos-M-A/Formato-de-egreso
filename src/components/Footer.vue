@@ -1,5 +1,5 @@
 <template>
-  <v-footer dark padless class="mt-6">
+  <v-footer dark padless>
     <v-card class="flex" flat tile :color="color">
       <v-card-title>
         <strong class="subheading"> Redes sociales </strong>
@@ -15,7 +15,7 @@
 
       <v-card-text class="py-2 white--text text-center negro">
         {{ new Date().getFullYear() }} —
-        <strong>Todos los derechos reservados</strong>
+        <strong>Carlitos company</strong>
       </v-card-text>
     </v-card>
   </v-footer>
