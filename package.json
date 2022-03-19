@@ -7,6 +7,9 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@capacitor/android": "^3.4.3",
+    "@capacitor/cli": "^3.4.3",
+    "@capacitor/core": "^3.4.3",
     "axios": "^0.26.1",
     "core-js": "^3.6.5",
     "jspdf": "^2.5.1",
