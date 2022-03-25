@@ -390,66 +390,31 @@
         </v-stepper-content>
 
         <v-stepper-content step="4">
-          <v-card class="mb-12" flat>
-            <v-container fluid>
-              <v-data-table
-                :headers="headers"
-                :items="itemsTabla"
-                item-key="nombre"
-                group-by="categoriaorden"
-                :items-per-page="-1"
-                hide-default-header
-                hide-default-footer
-                :footer-props="{
-                  'items-per-page-text': 'Elementos por pagina',
-                  'items-per-page-all-text': 'Todos',
-                  'page-text': '{0}-{1} de {2}',
-                }"
-                class="elevation-0 tabla"
-              >
-                <template
-                  v-slot:[`group.header`]="{
-                    group,
-                    headers,
-                    toggle,
-                    isOpen,
-                    items,
-                  }"
-                >
-                  <th
-                    :colspan="headers.length"
-                    @click="toggle"
-                    :data-open="isOpen"
-                    style="background-color: white; cursor: pointer"
+          <v-list subheader two-line>
+            <v-list-item
+              v-for="item in itemsTabla"
+              :key="item.nombre"
+              style="border-bottom: 1px solid #000"
+            >
+              <v-list-item-content>
+                <v-list-item-title v-text="item.nombre"></v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action style="display: flex">
+                <v-btn icon @click="descargar(item.nombre)">
+                  <v-icon x-large color="grey"
+                    >mdi-cloud-download-outline</v-icon
                   >
-                    <v-col>
-                      <v-row align="center">
-                        <v-btn small icon :ref="group" :data-open="isOpen">
-                          <v-icon dense>{{
-                            isOpen ? "mdi-chevron-up" : "mdi-chevron-down"
-                          }}</v-icon>
-                        </v-btn>
-                        <h3>{{ items[0].categoria }}</h3>
-                      </v-row>
-                    </v-col>
-                  </th>
-                </template>
+                </v-btn>
+              </v-list-item-action>
+              <v-list-item-action style="display: flex">
+                <v-btn icon @click="ver(item.nombre)">
+                  <v-icon x-large color="grey">mdi-eye-outline</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
 
-                <template v-slot:[`item.acciones`]="{ item }">
-                  <v-row>
-                    <v-spacer></v-spacer>
-                    <v-btn icon class="mx-2" @click="ver(item.nombre)">
-                      <v-icon large> mdi-eye</v-icon>
-                    </v-btn>
-
-                    <v-btn icon class="mx-2" @click="descargar(item.nombre)">
-                      <v-icon large> mdi-cloud-download</v-icon>
-                    </v-btn>
-                  </v-row>
-                </template>
-              </v-data-table>
-            </v-container>
-          </v-card>
           <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 3">
             Anterior
           </v-btn>
@@ -775,9 +740,15 @@ export default {
       if (accion) {
         this.srcPDF = doc.output("datauristring", "Solicitud de egreso.pdf");
         this.dialog = true;
+        console.log(this.srcPDF);
         this.tituloPDF = "Solicitud de egreso";
       } else {
-        doc.save("Solicitud de egreso.pdf");
+        var link = document.createElement("a");
+        link.href = doc.output("datauristring", "Solicitud de egreso.pdf");
+        link.download = "Solicitud de egreso.pdf";
+        link.click();
+
+        //doc.save("Solicitud de egreso.pdf");
       }
     },
 

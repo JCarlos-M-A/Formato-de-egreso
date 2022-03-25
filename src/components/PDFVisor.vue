@@ -14,20 +14,24 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
-
-        <iframe :src="srcPDF" height="1000px" width="100%"></iframe>
+        <pdf :src="srcPDF" ></pdf>
+        <!--<iframe :src="srcPDF" height="1000px" width="100%"></iframe>-->
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 
 <script>
+import pdf from "vue-pdf";
 export default {
   data() {
     return {
       //
       dialog: false,
     };
+  },
+  components: {
+    pdf,
   },
   props: {
     srcPDF: {
@@ -59,6 +63,9 @@ export default {
     cerrar() {
       this.$emit("update-dialog", false);
     },
+  },
+    errorCaptured() {
+    return false
   },
 };
 </script>
