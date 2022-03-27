@@ -440,6 +440,7 @@
     />
     <!---->
     <AlertError :textError="textError" :alertError="alertError" />
+    <AlertExito :textExito="textExito" :alertExito="alertExito" />
   </div>
 </template>
 
@@ -448,18 +449,25 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import PDFVisor from "../components/PDFVisor";
 import AlertError from "../components/AlertError";
+import AlertExito from "../components/AlertExito";
 import axios from "axios";
 
+import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
 export default {
   components: {
     PDFVisor,
     AlertError,
+    AlertExito,
   },
   data() {
     return {
       //Alerta error
       textError: "",
       alertError: false,
+
+      //Alerta exito
+      textExito: "",
+      alertExito: false,
 
       //DATOS PDF
       srcPDF: "",
@@ -743,12 +751,35 @@ export default {
         console.log(this.srcPDF);
         this.tituloPDF = "Solicitud de egreso";
       } else {
-        var link = document.createElement("a");
-        link.href = doc.output("datauristring", "Solicitud de egreso.pdf");
-        link.download = "Solicitud de egreso.pdf";
-        link.click();
+        doc.save("Solicitud de egreso.pdf");
 
-        //doc.save("Solicitud de egreso.pdf");
+        if (navigator.userAgent.match(/Android/i)) {
+          Filesystem.writeFile({
+            path: "Solicitud de egreso.pdf",
+            data: doc.output("datauristring", "Solicitud de egreso.pdf"),
+            directory: Directory.Documents,
+            //encoding: Encoding.UTF8,
+          }).then(
+            (writeFileResponse) => {
+              console.log("writeFile success => ", writeFileResponse);
+
+              this.alertExito = true;
+              this.textExito = "Guardado en documentos";
+              setTimeout(() => {
+                this.alertExito = false;
+              }, 2000);
+            },
+            (error) => {
+              console.log("writeFile error => ", error);
+
+              this.alertError = true;
+              this.textError = error + "";
+              setTimeout(() => {
+                this.alertError = false;
+              }, 2000);
+            }
+          );
+        }
       }
     },
 

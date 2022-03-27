@@ -14,8 +14,18 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
-        <pdf :src="srcPDF" ></pdf>
-        <!--<iframe :src="srcPDF" height="1000px" width="100%"></iframe>-->
+
+        <pdf
+          :src="srcPDF"
+          class="hidden-md-and-up"
+        ></pdf>
+
+        <iframe
+          :src="srcPDF"
+          class="hidden-md-and-down"
+          height="1000px"
+          width="100%"
+        ></iframe>
       </v-card>
     </v-dialog>
   </v-row>
@@ -64,8 +74,8 @@ export default {
       this.$emit("update-dialog", false);
     },
   },
-    errorCaptured() {
-    return false
+  errorCaptured() {
+    return false;
   },
 };
 </script>

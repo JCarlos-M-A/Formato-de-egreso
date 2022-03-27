@@ -18,7 +18,7 @@
     <v-switch
       v-model="switch1"
       inset
-      :label="`Tema: ${switch1.toString()}`"
+      label="Tema"
     ></v-switch>
   </v-app-bar>
 </template>
