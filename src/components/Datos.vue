@@ -479,8 +479,8 @@ export default {
       //Search
       noControlBuscar: "",
       //datos generales
-      alumno: "",
-      noControl: "",
+      alumno: "Juan carlos montaño alvarez",
+      noControl: "S16030213",
       carrera: "Ingenieria en sistemas computacionales",
       itemsCarrera: [
         "Ingenieria en sistemas computacionales",
@@ -820,8 +820,6 @@ export default {
       doc.text("CENTRO DE INFORMACIÓN.", 30, 60);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 63);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 25, 80);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -836,8 +834,6 @@ export default {
       doc.text("JEFE DE CARRERA.", 132, 60);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 63);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 120, 80);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -853,8 +849,6 @@ export default {
       doc.text("LAB. DE CÓMPUTO.", 35, 95);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 98);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 25, 115);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -869,8 +863,6 @@ export default {
       doc.text("EXTRAESCOLARES.", 132, 95);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 98);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 120, 115);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -886,8 +878,6 @@ export default {
       doc.text("LAB. DE BIOQUÍMICA.", 35, 130);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 133);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 25, 150);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -902,8 +892,6 @@ export default {
       doc.text("COORD. LENGUAS EXTRANJERAS.", 117, 130);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 133);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 120, 150);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -919,8 +907,6 @@ export default {
       doc.text("LAB. DE MÉTODOS.", 35, 165);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 168);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 25, 185);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -935,8 +921,6 @@ export default {
       doc.text("LAB. DE ELECTRÓNICA", 132, 165);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 168);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 120, 185);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -952,8 +936,6 @@ export default {
       doc.text("DEPTO. DE TUTORIAS.", 35, 200);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 24, 203);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 25, 220);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -968,8 +950,6 @@ export default {
       doc.text("SEGUIMIENTO A EGRESADOS.", 122, 200);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 203);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 120, 220);
       doc.setFontSize(7);
       doc.text(
         "________________________________________________________",
@@ -984,8 +964,6 @@ export default {
       doc.text("SERVICIOS ESCOLARES.", 80, 235);
       doc.setFontSize(7);
       doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 70, 238);
-      doc.setFontSize(12);
-      doc.text(this.alumno, 75, 255);
       doc.setFontSize(7);
       doc.text(
         "_____________________________________________________________________________________________",
@@ -1013,9 +991,38 @@ export default {
       if (accion) {
         this.srcPDF = doc.output("datauristring", "Formato de no adeudos.pdf");
         this.dialog = true;
+        console.log(this.srcPDF);
         this.tituloPDF = "Formato de no adeudos";
       } else {
         doc.save("Formato de no adeudos.pdf");
+
+        if (navigator.userAgent.match(/Android/i)) {
+          Filesystem.writeFile({
+            path: "Formato de no adeudos.pdf",
+            data: doc.output("datauristring", "Formato de no adeudos.pdf"),
+            directory: Directory.Documents,
+            //encoding: Encoding.UTF8,
+          }).then(
+            (writeFileResponse) => {
+              console.log("writeFile success => ", writeFileResponse);
+
+              this.alertExito = true;
+              this.textExito = "Guardado en documentos";
+              setTimeout(() => {
+                this.alertExito = false;
+              }, 2000);
+            },
+            (error) => {
+              console.log("writeFile error => ", error);
+
+              this.alertError = true;
+              this.textError = error + "";
+              setTimeout(() => {
+                this.alertError = false;
+              }, 2000);
+            }
+          );
+        }
       }
     },
 
