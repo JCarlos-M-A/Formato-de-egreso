@@ -451,6 +451,7 @@ import PDFVisor from "../components/PDFVisor";
 import AlertError from "../components/AlertError";
 import AlertExito from "../components/AlertExito";
 import { generarSolicitudEgreso } from "../modules/generarSolicitudEgreso.js";
+import { generarSolicitudEstudiante } from "../modules/generarSolicitudEstudiante.js";
 import axios from "axios";
 import { Filesystem, Directory } from "@capacitor/filesystem";
 
@@ -479,6 +480,7 @@ export default {
 
       //Search
       noControlBuscar: "",
+
       //datos generales
       alumno: "Juan carlos montaño alvarez",
       noControl: "S16030213",
@@ -555,6 +557,7 @@ export default {
       ],
       requerido: [(v) => !!v || "Dato requerido"],
 
+      //Tabla
       itemsTabla: [
         {
           nombre: "Solicitud de egreso",
@@ -567,18 +570,23 @@ export default {
           categoria: "Formatos de egreso",
         },
         {
-          nombre: "Carta de autorizacion",
+          nombre: "Solicitud del estudiante",
           categoriaorden: 2,
+          categoria: "Formatos de titulación",
+        },
+        {
+          nombre: "Carta de autorizacion",
+          categoriaorden: 3,
           categoria: "Formatos recidencias",
         },
         {
           nombre: "Cronograma",
-          categoriaorden: 2,
+          categoriaorden: 3,
           categoria: "Formatos recidencias",
         },
         {
           nombre: "Solicitud de recidencias",
-          categoriaorden: 2,
+          categoriaorden: 3,
           categoria: "Formatos recidencias",
         },
       ],
@@ -626,6 +634,27 @@ export default {
         case "Formato de no adeudos":
           this.generarFormatoNoAdeudos(true);
           break;
+        case "Solicitud del estudiante":
+          this.srcPDF = generarSolicitudEstudiante(
+            true,
+            this.jefeCarrera,
+            this.alumno,
+            this.carrera,
+            this.noControl,
+            this.selectSemestre,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo
+          );
+          this.dialog = true;
+          this.tituloPDF = "Solicitud del estudiante";
+          break;
         case "Carta de autorizacion":
           this.generarCartaAutorizacion(true);
           break;
@@ -669,6 +698,30 @@ export default {
           break;
         case "Formato de no adeudos":
           this.generarFormatoNoAdeudos(false);
+          break;
+        case "Solicitud del estudiante":
+          resultado = new generarSolicitudEstudiante(
+            true,
+            this.jefeCarrera,
+            this.alumno,
+            this.carrera,
+            this.noControl,
+            this.selectSemestre,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo
+          );
+          this.alertExito = resultado.alertExito;
+          this.textExito = resultado.textExito;
+          setTimeout(() => {
+            this.alertExito = false;
+          }, 2000);
           break;
         case "Carta de autorizacion":
           this.generarCartaAutorizacion(false);
