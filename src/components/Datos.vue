@@ -450,9 +450,10 @@ import "jspdf-autotable";
 import PDFVisor from "../components/PDFVisor";
 import AlertError from "../components/AlertError";
 import AlertExito from "../components/AlertExito";
+import { generarSolicitudEgreso } from "../modules/generarSolicitudEgreso.js";
 import axios from "axios";
+import { Filesystem, Directory } from "@capacitor/filesystem";
 
-import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
 export default {
   components: {
     PDFVisor,
@@ -596,18 +597,31 @@ export default {
     generar() {
       if (this.$refs.form.validate()) {
         this.e1 = 4;
-        //this.generarSolicitudEgreso();
-        //this.generarFormatoNoAdeudos();
-        //this.generarCartaAutorizacion();
-        //doc.save("Solicitud de egreso.pdf");
-        //document.getElementById("pdfVer").src = doc.output("datauristring");
       }
     },
 
     ver(nombre) {
       switch (nombre) {
         case "Solicitud de egreso":
-          this.generarSolicitudEgreso(true);
+          this.srcPDF = generarSolicitudEgreso(
+            true,
+            this.meses,
+            this.alumno,
+            this.carrera,
+            this.clave,
+            this.selectSemestre,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo
+          );
+          this.dialog = true;
+          this.tituloPDF = "Formato de no adeudos";
           break;
         case "Formato de no adeudos":
           this.generarFormatoNoAdeudos(true);
@@ -630,7 +644,28 @@ export default {
     descargar(nombre) {
       switch (nombre) {
         case "Solicitud de egreso":
-          this.generarSolicitudEgreso(false);
+          let resultado = new generarSolicitudEgreso(
+            false,
+            this.meses,
+            this.alumno,
+            this.carrera,
+            this.clave,
+            this.selectSemestre,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo
+          );
+          this.alertExito = resultado.alertExito;
+          this.textExito = resultado.textExito;
+          setTimeout(() => {
+            this.alertExito = false;
+          }, 2000);
           break;
         case "Formato de no adeudos":
           this.generarFormatoNoAdeudos(false);
@@ -647,139 +682,6 @@ export default {
 
         default:
           break;
-      }
-    },
-
-    generarSolicitudEgreso(accion) {
-      // Default export is a4 paper, portrait, using millimeters for units
-      const doc = new jsPDF();
-      //get base64
-      let itsch = this.getBase64(document.getElementById("imag"));
-      //get fecha
-      let date = new Date();
-
-      doc.addImage(itsch, "jpeg", 30, 5, 20, 20);
-      doc.setFontSize(12);
-      doc.setFont(undefined, "bold");
-      doc.text("INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 50, 25);
-      doc.setFontSize(14);
-      doc.text("SOLICITUD DE EGRESO", 80, 38);
-      doc.setFont(undefined, "normal");
-      doc.text("Ciudad Hidalgo, Michoacán, a ", 75, 50);
-      doc.text(date.getDate() + "", 145, 50);
-      doc.text("___", 143, 50);
-      doc.text(" de ", 152, 50);
-      doc.text(this.meses[date.getMonth()] + "", 161, 50);
-      doc.text("______", 161, 50);
-      doc.text(" de ", 178, 50);
-      doc.text(date.getFullYear() + "", 187, 50);
-      doc.text("_____", 186, 50);
-
-      doc.setFontSize(12);
-      doc.setFont(undefined, "bold");
-      doc.text("ING. DANIEL AGUILAR ESPINO", 30, 63);
-      doc.text("JEFE DEL DEPARTAMENTO DE SERVICIOS ESCOLARES", 30, 68);
-      doc.text("DEL INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 30, 73);
-      doc.setFont(undefined, "normal");
-      doc.text("Por medio de la presente, el (la) que suscribe ", 30, 85);
-      doc.text("___________________________", 116, 85);
-      doc.text(this.alumno, 120, 85);
-      doc.text("de la carrera de ", 30, 93);
-      doc.text("_________________________________", 61, 93);
-      doc.text(this.carrera, 63, 93);
-      doc.text("con plan de estudios ", 142, 93);
-      doc.text("clave ", 30, 101);
-      doc.text("_____________", 41, 101);
-      doc.text(this.clave, 42, 101);
-      doc.text("solicita ante este departamento, darse por", 72, 101);
-      doc.setFont(undefined, "bold");
-      doc.text("EGRESADO(A)", 152, 101);
-      doc.setFont(undefined, "normal");
-      doc.text("al finalizar semestre ", 30, 109);
-      doc.text("________________", 70, 109);
-      doc.text(this.selectSemestre + ".", 72, 109);
-      doc.text("Al firmar esta solicitud acepta en caso", 110, 109);
-      doc.text(
-        "de cubrir la totalidad de créditos por ningún motivo nuevamente solicitar reinscripción y de no cubrir la totalidad de los créditos se cancela esta solicitud y se solicita nuevamente reinscripción.",
-        30,
-        117,
-        { maxWidth: 150, align: "justify", lineHeightFactor: 2 }
-      );
-      doc.text("A T E N T A M E N T E", 30, 155);
-      doc.text(this.alumno, 35, 173);
-      doc.text("__________________________", 30, 175);
-      doc.text("Nombre y firma del alumno", 35, 180);
-      doc.text("Generación " + this.selectGeneracion, 140, 200);
-      doc.text("_________", 162, 200);
-      doc.setFontSize(14);
-      doc.setFont(undefined, "bold");
-      doc.text("Domicilio del alumno:", 30, 215);
-      doc.setFontSize(12);
-      doc.setFont(undefined, "normal");
-      doc.text("Dirección: " + this.direccion, 30, 220);
-      doc.text(
-        "_________________________________________________________",
-        50,
-        220
-      );
-      doc.text("Colonia: " + this.colonia, 30, 230);
-      doc.text("___________________________", 47, 230);
-      doc.text("Localidad: " + this.localidad, 120, 230);
-      doc.text("___________________", 140, 230);
-      doc.text("Municipio: " + this.municipio, 30, 240);
-      doc.text("__________________________", 51, 240);
-      doc.text("Estado: " + this.estado, 120, 240);
-      doc.text("_____________________", 136, 240);
-      doc.text("C.P.: " + this.cp, 30, 250);
-      doc.text("______________", 41, 250);
-      doc.text("Tel.: " + this.telefono, 75, 250);
-      doc.text("____________", 85, 250);
-      doc.text("Correo: " + this.correo, 120, 250);
-      doc.text("_____________________", 136, 250);
-      doc.text(
-        "Autorizo al Instituto Tecnológico Superior de Ciudad Hidalgo, utilizar estos datos para localizarme posterior a mi egreso.",
-        30,
-        260,
-        { maxWidth: 150, align: "justify" }
-      );
-      doc.text("ITSCH", 30, 280);
-      doc.text("Julio 2017", 160, 280);
-
-      if (accion) {
-        this.srcPDF = doc.output("datauristring", "Solicitud de egreso.pdf");
-        this.dialog = true;
-        console.log(this.srcPDF);
-        this.tituloPDF = "Solicitud de egreso";
-      } else {
-        doc.save("Solicitud de egreso.pdf");
-
-        if (navigator.userAgent.match(/Android/i)) {
-          Filesystem.writeFile({
-            path: "Solicitud de egreso.pdf",
-            data: doc.output("datauristring", "Solicitud de egreso.pdf"),
-            directory: Directory.Documents,
-            //encoding: Encoding.UTF8,
-          }).then(
-            (writeFileResponse) => {
-              console.log("writeFile success => ", writeFileResponse);
-
-              this.alertExito = true;
-              this.textExito = "Guardado en documentos";
-              setTimeout(() => {
-                this.alertExito = false;
-              }, 2000);
-            },
-            (error) => {
-              console.log("writeFile error => ", error);
-
-              this.alertError = true;
-              this.textError = error + "";
-              setTimeout(() => {
-                this.alertError = false;
-              }, 2000);
-            }
-          );
-        }
       }
     },
 
