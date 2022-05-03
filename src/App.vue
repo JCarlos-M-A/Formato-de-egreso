@@ -21,16 +21,16 @@ export default {
   },
   data: () => ({
     //
-    color: "#800000",
+    color: "#9c1010",
   }),
   methods: {
     //
     cambiarTema(val) {
       //console.log(val);
       if (val) {
-        this.color = "#005";
+        this.color = "#11366a";
       } else {
-        this.color = "#800000";
+        this.color = "#9c1010";
       }
     },
   },

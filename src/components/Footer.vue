@@ -3,7 +3,7 @@
     <v-card class="flex" flat tile :color="color">
       <v-card-text class="py-2 white--text text-center negro">
         {{ new Date().getFullYear() }} —
-        <strong>Carlitos company</strong>
+        <strong>TecNM - Campus Ciudad Hidalgo</strong>
       </v-card-text>
     </v-card>
   </v-footer>
@@ -26,7 +26,7 @@ export default {
 </script>
 <style scoped>
 .negro {
-  background: #000;
+  background: #393c3e;
   color: white;
 }
 </style>

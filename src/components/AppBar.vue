@@ -5,7 +5,7 @@
         alt="ITSCH Logo"
         class="shrink mr-2"
         contain
-        :src="require(`@/assets/img/itsch.jpg`)"
+        :src="require(`@/assets/img/${logo}`)"
         transition="scale-transition"
         width="40"
       />
@@ -15,11 +15,7 @@
 
     <v-spacer></v-spacer>
 
-    <v-switch
-      v-model="switch1"
-      inset
-      label="Tema"
-    ></v-switch>
+    <v-switch v-model="switch1" inset label="Tema"></v-switch>
   </v-app-bar>
 </template>
 
@@ -30,7 +26,8 @@ export default {
 
   data: () => ({
     //
-    colorBarra: "#800000",
+    colorBarra: "#9c1010",
+    logo: "itsch.jpg",
     switch1: false,
   }),
   mounted() {
@@ -40,13 +37,14 @@ export default {
     switch1(val) {
       //
       if (this.switch1) {
-        this.colorBarra = "#005";
+        this.colorBarra = "#11366a";
+        this.logo = "tnm.jpg";
       } else {
-        this.colorBarra = "#800000";
+        this.colorBarra = "#9c1010";
+        this.logo = "itsch.jpg";
       }
       this.$emit("cambiarTema", val);
     },
   },
-
 };
 </script>

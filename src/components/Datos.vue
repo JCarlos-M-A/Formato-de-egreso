@@ -452,6 +452,7 @@ import AlertError from "../components/AlertError";
 import AlertExito from "../components/AlertExito";
 import { generarSolicitudEgreso } from "../modules/generarSolicitudEgreso.js";
 import { generarSolicitudEstudiante } from "../modules/generarSolicitudEstudiante.js";
+import { generarFormatoNoAdeudos } from "../modules/generarFormatoNoAdeudos.js";
 import axios from "axios";
 import { Filesystem, Directory } from "@capacitor/filesystem";
 
@@ -629,10 +630,22 @@ export default {
             this.correo
           );
           this.dialog = true;
-          this.tituloPDF = "Formato de no adeudos";
+          this.tituloPDF = "Solicitud de egreso";
           break;
         case "Formato de no adeudos":
-          this.generarFormatoNoAdeudos(true);
+          this.srcPDF = generarFormatoNoAdeudos(
+            true,
+            this.alumno,
+            this.noControl,
+            this.carrera,
+            this.selectGeneracion,
+            this.municipio,
+            this.estado,
+            this.meses
+          );
+          this.dialog = true;
+          this.tituloPDF = "Solicitud del estudiante";
+          //this.generarFormatoNoAdeudos(true);
           break;
         case "Solicitud del estudiante":
           this.srcPDF = generarSolicitudEstudiante(
