@@ -227,7 +227,7 @@ export function generarCronograma(accion, carrera, alumno, noControl, nombreEmpr
             );
         }
     }
-    
+
     return {
         alertExito: true,
         textExito: "Guardado en documentos",

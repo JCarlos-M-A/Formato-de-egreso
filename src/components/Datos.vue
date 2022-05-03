@@ -734,7 +734,7 @@ export default {
     descargar(nombre) {
       switch (nombre) {
         case "Solicitud de egreso":
-          resultado = new generarSolicitudEgreso(
+          let resultado = new generarSolicitudEgreso(
             false,
             this.meses,
             this.alumno,
@@ -817,7 +817,7 @@ export default {
           break;
         case "Cronograma":
           resultado = new generarCronograma(
-            true,
+            false,
             this.carrera,
             this.alumno,
             this.noControl,
