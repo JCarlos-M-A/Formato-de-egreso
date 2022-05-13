@@ -390,30 +390,41 @@
         </v-stepper-content>
 
         <v-stepper-content step="4">
-          <v-list subheader two-line>
-            <v-list-item
-              v-for="item in itemsTabla"
-              :key="item.nombre"
-              style="border-bottom: 1px solid #000"
-            >
-              <v-list-item-content>
-                <v-list-item-title v-text="item.nombre"></v-list-item-title>
-              </v-list-item-content>
-
-              <v-list-item-action style="display: flex">
-                <v-btn icon @click="descargar(item.nombre)">
-                  <v-icon x-large color="grey"
-                    >mdi-cloud-download-outline</v-icon
+          <v-expansion-panels accordion>
+            <v-expansion-panel v-for="item in itemsTabla" :key="item.categoria">
+              <v-expansion-panel-header>
+                {{ item.categoria }}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-list subheader two-line>
+                  <v-list-item
+                    v-for="contenido in item.contenidos"
+                    :key="contenido.id"
+                    style="border-bottom: 1px solid #000"
                   >
-                </v-btn>
-              </v-list-item-action>
-              <v-list-item-action style="display: flex">
-                <v-btn icon @click="ver(item.nombre)">
-                  <v-icon x-large color="grey">mdi-eye-outline</v-icon>
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-text="contenido.nombre"
+                      ></v-list-item-title>
+                    </v-list-item-content>
+
+                    <v-list-item-action style="display: flex">
+                      <v-btn icon @click="descargar(contenido.nombre)">
+                        <v-icon x-large color="grey"
+                          >mdi-cloud-download-outline</v-icon
+                        >
+                      </v-btn>
+                    </v-list-item-action>
+                    <v-list-item-action style="display: flex">
+                      <v-btn icon @click="ver(contenido.nombre)">
+                        <v-icon x-large color="grey">mdi-eye-outline</v-icon>
+                      </v-btn>
+                    </v-list-item-action>
+                  </v-list-item>
+                </v-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
 
           <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 3">
             Anterior
@@ -483,9 +494,9 @@ export default {
       noControlBuscar: "",
 
       //datos generales
-      alumno: "Juan carlos montaño alvarez",
-      noControl: "S16030213",
-      carrera: "Ingenieria en sistemas computacionales",
+      alumno: localStorage.getItem("alumno"),
+      noControl: localStorage.getItem("noControl"),
+      carrera: localStorage.getItem("carrera"),
       itemsCarrera: [
         "Ingenieria en sistemas computacionales",
         "Bioquimica",
@@ -493,9 +504,9 @@ export default {
         "Gestion empresarial",
         "Mecatrónica",
       ],
-      clave: "ISIC-2010-224",
-      selectGeneracion: "2016-2021",
-      selectSemestre: "febrero-junio 2022",
+      clave: localStorage.getItem("clave"),
+      selectGeneracion: localStorage.getItem("selectGeneracion"),
+      selectSemestre: localStorage.getItem("selectSemestre"),
       itemsSemestre: ["febrero-junio 2022"],
       itemsGeneracion: ["2014-2019", "2015-2020", "2016-2021"],
       meses: [
@@ -514,33 +525,33 @@ export default {
       ],
 
       //Direccion
-      direccion: "Andador de la mariposa apolo",
-      colonia: "Villa natura",
-      localidad: "Celaya",
-      municipio: "Celaya",
-      estado: "Guanajuato",
-      cp: "38115",
-      telefono: "447-108-5892",
-      correo: "carlitosjl77@gmail.com",
+      direccion: localStorage.getItem("direccion"),
+      colonia: localStorage.getItem("colonia"),
+      localidad: localStorage.getItem("localidad"),
+      municipio: localStorage.getItem("municipio"),
+      estado: localStorage.getItem("estado"),
+      cp: localStorage.getItem("cp"),
+      telefono: localStorage.getItem("telefono"),
+      correo: localStorage.getItem("correo"),
 
       //Proyecto
-      nombreProyecto: "asdasd ",
-      jefeCarrera: "asdasd asd aasd",
-      acesorInterno: "ssssssss sssss",
-      acesorExterno: "pepe",
-      puestoAsesorExterno: "asdd",
-      nombreEmpresa: "Empresa",
-      giroEmpresa: "giro",
-      rfcEmpresa: "ASAS545454",
-      domicilioEmpresa: "dasdasd",
-      coloniaEmpresa: "asdasd",
-      cpEmpresa: "454554",
-      faxEmpresa: "454554",
-      telefonoEmpresa: "000-000-0000",
-      ciudadEmpresa: "dasdad",
-      misionEmpresa: "sadad",
-      titularEmpresa: "dasda",
-      puestoTitularEmpresa: "asdasd",
+      nombreProyecto: localStorage.getItem("nombreProyecto"),
+      jefeCarrera: localStorage.getItem("jefeCarrera"),
+      acesorInterno: localStorage.getItem("acesorInterno"),
+      acesorExterno: localStorage.getItem("acesorExterno"),
+      puestoAsesorExterno: localStorage.getItem("puestoAsesorExterno"),
+      nombreEmpresa: localStorage.getItem("nombreEmpresa"),
+      giroEmpresa: localStorage.getItem("giroEmpresa"),
+      rfcEmpresa: localStorage.getItem("rfcEmpresa"),
+      domicilioEmpresa: localStorage.getItem("domicilioEmpresa"),
+      coloniaEmpresa: localStorage.getItem("coloniaEmpresa"),
+      cpEmpresa: localStorage.getItem("cpEmpresa"),
+      faxEmpresa: localStorage.getItem("faxEmpresa"),
+      telefonoEmpresa: localStorage.getItem("telefonoEmpresa"),
+      ciudadEmpresa: localStorage.getItem("ciudadEmpresa"),
+      misionEmpresa: localStorage.getItem("misionEmpresa"),
+      titularEmpresa: localStorage.getItem("titularEmpresa"),
+      puestoTitularEmpresa: localStorage.getItem("puestoTitularEmpresa"),
 
       //Validacion
       valid: true,
@@ -561,34 +572,23 @@ export default {
       //Tabla
       itemsTabla: [
         {
-          nombre: "Solicitud de egreso",
-          categoriaorden: 1,
           categoria: "Formatos de egreso",
+          contenidos: [
+            { nombre: "Solicitud de egreso" },
+            { nombre: "Formato de no adeudos" },
+          ],
         },
         {
-          nombre: "Formato de no adeudos",
-          categoriaorden: 1,
-          categoria: "Formatos de egreso",
-        },
-        {
-          nombre: "Solicitud del estudiante",
-          categoriaorden: 2,
           categoria: "Formatos de titulación",
+          contenidos: [{ nombre: "Solicitud del estudiante" }],
         },
         {
-          nombre: "Carta de autorizacion",
-          categoriaorden: 3,
           categoria: "Formatos recidencias",
-        },
-        {
-          nombre: "Cronograma",
-          categoriaorden: 3,
-          categoria: "Formatos recidencias",
-        },
-        {
-          nombre: "Solicitud de recidencias",
-          categoriaorden: 3,
-          categoria: "Formatos recidencias",
+          contenidos: [
+            { nombre: "Carta de autorizacion" },
+            { nombre: "Cronograma" },
+            { nombre: "Solicitud de recidencias" },
+          ],
         },
       ],
       headers: [
@@ -912,23 +912,105 @@ export default {
   },
   watch: {
     // cada vez que la variable cambie, esta función será ejecutada
+    //Datos Generales
+    alumno(val) {
+      localStorage.setItem("alumno", val);
+    },
+    noControl(val) {
+      localStorage.setItem("noControl", val);
+    },
+    carrera(val) {
+      localStorage.setItem("carrera", val);
+    },
+    clave(val) {
+      localStorage.setItem("clave", val);
+    },
+    selectGeneracion(val) {
+      localStorage.setItem("selectGeneracion", val);
+    },
+    selectSemestre(val) {
+      localStorage.setItem("selectSemestre", val);
+    },
+
+    //Direccion
+    direccion(val) {
+      localStorage.setItem("direccion", val);
+    },
+    colonia(val) {
+      localStorage.setItem("colonia", val);
+    },
+    localidad(val) {
+      localStorage.setItem("localidad", val);
+    },
+    municipio(val) {
+      localStorage.setItem("municipio", val);
+    },
+    estado(val) {
+      localStorage.setItem("estado", val);
+    },
+    cp(val) {
+      localStorage.setItem("cp", val);
+    },
+
     telefono(val) {
-      let nuevo = val;
-      if (val.length == 4) {
-        this.telefono = nuevo[0] + nuevo[1] + nuevo[2] + "-";
-      } else {
-        if (val.length == 7) {
-          this.telefono =
-            nuevo[0] +
-            nuevo[1] +
-            nuevo[2] +
-            "-" +
-            nuevo[4] +
-            nuevo[5] +
-            nuevo[6] +
-            "-";
-        }
-      }
+      localStorage.setItem("telefono", val);
+    },
+    correo(val) {
+      localStorage.setItem("correo", val);
+    },
+
+    //Proyecto
+    nombreProyecto(val) {
+      localStorage.setItem("nombreProyecto", val);
+    },
+    jefeCarrera(val) {
+      localStorage.setItem("jefeCarrera", val);
+    },
+    acesorInterno(val) {
+      localStorage.setItem("acesorInterno", val);
+    },
+    acesorExterno(val) {
+      localStorage.setItem("acesorExterno", val);
+    },
+    puestoAsesorExterno(val) {
+      localStorage.setItem("puestoAsesorExterno", val);
+    },
+    nombreEmpresa(val) {
+      localStorage.setItem("nombreEmpresa", val);
+    },
+    giroEmpresa(val) {
+      localStorage.setItem("giroEmpresa", val);
+    },
+    rfcEmpresa(val) {
+      localStorage.setItem("rfcEmpresa", val);
+    },
+    domicilioEmpresa(val) {
+      localStorage.setItem("domicilioEmpresa", val);
+    },
+
+    coloniaEmpresa(val) {
+      localStorage.setItem("coloniaEmpresa", val);
+    },
+    cpEmpresa(val) {
+      localStorage.setItem("cpEmpresa", val);
+    },
+    faxEmpresa(val) {
+      localStorage.setItem("faxEmpresa", val);
+    },
+    telefonoEmpresa(val) {
+      localStorage.setItem("telefonoEmpresa", val);
+    },
+    ciudadEmpresa(val) {
+      localStorage.setItem("ciudadEmpresa", val);
+    },
+    misionEmpresa(val) {
+      localStorage.setItem("misionEmpresa", val);
+    },
+    titularEmpresa(val) {
+      localStorage.setItem("titularEmpresa", val);
+    },
+    puestoTitularEmpresa(val) {
+      localStorage.setItem("puestoTitularEmpresa", val);
     },
   },
   computed: {

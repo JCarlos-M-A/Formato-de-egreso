@@ -3,7 +3,7 @@
     <AppBar @cambiarTema="cambiarTema" />
 
     <v-main>
-      <router-view :color="color"/>
+      <router-view :color="color" />
     </v-main>
 
     <Footer :color="color" />
@@ -13,6 +13,8 @@
 <script>
 import AppBar from "@/components/AppBar.vue";
 import Footer from "@/components/Footer.vue";
+
+import { SplashScreen } from "@capacitor/splash-screen";
 export default {
   name: "App",
   components: {
@@ -33,6 +35,10 @@ export default {
         this.color = "#9c1010";
       }
     },
+  },
+  mounted() {
+    // Hide the splash (you should do this on app launch)
+    SplashScreen.hide();
   },
 
   computed: {

@@ -11,6 +11,7 @@
     "@capacitor/cli": "^3.4.3",
     "@capacitor/core": "^3.4.3",
     "@capacitor/filesystem": "^1.1.0",
+    "@capacitor/splash-screen": "^1.2.2",
     "axios": "^0.26.1",
     "core-js": "^3.6.5",
     "jspdf": "^2.5.1",

@@ -15,7 +15,15 @@
 
     <v-spacer></v-spacer>
 
-    <v-switch v-model="switch1" inset label="Tema"></v-switch>
+    <div class="d-flex align-center">
+      <v-switch
+        hide-details
+        v-model="switch1"
+        id="switch"
+        inset
+        label="Tema"
+      ></v-switch>
+    </div>
   </v-app-bar>
 </template>
 
@@ -31,12 +39,15 @@ export default {
     switch1: false,
   }),
   mounted() {
-    //this.colorBarra = "#025";
+    if (localStorage.getItem("switch1") == "true") {
+      //console.log(localStorage.getItem("switch1"));
+      document.getElementById("switch").click();
+    }
   },
   watch: {
     switch1(val) {
       //
-      if (this.switch1) {
+      if (val) {
         this.colorBarra = "#11366a";
         this.logo = "tnm.jpg";
       } else {
@@ -44,6 +55,8 @@ export default {
         this.logo = "itsch.jpg";
       }
       this.$emit("cambiarTema", val);
+      //console.log(val);
+      localStorage.setItem("switch1", val);
     },
   },
 };
