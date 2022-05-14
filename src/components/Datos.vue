@@ -125,19 +125,29 @@
                       label="Generacion*"
                       :color="color"
                       required
-                    ></v-select
-                  ></v-form>
+                    >
+                    </v-select>
+                    <v-select
+                      v-model="selectSemestre"
+                      :items="itemsSemestre"
+                      :rules="[(v) => !!v || 'Semestre requerido']"
+                      label="Semestre*"
+                      :color="color"
+                      required
+                    >
+                    </v-select>
+
+                    <div class="text-center mt-2">
+                      <v-btn :color="color" dark @click="draw"> Firma </v-btn>
+                    </div>
+                  </v-form>
                 </v-alert>
               </v-col>
               <v-spacer></v-spacer>
             </v-row>
           </v-card>
-          <v-btn
-            :color="color"
-            style="margin-bottom: 6rem"
-            dark
-            @click="e1 = 2"
-          >
+
+          <v-btn :color="color" class="mb-10 mt-10" dark @click="e1 = 2">
             Siguiente
           </v-btn>
         </v-stepper-content>
@@ -391,33 +401,40 @@
 
         <v-stepper-content step="4">
           <v-expansion-panels accordion>
-            <v-expansion-panel v-for="item in itemsTabla" :key="item.categoria">
+            <v-expansion-panel
+              style="background-color: #ccc"
+              v-for="item in itemsTabla"
+              :key="item.categoria"
+            >
               <v-expansion-panel-header>
-                {{ item.categoria }}
+                <h4>{{ item.categoria }}</h4>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <v-list subheader two-line>
+                <v-list subheader two-line class="pb-0">
                   <v-list-item
+                    class="colorPanel"
                     v-for="contenido in item.contenidos"
                     :key="contenido.id"
-                    style="border-bottom: 1px solid #000"
+                    style="
+                      border-top: 1px solid #000;
+                      border-bottom: 1px solid #000;
+                      margin-top: -1px;
+                    "
                   >
                     <v-list-item-content>
-                      <v-list-item-title
-                        v-text="contenido.nombre"
-                      ></v-list-item-title>
+                      {{ contenido.nombre }}
                     </v-list-item-content>
 
                     <v-list-item-action style="display: flex">
                       <v-btn icon @click="descargar(contenido.nombre)">
-                        <v-icon x-large color="grey"
+                        <v-icon x-large :color="color"
                           >mdi-cloud-download-outline</v-icon
                         >
                       </v-btn>
                     </v-list-item-action>
                     <v-list-item-action style="display: flex">
                       <v-btn icon @click="ver(contenido.nombre)">
-                        <v-icon x-large color="grey">mdi-eye-outline</v-icon>
+                        <v-icon x-large :color="color">mdi-eye-outline</v-icon>
                       </v-btn>
                     </v-list-item-action>
                   </v-list-item>
@@ -426,21 +443,53 @@
             </v-expansion-panel>
           </v-expansion-panels>
 
-          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 3">
-            Anterior
-          </v-btn>
-          <v-divider vertical class="ml-2 mr-2"></v-divider>
-          <v-btn
-            :color="color"
-            style="margin-bottom: 6rem"
-            dark
-            @click="e1 = 4"
-          >
-            Enviar
-          </v-btn>
+          <div class="mt-4 mb-4 d-flex">
+            <v-btn color="red-grey" class="mr-2" @click="e1 = 3">
+              Anterior
+            </v-btn>
+            <v-btn :color="color" class="ml-2" dark @click="e1 = 4">
+              Enviar
+            </v-btn>
+          </div>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+
+    <v-dialog v-model="dialogFirma" fullscreen hide-overlay>
+      <v-toolbar dark :color="color">
+        <v-toolbar-title>Firma</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn icon dark @click="dialogFirma = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      <v-card>
+        <canvas
+          id="firmaCanvas"
+          style="background-color: rgb(113, 128, 212)"
+        ></canvas>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="danger"
+            text
+            class="mr-2"
+            @click="
+              contextCan.clearRect(0, 0, mainCanvas.width, mainCanvas.height)
+            "
+          >
+            Borrar
+          </v-btn>
+          <v-btn color="primary" text @click="guardaFirma"> Aceptar </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!---->
     <PDFVisor
       :srcPDF="srcPDF"
@@ -595,14 +644,86 @@ export default {
         { text: "Nombre", value: "nombre" },
         { text: "Acciones", value: "acciones" },
       ],
+
+      //firma
+      mainCanvas: "",
+      mainCanvas64: "",
+      contextCan: "",
+      dialogFirma: false,
     };
   },
 
   props: {
     color: String,
   },
-
+  mounted() {
+    //
+    this.draw();
+    setTimeout(() => {
+      this.dialogFirma = false;
+    }, 1);
+  },
   methods: {
+    draw() {
+      this.dialogFirma = true;
+      setTimeout(() => {
+        //Guardar el elemento y el contexto
+        this.mainCanvas = document.getElementById("firmaCanvas");
+        this.contextCan = this.mainCanvas.getContext("2d");
+
+        //variables
+        let paiting = false;
+
+        this.mainCanvas.width = window.innerWidth;
+        this.mainCanvas.height = window.innerHeight;
+
+        const startPosition = (e) => {
+          paiting = true;
+          draw(e);
+          console.log("inicio");
+        };
+
+        const finshPosition = () => {
+          paiting = false;
+          this.contextCan.beginPath();
+          console.log("fin");
+        };
+
+        const draw = (e) => {
+          if (!paiting) return;
+          this.contextCan.lineWhidth = 4;
+          this.contextCan.lineCap = "round";
+
+          this.contextCan.lineTo(e.clientX, e.clientY);
+          this.contextCan.stroke();
+          this.contextCan.beginPath();
+          this.contextCan.moveTo(e.clientX, e.clientY);
+          console.log("draw");
+        };
+
+        /*
+        // Eventos
+        this.mainCanvas.addEventListener("mousedown", startPosition);
+        this.mainCanvas.addEventListener("mouseup", finshPosition);
+        this.mainCanvas.addEventListener("mousemove", draw);
+
+        // Eventos pantallas táctiles
+        this.mainCanvas.addEventListener("touchstart", startPosition);
+        this.mainCanvas.addEventListener("touchend", finshPosition);
+        this.mainCanvas.addEventListener("touchmove", draw);
+        */
+
+        this.mainCanvas.onpointerdown = startPosition;
+        this.mainCanvas.onpointerup = finshPosition;
+        this.mainCanvas.onpointermove = draw;
+      }, 250);
+    },
+
+    guardaFirma() {
+      this.mainCanvas64 = this.mainCanvas.toDataURL();
+      this.dialogFirma = false;
+    },
+
     generar() {
       if (this.$refs.form.validate()) {
         this.e1 = 4;
@@ -932,6 +1053,10 @@ export default {
       localStorage.setItem("selectSemestre", val);
     },
 
+    mainCanvas64(val) {
+      localStorage.setItem("mainCanvas64", val);
+    },
+
     //Direccion
     direccion(val) {
       localStorage.setItem("direccion", val);
@@ -1045,5 +1170,9 @@ export default {
 
 .titulo {
   border-bottom: #002655 solid 2px !important;
+}
+
+.colorPanel {
+  background-color: #ccc;
 }
 </style>

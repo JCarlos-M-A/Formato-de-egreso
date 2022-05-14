@@ -38,7 +38,9 @@ export default {
   },
   mounted() {
     // Hide the splash (you should do this on app launch)
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 500);
   },
 
   computed: {
