@@ -6,7 +6,6 @@
       <router-view :color="color" />
     </v-main>
 
-
     <Footer :color="color" />
   </v-app>
 </template>
