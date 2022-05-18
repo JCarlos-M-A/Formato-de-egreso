@@ -136,10 +136,6 @@
                       required
                     >
                     </v-select>
-
-                    <div class="text-center mt-2">
-                      <v-btn :color="color" dark @click="draw"> Firma </v-btn>
-                    </div>
                   </v-form>
                 </v-alert>
               </v-col>
@@ -646,10 +642,7 @@ export default {
       ],
 
       //firma
-      mainCanvas: "",
       mainCanvas64: "",
-      contextCan: "",
-      dialogFirma: false,
     };
   },
 
@@ -658,10 +651,6 @@ export default {
   },
   mounted() {
     //
-    this.draw();
-    setTimeout(() => {
-      this.dialogFirma = false;
-    }, 1);
   },
   methods: {
     draw() {
@@ -717,11 +706,6 @@ export default {
         this.mainCanvas.onpointerup = finshPosition;
         this.mainCanvas.onpointermove = draw;
       }, 250);
-    },
-
-    guardaFirma() {
-      this.mainCanvas64 = this.mainCanvas.toDataURL();
-      this.dialogFirma = false;
     },
 
     generar() {
