@@ -451,41 +451,6 @@
       </v-stepper-items>
     </v-stepper>
 
-    <v-dialog v-model="dialogFirma" fullscreen hide-overlay>
-      <v-toolbar dark :color="color">
-        <v-toolbar-title>Firma</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-toolbar-items>
-          <v-btn icon dark @click="dialogFirma = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
-      <v-card>
-        <canvas
-          id="firmaCanvas"
-          style="background-color: rgb(113, 128, 212)"
-        ></canvas>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="danger"
-            text
-            class="mr-2"
-            @click="
-              contextCan.clearRect(0, 0, mainCanvas.width, mainCanvas.height)
-            "
-          >
-            Borrar
-          </v-btn>
-          <v-btn color="primary" text @click="guardaFirma"> Aceptar </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
     <!---->
     <PDFVisor
       :srcPDF="srcPDF"
@@ -717,25 +682,48 @@ export default {
     ver(nombre) {
       switch (nombre) {
         case "Solicitud de egreso":
-          this.srcPDF = generarSolicitudEgreso(
-            true,
-            this.meses,
-            this.alumno,
-            this.carrera,
-            this.clave,
-            this.selectSemestre,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo
-          );
-          this.dialog = true;
-          this.tituloPDF = "Solicitud de egreso";
+          console.log(this.alumno);
+          if (this.alumno === "") {
+            this.alumno = " ";
+          }
+          if (
+            this.alumno != "" &&
+            this.carrera != "" &&
+            this.clave != "" &&
+            this.selectSemestre != "" &&
+            this.selectGeneracion != "" &&
+            this.direccion != "" &&
+            this.colonia != "" &&
+            this.localidad != "" &&
+            this.municipio != "" &&
+            this.estado != "" &&
+            this.cp != "" &&
+            this.telefono != "" &&
+            this.correo != ""
+          ) {
+            this.srcPDF = generarSolicitudEgreso(
+              true,
+              this.meses,
+              this.alumno,
+              this.carrera,
+              this.clave,
+              this.selectSemestre,
+              this.selectGeneracion,
+              this.direccion,
+              this.colonia,
+              this.localidad,
+              this.municipio,
+              this.estado,
+              this.cp,
+              this.telefono,
+              this.correo
+            );
+            this.dialog = true;
+            this.tituloPDF = "Solicitud de egreso";
+          } else {
+            console.log("datos nullos");
+          }
+
           break;
         case "Formato de no adeudos":
           this.srcPDF = generarFormatoNoAdeudos(
