@@ -13,6 +13,7 @@
 <script>
 import AppBar from "@/components/AppBar.vue";
 import Footer from "@/components/Footer.vue";
+//import { Word } from "pdf-officegen";
 
 import { SplashScreen } from "@capacitor/splash-screen";
 export default {
@@ -38,6 +39,7 @@ export default {
   },
   mounted() {
     // Hide the splash (you should do this on app launch)
+
     setTimeout(() => {
       SplashScreen.hide();
     }, 500);

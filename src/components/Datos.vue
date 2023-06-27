@@ -2,48 +2,25 @@
   <div>
     <v-stepper v-model="e1">
       <v-stepper-header>
-        <v-stepper-step
-          :color="color"
-          class="hoverManito"
-          :complete="valid"
-          @click="e1 = 1"
-          step="1"
-        >
+        <v-stepper-step :color="color" class="hoverManito" :complete="valid" @click="e1 = 1" step="1">
           Datos.
         </v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step
-          :color="color"
-          :complete="valid2"
-          @click="e1 = 2"
-          class="hoverManito"
-          step="2"
-        >
+        <v-stepper-step :color="color" :complete="valid2" @click="e1 = 2" class="hoverManito" step="2">
           Contacto
         </v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step
-          :color="color"
-          :complete="valid3"
-          @click="e1 = 3"
-          class="hoverManito"
-          step="3"
-        >
+        <v-stepper-step :color="color" :complete="valid3" @click="e1 = 3" class="hoverManito" step="3">
           Datos proyecto
         </v-stepper-step>
 
         <v-divider></v-divider>
 
-        <v-stepper-step
-          :color="color"
-          @click="e1 = 4"
-          class="hoverManito"
-          step="4"
-        >
+        <v-stepper-step :color="color" @click="e1 = 4" class="hoverManito" step="4">
           Salida PDF
         </v-stepper-step>
       </v-stepper-header>
@@ -53,25 +30,14 @@
           <v-card class="mt-6" flat>
             <v-row>
               <v-col cols="12" md="6" lg="10">
-                <v-text-field
-                  outlined
-                  label="N° de control"
-                  v-model="noControlBuscar"
-                  prepend-inner-icon="mdi-magnify"
-                  :color="color"
-                  @keyup.enter="buscar()"
-                >
+                <v-text-field outlined label="N° de control" v-model="noControlBuscar" prepend-inner-icon="mdi-magnify"
+                  :color="color" @keyup.enter="buscar()">
                 </v-text-field>
               </v-col>
               <v-col cols="12" md="6" lg="2">
                 <v-row>
                   <v-spacer></v-spacer>
-                  <v-btn
-                    :color="color"
-                    class="mt-4 ml-2"
-                    dark
-                    @click="buscar()"
-                  >
+                  <v-btn :color="color" class="mt-4 ml-2" dark @click="buscar()">
                     Buscar
                   </v-btn>
                   <v-spacer></v-spacer>
@@ -80,61 +46,32 @@
             </v-row>
           </v-card>
           <v-card class="mb-12 mt-6" flat>
+            <v-card-title>
+              Ingresar datos generales del alumno
+            </v-card-title>
             <v-row>
               <v-spacer></v-spacer>
-              <v-col cols="12" lg="5">
+
+              <v-col cols="12" lg="8">
                 <v-alert border="left" color="#88888810">
                   <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-text-field
-                      v-model="alumno"
-                      :rules="requerido"
-                      label="Nombre*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="alumno" :rules="requerido" label="Nombre*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="noControl"
-                      :rules="requerido"
-                      label="N° control*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="noControl" :rules="requerido" label="N° control*" :color="color"
+                      required></v-text-field>
 
-                    <v-select
-                      :items="itemsCarrera"
-                      v-model="carrera"
-                      :rules="requerido"
-                      :color="color"
-                      label="Carrera*"
-                      required
-                    ></v-select>
+                    <v-select :items="itemsCarrera" v-model="carrera" :rules="requerido" :color="color" label="Carrera*"
+                      required></v-select>
 
-                    <v-text-field
-                      v-model="clave"
-                      :rules="requerido"
-                      :color="color"
-                      label="Clave*"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="clave" :rules="requerido" :color="color" label="Clave*"
+                      required></v-text-field>
 
-                    <v-select
-                      v-model="selectGeneracion"
-                      :items="itemsGeneracion"
-                      :rules="[(v) => !!v || 'Generacion requerida']"
-                      label="Generacion*"
-                      :color="color"
-                      required
-                    >
+                    <v-select v-model="selectGeneracion" :items="itemsGeneracion"
+                      :rules="[(v) => !!v || 'Generacion requerida']" label="Generacion*" :color="color" required>
                     </v-select>
-                    <v-select
-                      v-model="selectSemestre"
-                      :items="itemsSemestre"
-                      :rules="[(v) => !!v || 'Semestre requerido']"
-                      label="Semestre*"
-                      :color="color"
-                      required
-                    >
+                    <v-select v-model="selectSemestre" :items="itemsSemestre"
+                      :rules="[(v) => !!v || 'Semestre requerido']" label="Semestre*" :color="color" required>
                     </v-select>
                   </v-form>
                 </v-alert>
@@ -155,70 +92,29 @@
               <v-col cols="12" lg="5">
                 <v-alert border="left" color="#88888810">
                   <v-form ref="form2" v-model="valid2" lazy-validation>
-                    <v-text-field
-                      v-model="correo"
-                      :rules="emailRules"
-                      label="Correo*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="correo" :rules="emailRules" label="Correo*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="direccion"
-                      :rules="requerido"
-                      label="Direccion*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="direccion" :rules="requerido" label="Direccion*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="colonia"
-                      :rules="requerido"
-                      label="Colonia*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="colonia" :rules="requerido" label="Colonia*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="localidad"
-                      :rules="requerido"
-                      label="Localidad*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="localidad" :rules="requerido" label="Localidad*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="municipio"
-                      :rules="requerido"
-                      label="Municipio*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="municipio" :rules="requerido" label="Municipio*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="estado"
-                      :rules="requerido"
-                      label="Estado*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="estado" :rules="requerido" label="Estado*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="cp"
-                      :rules="requerido"
-                      label="Codigo postal*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="cp" :rules="requerido" label="Codigo postal*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="telefono"
-                      :rules="telRules"
-                      label="Telefono*"
-                      :color="color"
-                      maxlength="12"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="telefono" :rules="telRules" label="Telefono*" :color="color" maxlength="12"
+                      required></v-text-field>
                   </v-form>
                 </v-alert>
               </v-col>
@@ -229,12 +125,7 @@
             Anterior
           </v-btn>
           <v-divider vertical class="ml-2 mr-2"></v-divider>
-          <v-btn
-            :color="color"
-            style="margin-bottom: 6rem"
-            dark
-            @click="e1 = 3"
-          >
+          <v-btn :color="color" style="margin-bottom: 6rem" dark @click="e1 = 3">
             Siguiente
           </v-btn>
         </v-stepper-content>
@@ -246,133 +137,56 @@
               <v-col cols="12" lg="5">
                 <v-alert border="left" color="#88888810">
                   <v-form ref="form3" v-model="valid3" lazy-validation>
-                    <v-text-field
-                      v-model="nombreProyecto"
-                      :rules="requerido"
-                      label="Nombre del proyecto*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="nombreProyecto" :rules="requerido" label="Nombre del proyecto*" :color="color"
+                      required></v-text-field>
 
-                    <v-text-field
-                      v-model="jefeCarrera"
-                      :rules="requerido"
-                      label="Jefe de carrera*"
-                      :color="color"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="acesorInterno"
-                      :rules="requerido"
-                      label="Asesor interno*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="producto" :rules="requerido" label="Producto generado de la Titulación ejem: tesis profesional, tesina, etc.
+                      *" :color="color" required></v-text-field>
+
+                    <v-text-field v-model="jefeCarrera" :rules="requerido" label="Jefe de carrera*" :color="color"
+                      required></v-text-field>
+                    <v-text-field v-model="acesorInterno" :rules="requerido" label="Asesor interno*" :color="color"
+                      required></v-text-field>
                     <v-col>
                       <v-row>
-                        <v-text-field
-                          v-model="acesorExterno"
-                          :rules="requerido"
-                          label="Asesor externo*"
-                          :color="color"
-                          required
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="puestoAsesorExterno"
-                          :rules="requerido"
-                          label="Puesto del asesor(a) externo(a)*"
-                          :color="color"
-                          required
-                        ></v-text-field>
+                        <v-text-field v-model="acesorExterno" :rules="requerido" label="Asesor externo*" :color="color"
+                          required></v-text-field>
+                        <v-text-field v-model="puestoAsesorExterno" :rules="requerido"
+                          label="Puesto del asesor(a) externo(a)*" :color="color" required></v-text-field>
                       </v-row>
                     </v-col>
-                    <v-text-field
-                      v-model="nombreEmpresa"
-                      :rules="requerido"
-                      label="Nombre de la empresa*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="nombreEmpresa" :rules="requerido" label="Nombre de la empresa*" :color="color"
+                      required></v-text-field>
                     <v-col>
                       <v-row>
-                        <v-text-field
-                          v-model="giroEmpresa"
-                          :rules="requerido"
-                          label="Giro, Ramo o Sector:*"
-                          :color="color"
-                          required
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="rfcEmpresa"
-                          :rules="requerido"
-                          label="R.F.C.:*"
-                          :color="color"
-                          required
-                        ></v-text-field>
+                        <v-text-field v-model="giroEmpresa" :rules="requerido" label="Giro, Ramo o Sector:*"
+                          :color="color" required></v-text-field>
+                        <v-text-field v-model="rfcEmpresa" :rules="requerido" label="R.F.C.:*" :color="color"
+                          required></v-text-field>
                       </v-row>
                     </v-col>
-                    <v-text-field
-                      v-model="domicilioEmpresa"
-                      :rules="requerido"
-                      label="Domicilio de la empresa:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="domicilioEmpresa" :rules="requerido" label="Domicilio de la empresa:*"
+                      :color="color" required></v-text-field>
                     <v-col>
                       <v-row>
-                        <v-text-field
-                          v-model="coloniaEmpresa"
-                          :rules="requerido"
-                          label="Colonia:*"
-                          :color="color"
-                          required
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="cpEmpresa"
-                          :rules="requerido"
-                          label="C.P.:*"
-                          :color="color"
-                          required
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="faxEmpresa"
-                          :rules="requerido"
-                          label="Fax:*"
-                          :color="color"
-                          required
-                        ></v-text-field>
+                        <v-text-field v-model="coloniaEmpresa" :rules="requerido" label="Colonia:*" :color="color"
+                          required></v-text-field>
+                        <v-text-field v-model="cpEmpresa" :rules="requerido" label="C.P.:*" :color="color"
+                          required></v-text-field>
+                        <v-text-field v-model="faxEmpresa" :rules="requerido" label="Fax:*" :color="color"
+                          required></v-text-field>
                       </v-row>
                     </v-col>
-                    <v-text-field
-                      v-model="ciudadEmpresa"
-                      :rules="requerido"
-                      label="Ciudad:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="misionEmpresa"
-                      :rules="requerido"
-                      label="Misión de la Empresa:*"
-                      :color="color"
-                      required
-                    ></v-text-field>
+                    <v-text-field v-model="ciudadEmpresa" :rules="requerido" label="Ciudad:*" :color="color"
+                      required></v-text-field>
+                    <v-text-field v-model="misionEmpresa" :rules="requerido" label="Misión de la Empresa:*" :color="color"
+                      required></v-text-field>
                     <v-col>
                       <v-row>
-                        <v-text-field
-                          v-model="titularEmpresa"
-                          :rules="requerido"
-                          label="Nombre del Titular de la empresa:*"
-                          :color="color"
-                          required
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="puestoTitularEmpresa"
-                          :rules="requerido"
-                          label="Puesto del Titular de la empresa:*"
-                          :color="color"
-                          required
-                        ></v-text-field>
+                        <v-text-field v-model="titularEmpresa" :rules="requerido"
+                          label="Nombre del Titular de la empresa:*" :color="color" required></v-text-field>
+                        <v-text-field v-model="puestoTitularEmpresa" :rules="requerido"
+                          label="Puesto del Titular de la empresa:*" :color="color" required></v-text-field>
                       </v-row>
                     </v-col>
                   </v-form>
@@ -385,47 +199,31 @@
             Anterior
           </v-btn>
           <v-divider vertical class="ml-2 mr-2"></v-divider>
-          <v-btn
-            :color="color"
-            style="margin-bottom: 6rem"
-            dark
-            @click="e1 = 4"
-          >
+          <v-btn :color="color" style="margin-bottom: 6rem" dark @click="e1 = 4">
             Siguiente
           </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="4">
           <v-expansion-panels accordion>
-            <v-expansion-panel
-              style="background-color: #ccc"
-              v-for="item in itemsTabla"
-              :key="item.categoria"
-            >
+            <v-expansion-panel style="background-color: #ccc" v-for="item in itemsTabla" :key="item.categoria">
               <v-expansion-panel-header>
                 <h4>{{ item.categoria }}</h4>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-list subheader two-line class="pb-0">
-                  <v-list-item
-                    class="colorPanel"
-                    v-for="contenido in item.contenidos"
-                    :key="contenido.id"
-                    style="
+                  <v-list-item class="colorPanel" v-for="contenido in item.contenidos" :key="contenido.id" style="
                       border-top: 1px solid #000;
                       border-bottom: 1px solid #000;
                       margin-top: -1px;
-                    "
-                  >
+                    ">
                     <v-list-item-content>
                       {{ contenido.nombre }}
                     </v-list-item-content>
 
                     <v-list-item-action style="display: flex">
                       <v-btn icon @click="descargar(contenido.nombre)">
-                        <v-icon x-large :color="color"
-                          >mdi-cloud-download-outline</v-icon
-                        >
+                        <v-icon x-large :color="color">mdi-cloud-download-outline</v-icon>
                       </v-btn>
                     </v-list-item-action>
                     <v-list-item-action style="display: flex">
@@ -452,13 +250,7 @@
     </v-stepper>
 
     <!---->
-    <PDFVisor
-      :srcPDF="srcPDF"
-      :dialogPDF="dialog"
-      :tituloPDF="tituloPDF"
-      :color="color"
-      @update-dialog="update"
-    />
+    <PDFVisor :srcPDF="srcPDF" :dialogPDF="dialog" :tituloPDF="tituloPDF" :color="color" @update-dialog="update" />
     <!---->
     <AlertError :textError="textError" :alertError="alertError" />
     <AlertExito :textExito="textExito" :alertExito="alertExito" />
@@ -470,11 +262,23 @@ import PDFVisor from "../components/PDFVisor";
 import AlertError from "../components/AlertError";
 import AlertExito from "../components/AlertExito";
 import { generarSolicitudEgreso } from "../modules/generarSolicitudEgreso.js";
-import { generarSolicitudEstudiante } from "../modules/generarSolicitudEstudiante.js";
 import { generarCartaAutorizacion } from "../modules/generarCartaAutorizacion.js";
 import { generarFormatoNoAdeudos } from "../modules/generarFormatoNoAdeudos.js";
 import { generarCronograma } from "../modules/generarCronograma.js";
 import { generarSolicitudResidencias } from "../modules/generarSolicitudResidencias.js";
+
+//Documentos Titulacion
+import { generarSolicitudEstudiante } from "../modules/FTitulacion/01-FSolicitudEstudiante";
+import { genFRegistroProyecto } from "../modules/FTitulacion/02-FRegistroProyecto.js"
+import { genFLiberacionProyectoTitulacionIntegral } from "../modules/FTitulacion/03-FLiberacionProyectoTitulacionIntegral"
+import { genFPortadaEmpastadoDocummentoTitulacion } from "../modules/FTitulacion/04-FPortadaEmpastadoDocumentoTitulación"
+import { genFPortadaEmpastado } from "../modules/FTitulacion/05-FPortadaDiscosTitulacion"
+import { genFNoAdeudos } from "../modules/FTitulacion/06-FNoAdeudos"
+import { genFFirma } from "../modules/FTitulacion/07-FFirma"
+import { genFSolicitudCedula } from "../modules/FTitulacion/08-FSolicitudCedula"
+
+
+
 import axios from "axios";
 
 export default {
@@ -546,6 +350,7 @@ export default {
 
       //Proyecto
       nombreProyecto: localStorage.getItem("nombreProyecto"),
+      producto: localStorage.getItem("producto"),
       jefeCarrera: localStorage.getItem("jefeCarrera"),
       acesorInterno: localStorage.getItem("acesorInterno"),
       acesorExterno: localStorage.getItem("acesorExterno"),
@@ -585,12 +390,21 @@ export default {
           categoria: "Formatos de egreso",
           contenidos: [
             { nombre: "Solicitud de egreso" },
-            { nombre: "Formato de no adeudos" },
+            { nombre: "	Formato de registro de proyecto" },
           ],
         },
         {
           categoria: "Formatos de titulación",
-          contenidos: [{ nombre: "Solicitud del estudiante" }],
+          contenidos: [
+          { nombre: "Solicitud del estudiante"},
+          { nombre: "Formato de registro de proyecto" },
+          { nombre: "Formato de liberación del proyecto para la Titulación integral" },
+          { nombre: "Portada para empastado y documento de Titulación" },
+          { nombre: "Portada para discos de Titulación" },
+          { nombre: "Formato de no adeudos titulacion" },
+          { nombre: "Formato de firma" },
+          { nombre: "Solicitud de cedula" }
+          ],
         },
         {
           categoria: "Formatos recidencias",
@@ -680,9 +494,11 @@ export default {
     },
 
     ver(nombre) {
+      //get fecha
+      let date = new Date();
       switch (nombre) {
         case "Solicitud de egreso":
-          console.log(this.alumno);
+          //console.log(this.alumno);
           if (this.alumno === "") {
             this.alumno = " ";
           }
@@ -740,7 +556,33 @@ export default {
           this.tituloPDF = "Solicitud del estudiante";
           break;
         case "Solicitud del estudiante":
+          let datosSolicitudEstudiante = {
+            nJefeCarrera: this.jefeCarrera, //nombre del jefe de carrera
+            nAlumno: this.alumno, // nombre completo del alumno
+            nCarrera: this.carrera, // 
+            noControl: this.noControl,
+            semestre: this.selectSemestre,
+            generacion: this.selectGeneracion,
+            direccion: this.direccion,
+            colonia: this.colonia,
+            localidad: this.localidad,
+            municipio: this.municipio,
+            estado: this.estado,
+            cp: this.cp,
+            telefono: this.telefono,
+            correo: this.correo,
+            nProyecto: this.nombreProyecto,
+            nProducto: this.producto
+          }
           this.srcPDF = generarSolicitudEstudiante(
+            true,
+            datosSolicitudEstudiante
+          );
+          this.dialog = true;
+          this.tituloPDF = "Solicitud del estudiante";
+          break;
+        case "Formato de registro de proyecto":
+          this.srcPDF = genFRegistroProyecto(
             true,
             this.jefeCarrera,
             this.alumno,
@@ -758,7 +600,98 @@ export default {
             this.correo
           );
           this.dialog = true;
-          this.tituloPDF = "Solicitud del estudiante";
+          this.tituloPDF = "Formato de registro de proyecto";
+          break;
+        case "Formato de liberación del proyecto para la Titulación integral":
+          let datos = {
+            lugar: "",
+            fecha: date,
+            /* 
+            1 Lugar y Fecha de expedición de la liberación  
+            2 Nombre del(a) Jefe(a) de División  
+            3 División correspondiente  
+            4 Nombre del estudiante y/o egresado 
+            5 Carrera a la cual pertenece el Estudiante  
+            6 Número de Control del Estudiante  
+            7 Nombre del Proyecto desarrollado  
+            8 Producto generado de la Titulación ejem: tesis profesional, tesina, informe técnico de residencias profesionales, proyecto etc 
+            9 Nombre y firma del (a) asesor(a) interno(a) 
+            10 Nombre y firma del(a) primer(a) revisor(a) 
+            11 Nombre y firma del(a) segundo(a) revisor(a) */
+          }
+
+          this.srcPDF = genFLiberacionProyectoTitulacionIntegral(
+            true,
+            this.jefeCarrera,
+            this.alumno,
+            this.carrera,
+            this.noControl,
+            this.nombreProyecto,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo,
+            this.producto
+          );
+          this.dialog = true;
+          this.tituloPDF = "Formato de liberación del proyecto para la Titulación integral";
+          break;
+          case "Portada para empastado y documento de Titulación":
+          let datosPortadaEmpastado = {
+            nProyecto: this.nombreProyecto,
+            nProducto: this.producto,
+            nCarrera: this.carrera,
+            nAlumno: this.alumno,
+            nAcesor: this.acesorInterno,
+            localidad: this.localidad,
+            estado: this.estado
+          }
+
+          this.srcPDF = genFPortadaEmpastadoDocummentoTitulacion(
+            true,
+            datosPortadaEmpastado
+          );
+          this.dialog = true;
+          this.tituloPDF = "Portada para empastado y documento de Titulación";
+          break;
+        case "Formato de no adeudos titulacion":
+          let datosFNoAdeudos = {
+            nAlumno: this.alumno,
+            noControl: this.noControl,
+            carrera: this.carrera,
+            generacion: this.selectGeneracion,
+            nJefeCarrera: this.jefeCarrera,
+            fecha: date,
+            municipio: this.municipio,
+            estado: this.estado,
+            meses: this.meses
+          }
+
+          this.srcPDF = genFNoAdeudos(
+            true,
+            datosFNoAdeudos
+          );
+          this.dialog = true;
+          this.tituloPDF = "Formato de no adeudos";
+          break;
+        case "Formato de firma":
+          this.srcPDF = genFFirma(
+            true
+          );
+          this.dialog = true;
+          this.tituloPDF = "Formato de firma";
+          break;
+        case "Solicitud de cedula":
+          this.srcPDF = genFSolicitudCedula(
+            true
+          );
+          this.dialog = true;
+          this.tituloPDF = "Solicitud de cedula";
           break;
         case "Carta de autorizacion":
           this.srcPDF = generarCartaAutorizacion(
@@ -818,7 +751,6 @@ export default {
           this.dialog = true;
           this.tituloPDF = "Solicitud de residencias";
           break;
-
         default:
           break;
       }
@@ -884,6 +816,80 @@ export default {
             this.cp,
             this.telefono,
             this.correo
+          );
+          this.alertExito = resultado.alertExito;
+          this.textExito = resultado.textExito;
+          setTimeout(() => {
+            this.alertExito = false;
+          }, 2000);
+          break;
+        case "Formato de registro de proyecto":
+          resultado = new genFRegistroProyecto(
+            false,
+            this.jefeCarrera,
+            this.alumno,
+            this.carrera,
+            this.noControl,
+            this.selectSemestre,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo
+          );
+          this.alertExito = resultado.alertExito;
+          this.textExito = resultado.textExito;
+          setTimeout(() => {
+            this.alertExito = false;
+          }, 2000);
+          break;
+        case "Formato de liberación del proyecto para la Titulación integral":
+          resultado = new genFLiberacionProyectoTitulacionIntegral(
+            false,
+            this.jefeCarrera,
+            this.alumno,
+            this.carrera,
+            this.noControl,
+            this.selectSemestre,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo,
+            this.producto
+          );
+          this.alertExito = resultado.alertExito;
+          this.textExito = resultado.textExito;
+          setTimeout(() => {
+            this.alertExito = false;
+          }, 2000);
+          break;
+        case "Formato de no adeudos":
+          resultado = new genFNoAdeudos(
+            false,
+            this.jefeCarrera,
+            this.alumno,
+            this.carrera,
+            this.noControl,
+            this.selectSemestre,
+            this.selectGeneracion,
+            this.direccion,
+            this.colonia,
+            this.localidad,
+            this.municipio,
+            this.estado,
+            this.cp,
+            this.telefono,
+            this.correo,
+            this.producto
           );
           this.alertExito = resultado.alertExito;
           this.textExito = resultado.textExito;
@@ -968,19 +974,6 @@ export default {
       this.dialog = dialog;
     },
 
-    getBase64(img) {
-      // Create canvas
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      // Set width and height
-      canvas.width = img.width;
-      canvas.height = img.height;
-      // Draw the image
-      ctx.drawImage(img, 0, 0);
-
-      return canvas.toDataURL("img/itsch.jpg");
-    },
-
     buscar() {
       //
       axios
@@ -1060,6 +1053,9 @@ export default {
     nombreProyecto(val) {
       localStorage.setItem("nombreProyecto", val);
     },
+    producto(val) {
+      localStorage.setItem("producto", val);
+    },
     jefeCarrera(val) {
       localStorage.setItem("jefeCarrera", val);
     },
@@ -1129,6 +1125,7 @@ export default {
   background: #888888;
   color: white;
 }
+
 .nms {
   border: #888888, 3px, solid;
 }

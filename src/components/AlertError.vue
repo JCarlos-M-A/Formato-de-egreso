@@ -1,13 +1,8 @@
 <template>
-  <v-alert
-    style="position: fixed; margin-top: 6rem; top: 0; left: 0"
-    dense
-    width="100%"
-    v-model="alertError"
-    border="left"
-    type="warning"
-  >
+  <v-alert style="position: fixed; margin-top: 6rem; top: 0; left: 0" dense width="100%" v-model="alertError"
+    border="left" type="warning">
     {{ textError }}
+    <v-progress-linear indeterminate color="yellow darken-2"></v-progress-linear>
   </v-alert>
 </template>
 

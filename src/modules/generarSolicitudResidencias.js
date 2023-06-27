@@ -146,7 +146,7 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
     doc.rect(40, 165, 80, 8);
     doc.rect(120, 165, 20, 8);
     doc.text("Teléfono:", 121, 168);
-    doc.text(telefonoEmpresa, 141, 168);
+    doc.text("telefonoEmpresa", 141, 168);
     doc.rect(140, 165, 50, 8);
     doc.text("Ciudad:", 21, 168);
     doc.text(ciudadEmpresa, 41, 168);

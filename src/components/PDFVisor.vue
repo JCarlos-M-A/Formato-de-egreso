@@ -23,7 +23,7 @@
         <iframe
           :src="srcPDF"
           class="hidden-md-and-down"
-          height="1000px"
+          style="height: 92vh;"
           width="100%"
         ></iframe>
       </v-card>
