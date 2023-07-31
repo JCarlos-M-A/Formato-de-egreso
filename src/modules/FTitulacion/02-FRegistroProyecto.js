@@ -2,7 +2,7 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import { getBase64 } from "../getBase64.js";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-export function genFRegistroProyecto(accion, jefeCarrera, alumno, carrera, noControl, selectSemestre, selectGeneracion, direccion, colonia, localidad, municipio, estado, cp, telefono, correo) {
+export function genFRegistroProyecto(accion, alumno, contacto, proyecto) {
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF();
     //get base64
@@ -21,7 +21,7 @@ export function genFRegistroProyecto(accion, jefeCarrera, alumno, carrera, noCon
     doc.text("P R E S E N T E.", 20, 73);
 
     doc.setFontSize(12);
-    doc.text("Lugar: " + direccion, 20, 88);
+    doc.text("Lugar: " + contacto.direccion, 20, 88);
     doc.text("_____________________________", 32, 88);
     let fecha = new Date();
     let mes = (fecha.getMonth() < 10) ? '0' + (fecha.getMonth() + 1) : (fecha.getMonth() + 1);
@@ -53,15 +53,15 @@ export function genFRegistroProyecto(accion, jefeCarrera, alumno, carrera, noCon
         body: [
             [
                 { content: "Nombre del Proyecto:" },
-                { content: alumno },
+                { content: proyecto.nombreProyecto },
             ],
             [
                 { content: "Nombre(s) del (de los) asesores:" },
-                { content: carrera },
+                { content: proyecto.acesorInterno },
             ],
             [
                 { content: "Número de estudiantes:" },
-                { content: noControl },
+                { content: "1" },
             ],
         ],
     });
@@ -97,9 +97,9 @@ export function genFRegistroProyecto(accion, jefeCarrera, alumno, carrera, noCon
 
             //contenido
             [   //Alumno 1 
-                { content: alumno },
-                { content: noControl },
-                { content: carrera },
+                { content: alumno.nombre },
+                { content: alumno.noControl },
+                { content: alumno.carrera },
             ],
             [   //Alumno 1 
                 { content: "" },
@@ -124,7 +124,7 @@ export function genFRegistroProyecto(accion, jefeCarrera, alumno, carrera, noCon
         "center"
     );
     doc.text(
-        alumno,
+        proyecto.jefeCarrera,
         doc.internal.pageSize.width / 2,
         240,
         "center"

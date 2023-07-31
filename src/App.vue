@@ -29,7 +29,6 @@ export default {
   methods: {
     //
     cambiarTema(val) {
-      //console.log(val);
       if (val) {
         this.color = "#11366a";
       } else {
@@ -39,14 +38,9 @@ export default {
   },
   mounted() {
     // Hide the splash (you should do this on app launch)
-
     setTimeout(() => {
       SplashScreen.hide();
     }, 500);
-  },
-
-  computed: {
-    //
   },
 };
 </script>

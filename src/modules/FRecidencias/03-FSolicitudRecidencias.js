@@ -1,8 +1,8 @@
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import { getBase64 } from "./getBase64.js";
+import { getBase64 } from "../getBase64.js";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera, nombreProyecto, nombreEmpresa, giroEmpresa, rfcEmpresa, domicilioEmpresa, cpEmpresa, faxEmpresa, coloniaEmpresa, telefonoEmpresa, ciudadEmpresa, misionEmpresa, titularEmpresa, puestoTitularEmpresa, acesorExterno, puestoAsesorExterno, alumno, noControl, direccion, correo, localidad) {
+export function genFSolicitudResidencias(accion, alumno, contacto, proyecto, meses) {
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF();
     //get base64
@@ -67,11 +67,11 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
         68
     );
 
-    doc.text("C. " + jefeCarrera, 20, 78);
+    doc.text("C. " + proyecto.jefeCarrera, 20, 78);
 
     doc.text("Jefe de la División de ", 20, 85);
     doc.text(
-        carrera,
+        alumno.carrera,
         20 + doc.getTextWidth("Jefe de la División de "),
         85
     );
@@ -79,7 +79,7 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
     doc.rect(20, 95, 50, 8);
     doc.text("NOMBRE DEL PROYECTO:", 21, 101);
     doc.rect(75, 95, 115, 8);
-    doc.text(nombreProyecto, 76, 101);
+    doc.text(proyecto.nombreProyecto, 76, 101);
 
     doc.rect(20, 105, 40, 8);
     doc.text("OPCION ELEGIDA:", 21, 111);
@@ -112,7 +112,7 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
     doc.rect(20, 133, 20, 8);
     doc.rect(40, 133, 150, 8);
     doc.text("Nombre:", 21, 136);
-    doc.text(nombreEmpresa, 41, 136);
+    doc.text(proyecto.nombreEmpresa, 41, 136);
 
     doc.rect(20, 141, 20, 8);
     doc.rect(40, 141, 100, 8);
@@ -120,27 +120,27 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
     doc.rect(152, 141, 38, 8);
     doc.text("Giro, Ramo", 21, 144);
     doc.text("o Sector:", 21, 147);
-    doc.text(giroEmpresa, 41, 144);
+    doc.text(proyecto.giroEmpresa, 41, 144);
     doc.text("R.F.C.", 141, 144);
-    doc.text(rfcEmpresa, 153, 144);
+    doc.text(proyecto.rfcEmpresa, 153, 144);
 
     doc.rect(20, 149, 20, 8);
     doc.rect(40, 149, 150, 8);
     doc.text("Domicilio:", 21, 152);
-    doc.text(domicilioEmpresa, 41, 152);
+    doc.text(proyecto.domicilioEmpresa, 41, 152);
 
     doc.rect(20, 157, 20, 8);
     doc.rect(40, 157, 80, 8);
     doc.rect(120, 157, 12, 8);
     doc.text("C.P.", 121, 160);
-    doc.text(cpEmpresa, 133, 160);
+    doc.text(proyecto.cpEmpresa, 133, 160);
     doc.rect(132, 157, 20, 8);
     doc.rect(152, 157, 12, 8);
     doc.text("Fax:", 153, 160);
-    doc.text(faxEmpresa, 165, 160);
+    doc.text(proyecto.faxEmpresa, 165, 160);
     doc.rect(164, 157, 26, 8);
     doc.text("Colonia:", 21, 160);
-    doc.text(coloniaEmpresa, 41, 160);
+    doc.text(proyecto.coloniaEmpresa, 41, 160);
 
     doc.rect(20, 165, 20, 8);
     doc.rect(40, 165, 80, 8);
@@ -149,32 +149,32 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
     doc.text("telefonoEmpresa", 141, 168);
     doc.rect(140, 165, 50, 8);
     doc.text("Ciudad:", 21, 168);
-    doc.text(ciudadEmpresa, 41, 168);
+    doc.text(proyecto.ciudadEmpresa, 41, 168);
 
     doc.rect(20, 173, 20, 32);
     doc.rect(40, 173, 150, 32);
     doc.text("Misión de la", 21, 176);
     doc.text("Empresa:", 21, 180);
-    doc.text(misionEmpresa, 41, 176);
+    doc.text(proyecto.misionEmpresa, 41, 176);
 
     doc.rect(20, 205, 35, 8);
     doc.text("Nombre del Titular de", 21, 208);
     doc.text("la empresa:", 21, 211);
-    doc.text(titularEmpresa, 56, 208);
+    doc.text(proyecto.titularEmpresa, 56, 208);
     doc.rect(55, 205, 65, 8);
     doc.rect(120, 205, 20, 8);
     doc.text(" Puesto:", 121, 208);
-    doc.text(puestoTitularEmpresa, 141, 208);
+    doc.text(proyecto.puestoTitularEmpresa, 141, 208);
     doc.rect(140, 205, 50, 8);
 
     doc.rect(20, 213, 35, 8);
     doc.text("Nombre del", 21, 216);
     doc.text("Asesor(a) Externo(a):", 21, 219);
-    doc.text(acesorExterno, 56, 216);
+    doc.text(proyecto.acesorExterno, 56, 216);
     doc.rect(55, 213, 65, 8);
     doc.rect(120, 213, 20, 8);
     doc.text(" Puesto:", 121, 216);
-    doc.text(puestoAsesorExterno, 141, 216);
+    doc.text(proyecto.puestoAsesorExterno, 141, 216);
     doc.rect(140, 213, 50, 8);
 
     doc.rect(20, 221, 50, 10);
@@ -216,21 +216,21 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
         body: [
             [
                 { content: "Nombre:", colSpan: 1 },
-                { content: alumno, colSpan: 5 },
+                { content: alumno.nombre, colSpan: 5 },
             ],
             [
                 { content: "Carrera:", colSpan: 1 },
-                { content: carrera, colSpan: 2 },
+                { content: alumno.carrera, colSpan: 2 },
                 { content: "No. de control:", colSpan: 1 },
-                { content: noControl, colSpan: 2 },
+                { content: alumno.noControl, colSpan: 2 },
             ],
             [
                 { content: "Domicilio:", colSpan: 1 },
-                { content: direccion, colSpan: 5 },
+                { content: contacto.direccion, colSpan: 5 },
             ],
             [
                 { content: "E-mail:", colSpan: 1, rowSpan: 2 },
-                { content: correo, colSpan: 2, rowSpan: 2 },
+                { content: contacto.correo, colSpan: 2, rowSpan: 2 },
                 { content: "Para Seguridad Social acudir", colSpan: 1, rowSpan: 2 },
                 { content: "IMSS ( )", colSpan: 1, rowSpan: 1 },
                 { content: "ISSSTE ( )       OTROS( )", colSpan: 1, rowSpan: 1 },
@@ -238,14 +238,14 @@ export function generarSolicitudResidencias(accion, meses, jefeCarrera, carrera,
             [{ content: "No. :", colSpan: 2 }],
             [
                 { content: "Ciudad:", colSpan: 1 },
-                { content: localidad, colSpan: 2 },
+                { content: contacto.localidad, colSpan: 2 },
                 { content: "Teléfono: (no celular)", colSpan: 1 },
                 { content: "", colSpan: 2 },
             ],
         ],
     });
 
-    doc.text(alumno, doc.internal.pageSize.width / 2, 150, "center");
+    doc.text(alumno.nombre, doc.internal.pageSize.width / 2, 150, "center");
     doc.text(
         "__________________________",
         doc.internal.pageSize.width / 2,

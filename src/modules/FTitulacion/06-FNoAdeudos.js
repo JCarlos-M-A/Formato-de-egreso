@@ -1,7 +1,7 @@
 import { jsPDF } from "jspdf";
 import { getBase64 } from "../getBase64";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-export function genFNoAdeudos(accion, datosFNoAdeudos) {
+export function genFNoAdeudos(accion, alumno, contacto, proyecto, meses) {
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF({ filename: "Formatode no adeudos.pdf" });
     //get base64
@@ -24,16 +24,16 @@ export function genFNoAdeudos(accion, datosFNoAdeudos) {
         { maxWidth: 170, align: "center" }
     );
     doc.text("Nombre:", 25, 45);
-    doc.text(datosFNoAdeudos.nAlumno, 44, 45);
+    doc.text(alumno.nombre, 44, 45);
     doc.text("___________________________________", 43, 45);
     doc.text("No. Control:", 128, 45);
-    doc.text(datosFNoAdeudos.noControl, 154, 45);
+    doc.text(alumno.noControl, 154, 45);
     doc.text("____________", 153, 45);
     doc.text("Carrera:", 25, 50);
-    doc.text(datosFNoAdeudos.carrera, 44, 50);
+    doc.text(alumno.carrera, 44, 50);
     doc.text("___________________________________", 43, 50);
     doc.text("Generación:", 128, 50);
-    doc.text(datosFNoAdeudos.generacion, 154, 50);
+    doc.text(alumno.generacion, 154, 50);
     doc.text(" ____________ ", 152, 50);
 
     ///////////
@@ -54,7 +54,7 @@ export function genFNoAdeudos(accion, datosFNoAdeudos) {
     doc.setFontSize(12);
     doc.text("JEFE DE CARRERA.", 132, 60);
     doc.setFontSize(12);
-    doc.text(datosFNoAdeudos.nJefeCarrera, 132, 70);
+    doc.text(proyecto.jefeCarrera, 136, 76);
     doc.setFontSize(7);
     doc.text("ANOTAR NOMBRE Y FIRMA EL RESPONSABLE DEL ÁREA.", 118, 63);
     doc.setFontSize(7);
@@ -181,12 +181,11 @@ export function genFNoAdeudos(accion, datosFNoAdeudos) {
     );
     doc.setFontSize(10);
     doc.text("NOMBRE Y FIRMA", 140, 225);
-    ///////
 
     ///
     doc.setFontSize(11);
-    let lugar = datosFNoAdeudos.municipio + ", " + datosFNoAdeudos.estado;
-    let fecha = datosFNoAdeudos.fecha.getDate() + ' de ' + datosFNoAdeudos.meses[datosFNoAdeudos.fecha.getMonth()] + ' del ' + datosFNoAdeudos.fecha.getFullYear();
+    let lugar = contacto.municipio + " " + contacto.estado+",";
+    let fecha = date.getDate() + ' de ' + meses[date.getMonth()] + ' del ' + date.getFullYear();
     let lugarFecha = lugar + ' a ' + fecha;
     doc.text(lugarFecha,
         doc.internal.pageSize.width/2,

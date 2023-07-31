@@ -18,10 +18,7 @@ export default {
   }),
   props: {
     color: String,
-  },
-  watch: {
-    //
-  },
+  }
 };
 </script>
 <style scoped>

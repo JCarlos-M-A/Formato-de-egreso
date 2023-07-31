@@ -3,7 +3,7 @@ import "jspdf-autotable";
 import { getBase64 } from "../getBase64.js";
 import { Filesystem, Directory } from "@capacitor/filesystem";//amdroid
 //importamos los datos necesarios 
-export function genFLiberacionProyectoTitulacionIntegral(accion, jefeCarrera, alumno, carrera, noControl, nombreProyecto, selectGeneracion, direccion, colonia, localidad, municipio, estado, cp, telefono, correo, producto) {
+export function genFLiberacionProyectoTitulacionIntegral(accion, alumno, contacto, proyecto) {
 
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF();
@@ -29,12 +29,12 @@ export function genFLiberacionProyectoTitulacionIntegral(accion, jefeCarrera, al
     doc.text("Asunto: Liberación de proyecto para la Titulación Integral", doc.internal.pageSize.width - doc.getTextWidth("Asunto: Liberación de proyecto para la Titulación Integral") - 20, 56);
 
     doc.setFontSize(14);
-    doc.text("C. " + jefeCarrera, 20, 70);
+    doc.text("C. " + proyecto.jefeCarrera, 20, 70);
     doc.setLineWidth(0.5);
     doc.line(25, 71, (doc.internal.pageSize.width / 2), 71);
 
-    doc.text("JEFE (A) DE DIVISIÓN DE " + carrera, 20, 77);
-    doc.line(20 + doc.getTextWidth("JEFE (A) DE DIVISIÓN DE "), 78, doc.getTextWidth("JEFE (A) DE DIVISIÓN DE " + carrera) + 21, 78);
+    doc.text("JEFE (A) DE DIVISIÓN DE " + alumno.carrera, 20, 77);
+    doc.line(20 + doc.getTextWidth("JEFE (A) DE DIVISIÓN DE "), 78, doc.getTextWidth("JEFE (A) DE DIVISIÓN DE " + alumno.carrera) + 21, 78);
     doc.text("P R E S E N T E.", 20, 83);
     doc.setFontSize(13);
     doc.text(
@@ -66,23 +66,23 @@ export function genFLiberacionProyectoTitulacionIntegral(accion, jefeCarrera, al
         body: [
             [
                 { content: "Nombre del estudiante y/o egresado:" },
-                { content: alumno },
+                { content: alumno.nombre },
             ],
             [
                 { content: "Carrera:" },
-                { content: carrera },
+                { content: alumno.carrera },
             ],
             [
                 { content: "Número de control:" },
-                { content: noControl },
+                { content: alumno.noControl },
             ],
             [
                 { content: "Nombre del Proyecto:" },
-                { content: nombreProyecto },
+                { content: proyecto.nombreProyecto },
             ],
             [
                 { content: "Producto:" },
-                { content: producto },
+                { content: proyecto.producto },
             ],
         ],
     });
@@ -120,9 +120,9 @@ export function genFLiberacionProyectoTitulacionIntegral(accion, jefeCarrera, al
         ],
         body: [
             [
-                { content: alumno },
-                { content: alumno },
-                { content: alumno },
+                { content: proyecto.acesorInterno },
+                { content: proyecto.acesorInterno },
+                { content: proyecto.acesorInterno },
             ],
             [
                 { content: "Nombre y firma del asesor" },

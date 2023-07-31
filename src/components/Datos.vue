@@ -1,212 +1,65 @@
 <template>
   <div>
-    <v-stepper v-model="e1">
+    <v-stepper v-model="step">
       <v-stepper-header>
-        <v-stepper-step :color="color" class="hoverManito" :complete="valid" @click="e1 = 1" step="1">
+        <v-stepper-step :color="color" class="hoverPointer" :complete="valid" @click="step = 1" step="1">
           Datos.
         </v-stepper-step>
-
         <v-divider></v-divider>
-
-        <v-stepper-step :color="color" :complete="valid2" @click="e1 = 2" class="hoverManito" step="2">
+        <v-stepper-step :color="color" :complete="valid2" @click="step = 2" class="hoverPointer" step="2">
           Contacto
         </v-stepper-step>
-
         <v-divider></v-divider>
-
-        <v-stepper-step :color="color" :complete="valid3" @click="e1 = 3" class="hoverManito" step="3">
+        <v-stepper-step :color="color" :complete="valid3" @click="step = 3" class="hoverPointer" step="3">
           Datos proyecto
         </v-stepper-step>
-
         <v-divider></v-divider>
-
-        <v-stepper-step :color="color" @click="e1 = 4" class="hoverManito" step="4">
+        <v-stepper-step :color="color" @click="step = 4" class="hoverPointer" step="4">
           Salida PDF
         </v-stepper-step>
       </v-stepper-header>
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <v-card class="mt-6" flat>
-            <v-row>
-              <v-col cols="12" md="6" lg="10">
-                <v-text-field outlined label="N° de control" v-model="noControlBuscar" prepend-inner-icon="mdi-magnify"
-                  :color="color" @keyup.enter="buscar()">
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" md="6" lg="2">
-                <v-row>
-                  <v-spacer></v-spacer>
-                  <v-btn :color="color" class="mt-4 ml-2" dark @click="buscar()">
-                    Buscar
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-card>
-          <v-card class="mb-12 mt-6" flat>
-            <v-card-title>
-              Ingresar datos generales del alumno
-            </v-card-title>
-            <v-row>
-              <v-spacer></v-spacer>
+          <!-- By numero de control -->
+          <Busqueda :color="color" @resultBusqueda="resultBusqueda" />
+          <!-- Datos generales componente -->
+          <DatosGenerales :color="color" ref="datosGenerales" />
 
-              <v-col cols="12" lg="8">
-                <v-alert border="left" color="#88888810">
-                  <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-text-field v-model="alumno" :rules="requerido" label="Nombre*" :color="color"
-                      required></v-text-field>
-
-                    <v-text-field v-model="noControl" :rules="requerido" label="N° control*" :color="color"
-                      required></v-text-field>
-
-                    <v-select :items="itemsCarrera" v-model="carrera" :rules="requerido" :color="color" label="Carrera*"
-                      required></v-select>
-
-                    <v-text-field v-model="clave" :rules="requerido" :color="color" label="Clave*"
-                      required></v-text-field>
-
-                    <v-select v-model="selectGeneracion" :items="itemsGeneracion"
-                      :rules="[(v) => !!v || 'Generacion requerida']" label="Generacion*" :color="color" required>
-                    </v-select>
-                    <v-select v-model="selectSemestre" :items="itemsSemestre"
-                      :rules="[(v) => !!v || 'Semestre requerido']" label="Semestre*" :color="color" required>
-                    </v-select>
-                  </v-form>
-                </v-alert>
-              </v-col>
-              <v-spacer></v-spacer>
-            </v-row>
-          </v-card>
-
-          <v-btn :color="color" class="mb-10 mt-10" dark @click="e1 = 2">
+          <v-btn :color="color" class="mb-10" dark @click="step = 2">
             Siguiente
           </v-btn>
         </v-stepper-content>
 
-        <v-stepper-content step="2">
-          <v-card class="mb-12" flat>
-            <v-row>
-              <v-spacer></v-spacer>
-              <v-col cols="12" lg="5">
-                <v-alert border="left" color="#88888810">
-                  <v-form ref="form2" v-model="valid2" lazy-validation>
-                    <v-text-field v-model="correo" :rules="emailRules" label="Correo*" :color="color"
-                      required></v-text-field>
+        <v-stepper-content style="margin-bottom: 4rem;" step="2">
+          <!-- DatosContacto -->
+          <DatosContacto :color="color" ref="datosContacto" />
 
-                    <v-text-field v-model="direccion" :rules="requerido" label="Direccion*" :color="color"
-                      required></v-text-field>
-
-                    <v-text-field v-model="colonia" :rules="requerido" label="Colonia*" :color="color"
-                      required></v-text-field>
-
-                    <v-text-field v-model="localidad" :rules="requerido" label="Localidad*" :color="color"
-                      required></v-text-field>
-
-                    <v-text-field v-model="municipio" :rules="requerido" label="Municipio*" :color="color"
-                      required></v-text-field>
-
-                    <v-text-field v-model="estado" :rules="requerido" label="Estado*" :color="color"
-                      required></v-text-field>
-
-                    <v-text-field v-model="cp" :rules="requerido" label="Codigo postal*" :color="color"
-                      required></v-text-field>
-
-                    <v-text-field v-model="telefono" :rules="telRules" label="Telefono*" :color="color" maxlength="12"
-                      required></v-text-field>
-                  </v-form>
-                </v-alert>
-              </v-col>
-              <v-spacer></v-spacer>
-            </v-row>
-          </v-card>
-          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 1">
+          <v-btn color="red-grey" class="mb-10 mr-5" @click="step = 1">
             Anterior
           </v-btn>
-          <v-divider vertical class="ml-2 mr-2"></v-divider>
-          <v-btn :color="color" style="margin-bottom: 6rem" dark @click="e1 = 3">
+          <v-btn :color="color" class="mb-10" dark @click="step = 3">
             Siguiente
           </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="3">
-          <v-card class="mb-12" flat>
-            <v-row>
-              <v-spacer></v-spacer>
-              <v-col cols="12" lg="5">
-                <v-alert border="left" color="#88888810">
-                  <v-form ref="form3" v-model="valid3" lazy-validation>
-                    <v-text-field v-model="nombreProyecto" :rules="requerido" label="Nombre del proyecto*" :color="color"
-                      required></v-text-field>
 
-                    <v-text-field v-model="producto" :rules="requerido" label="Producto generado de la Titulación ejem: tesis profesional, tesina, etc.
-                      *" :color="color" required></v-text-field>
+          <!-- datos del proyecto -->
+          <DatosProyecto :color="color" ref="datosProyecto" />
 
-                    <v-text-field v-model="jefeCarrera" :rules="requerido" label="Jefe de carrera*" :color="color"
-                      required></v-text-field>
-                    <v-text-field v-model="acesorInterno" :rules="requerido" label="Asesor interno*" :color="color"
-                      required></v-text-field>
-                    <v-col>
-                      <v-row>
-                        <v-text-field v-model="acesorExterno" :rules="requerido" label="Asesor externo*" :color="color"
-                          required></v-text-field>
-                        <v-text-field v-model="puestoAsesorExterno" :rules="requerido"
-                          label="Puesto del asesor(a) externo(a)*" :color="color" required></v-text-field>
-                      </v-row>
-                    </v-col>
-                    <v-text-field v-model="nombreEmpresa" :rules="requerido" label="Nombre de la empresa*" :color="color"
-                      required></v-text-field>
-                    <v-col>
-                      <v-row>
-                        <v-text-field v-model="giroEmpresa" :rules="requerido" label="Giro, Ramo o Sector:*"
-                          :color="color" required></v-text-field>
-                        <v-text-field v-model="rfcEmpresa" :rules="requerido" label="R.F.C.:*" :color="color"
-                          required></v-text-field>
-                      </v-row>
-                    </v-col>
-                    <v-text-field v-model="domicilioEmpresa" :rules="requerido" label="Domicilio de la empresa:*"
-                      :color="color" required></v-text-field>
-                    <v-col>
-                      <v-row>
-                        <v-text-field v-model="coloniaEmpresa" :rules="requerido" label="Colonia:*" :color="color"
-                          required></v-text-field>
-                        <v-text-field v-model="cpEmpresa" :rules="requerido" label="C.P.:*" :color="color"
-                          required></v-text-field>
-                        <v-text-field v-model="faxEmpresa" :rules="requerido" label="Fax:*" :color="color"
-                          required></v-text-field>
-                      </v-row>
-                    </v-col>
-                    <v-text-field v-model="ciudadEmpresa" :rules="requerido" label="Ciudad:*" :color="color"
-                      required></v-text-field>
-                    <v-text-field v-model="misionEmpresa" :rules="requerido" label="Misión de la Empresa:*" :color="color"
-                      required></v-text-field>
-                    <v-col>
-                      <v-row>
-                        <v-text-field v-model="titularEmpresa" :rules="requerido"
-                          label="Nombre del Titular de la empresa:*" :color="color" required></v-text-field>
-                        <v-text-field v-model="puestoTitularEmpresa" :rules="requerido"
-                          label="Puesto del Titular de la empresa:*" :color="color" required></v-text-field>
-                      </v-row>
-                    </v-col>
-                  </v-form>
-                </v-alert>
-              </v-col>
-              <v-spacer></v-spacer>
-            </v-row>
-          </v-card>
-          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="e1 = 2">
+          <v-btn color="red-grey" style="margin-bottom: 6rem" @click="step = 2">
             Anterior
           </v-btn>
           <v-divider vertical class="ml-2 mr-2"></v-divider>
-          <v-btn :color="color" style="margin-bottom: 6rem" dark @click="e1 = 4">
+          <v-btn :color="color" style="margin-bottom: 6rem" dark @click="step = 4">
             Siguiente
           </v-btn>
         </v-stepper-content>
 
         <v-stepper-content step="4">
           <v-expansion-panels accordion>
-            <v-expansion-panel style="background-color: #ccc" v-for="item in itemsTabla" :key="item.categoria">
+            <v-expansion-panel style="background-color: #ccc" v-for="item in itemsPanel" :key="item.categoria">
               <v-expansion-panel-header>
                 <h4>{{ item.categoria }}</h4>
               </v-expansion-panel-header>
@@ -238,10 +91,10 @@
           </v-expansion-panels>
 
           <div class="mt-4 mb-4 d-flex">
-            <v-btn color="red-grey" class="mr-2" @click="e1 = 3">
+            <v-btn color="red-grey" class="mr-2" @click="step = 3">
               Anterior
             </v-btn>
-            <v-btn :color="color" class="ml-2" dark @click="e1 = 4">
+            <v-btn :color="color" class="ml-2" dark @click="step = 4">
               Enviar
             </v-btn>
           </div>
@@ -251,78 +104,67 @@
 
     <!---->
     <PDFVisor :srcPDF="srcPDF" :dialogPDF="dialog" :tituloPDF="tituloPDF" :color="color" @update-dialog="update" />
-    <!---->
-    <AlertError :textError="textError" :alertError="alertError" />
-    <AlertExito :textExito="textExito" :alertExito="alertExito" />
+    <AlertaGeneral :textoAGeneral="textoAGeneral" :alertaGeneral="alertaGeneral" :tipoAGeneral="tipoAGeneral" />
+
   </div>
 </template>
 
 <script>
-import PDFVisor from "../components/PDFVisor";
-import AlertError from "../components/AlertError";
-import AlertExito from "../components/AlertExito";
-import { generarSolicitudEgreso } from "../modules/generarSolicitudEgreso.js";
-import { generarCartaAutorizacion } from "../modules/generarCartaAutorizacion.js";
-import { generarFormatoNoAdeudos } from "../modules/generarFormatoNoAdeudos.js";
-import { generarCronograma } from "../modules/generarCronograma.js";
-import { generarSolicitudResidencias } from "../modules/generarSolicitudResidencias.js";
+//Documentos Egreso
+import { genFSolicitudEgreso } from "../modules/FEgresos/01-FSolicitudEgreso";
 
 //Documentos Titulacion
-import { generarSolicitudEstudiante } from "../modules/FTitulacion/01-FSolicitudEstudiante";
+import { genFSolicitudEstudiante } from "../modules/FTitulacion/01-FSolicitudEstudiante";
 import { genFRegistroProyecto } from "../modules/FTitulacion/02-FRegistroProyecto.js"
 import { genFLiberacionProyectoTitulacionIntegral } from "../modules/FTitulacion/03-FLiberacionProyectoTitulacionIntegral"
 import { genFPortadaEmpastadoDocummentoTitulacion } from "../modules/FTitulacion/04-FPortadaEmpastadoDocumentoTitulación"
-import { genFPortadaEmpastado } from "../modules/FTitulacion/05-FPortadaDiscosTitulacion"
 import { genFNoAdeudos } from "../modules/FTitulacion/06-FNoAdeudos"
 import { genFFirma } from "../modules/FTitulacion/07-FFirma"
 import { genFSolicitudCedula } from "../modules/FTitulacion/08-FSolicitudCedula"
 
+//Documentos Recidencias
+import { genFCartaAutorizacion } from "../modules/FRecidencias/01-FCartaAutorizacion";
+import { genFCronograma } from "../modules/FRecidencias/02-FCronograma";
+import { genFSolicitudResidencias } from "../modules/FRecidencias/03-FSolicitudRecidencias";
 
-
-import axios from "axios";
+import PDFVisor from "../components/PDFVisor";
+import AlertaGeneral from "./AlertaGeneral";
+import DatosGenerales from "../components/formularios/DatosGenerales";
+import DatosContacto from "../components/formularios/DatosContacto";
+import DatosProyecto from "../components/formularios/DatosProyecto";
+import Busqueda from "./Busqueda.vue";
 
 export default {
   components: {
     PDFVisor,
-    AlertError,
-    AlertExito,
+    AlertaGeneral,
+    DatosGenerales,
+    DatosContacto,
+    DatosProyecto,
+    Busqueda
   },
   data() {
     return {
-      //Alerta error
-      textError: "",
-      alertError: false,
-
-      //Alerta exito
-      textExito: "",
-      alertExito: false,
+      //Alerta general
+      alertaGeneral: false,
+      textoAGeneral: '',
+      tipoAGeneral: 'error',
 
       //DATOS PDF
       srcPDF: "",
       dialog: false,
       tituloPDF: "",
 
-      e1: 1,
+      //variable step
+      step: 1,
+      valid: true,
+      valid2: true,
+      valid3: true,
 
       //Search
       noControlBuscar: "",
 
-      //datos generales
-      alumno: localStorage.getItem("alumno"),
-      noControl: localStorage.getItem("noControl"),
-      carrera: localStorage.getItem("carrera"),
-      itemsCarrera: [
-        "Ingenieria en sistemas computacionales",
-        "Bioquimica",
-        "Nanotecnologia",
-        "Gestion empresarial",
-        "Mecatrónica",
-      ],
-      clave: localStorage.getItem("clave"),
-      selectGeneracion: localStorage.getItem("selectGeneracion"),
-      selectSemestre: localStorage.getItem("selectSemestre"),
-      itemsSemestre: ["febrero-junio 2022"],
-      itemsGeneracion: ["2014-2019", "2015-2020", "2016-2021"],
+      //meses
       meses: [
         "Enero",
         "Febrero",
@@ -338,54 +180,8 @@ export default {
         "Diciembre",
       ],
 
-      //Direccion
-      direccion: localStorage.getItem("direccion"),
-      colonia: localStorage.getItem("colonia"),
-      localidad: localStorage.getItem("localidad"),
-      municipio: localStorage.getItem("municipio"),
-      estado: localStorage.getItem("estado"),
-      cp: localStorage.getItem("cp"),
-      telefono: localStorage.getItem("telefono"),
-      correo: localStorage.getItem("correo"),
-
-      //Proyecto
-      nombreProyecto: localStorage.getItem("nombreProyecto"),
-      producto: localStorage.getItem("producto"),
-      jefeCarrera: localStorage.getItem("jefeCarrera"),
-      acesorInterno: localStorage.getItem("acesorInterno"),
-      acesorExterno: localStorage.getItem("acesorExterno"),
-      puestoAsesorExterno: localStorage.getItem("puestoAsesorExterno"),
-      nombreEmpresa: localStorage.getItem("nombreEmpresa"),
-      giroEmpresa: localStorage.getItem("giroEmpresa"),
-      rfcEmpresa: localStorage.getItem("rfcEmpresa"),
-      domicilioEmpresa: localStorage.getItem("domicilioEmpresa"),
-      coloniaEmpresa: localStorage.getItem("coloniaEmpresa"),
-      cpEmpresa: localStorage.getItem("cpEmpresa"),
-      faxEmpresa: localStorage.getItem("faxEmpresa"),
-      telefonoEmpresa: localStorage.getItem("telefonoEmpresa"),
-      ciudadEmpresa: localStorage.getItem("ciudadEmpresa"),
-      misionEmpresa: localStorage.getItem("misionEmpresa"),
-      titularEmpresa: localStorage.getItem("titularEmpresa"),
-      puestoTitularEmpresa: localStorage.getItem("puestoTitularEmpresa"),
-
-      //Validacion
-      valid: true,
-      valid2: true,
-      valid3: true,
-      emailRules: [
-        (v) => !!v || "Correo es requerido",
-        (v) => /.+@.+\..+/.test(v) || "Correo no valido",
-      ],
-      telRules: [
-        (v) => !!v || "Telefono es requerido",
-        (v) =>
-          /[0-9]{3}[-]{1}[0-9]{3}[-]{1}[0-9]{4}/.test(v) ||
-          "Telefono no valido",
-      ],
-      requerido: [(v) => !!v || "Dato requerido"],
-
       //Tabla
-      itemsTabla: [
+      itemsPanel: [
         {
           categoria: "Formatos de egreso",
           contenidos: [
@@ -396,14 +192,14 @@ export default {
         {
           categoria: "Formatos de titulación",
           contenidos: [
-          { nombre: "Solicitud del estudiante"},
-          { nombre: "Formato de registro de proyecto" },
-          { nombre: "Formato de liberación del proyecto para la Titulación integral" },
-          { nombre: "Portada para empastado y documento de Titulación" },
-          { nombre: "Portada para discos de Titulación" },
-          { nombre: "Formato de no adeudos titulacion" },
-          { nombre: "Formato de firma" },
-          { nombre: "Solicitud de cedula" }
+            { nombre: "Solicitud del estudiante" },
+            { nombre: "Formato de registro de proyecto" },
+            { nombre: "Formato de liberación del proyecto para la Titulación integral" },
+            { nombre: "Portada para empastado y documento de Titulación" },
+            { nombre: "Portada para discos de Titulación" },
+            { nombre: "Formato de no adeudos titulacion" },
+            { nombre: "Formato de firma" },
+            { nombre: "Solicitud de cedula" }
           ],
         },
         {
@@ -414,10 +210,6 @@ export default {
             { nombre: "Solicitud de recidencias" },
           ],
         },
-      ],
-      headers: [
-        { text: "Nombre", value: "nombre" },
-        { text: "Acciones", value: "acciones" },
       ],
 
       //firma
@@ -487,96 +279,31 @@ export default {
       }, 250);
     },
 
-    generar() {
-      if (this.$refs.form.validate()) {
-        this.e1 = 4;
-      }
+    //metodo que emite el componente de busqueda
+    resultBusqueda(res) {
+      console.log(res)
     },
 
     ver(nombre) {
-      //get fecha
-      let date = new Date();
       switch (nombre) {
+        //Formatos egresos
         case "Solicitud de egreso":
-          //console.log(this.alumno);
-          if (this.alumno === "") {
-            this.alumno = " ";
-          }
-          if (
-            this.alumno != "" &&
-            this.carrera != "" &&
-            this.clave != "" &&
-            this.selectSemestre != "" &&
-            this.selectGeneracion != "" &&
-            this.direccion != "" &&
-            this.colonia != "" &&
-            this.localidad != "" &&
-            this.municipio != "" &&
-            this.estado != "" &&
-            this.cp != "" &&
-            this.telefono != "" &&
-            this.correo != ""
-          ) {
-            this.srcPDF = generarSolicitudEgreso(
-              true,
-              this.meses,
-              this.alumno,
-              this.carrera,
-              this.clave,
-              this.selectSemestre,
-              this.selectGeneracion,
-              this.direccion,
-              this.colonia,
-              this.localidad,
-              this.municipio,
-              this.estado,
-              this.cp,
-              this.telefono,
-              this.correo
-            );
-            this.dialog = true;
-            this.tituloPDF = "Solicitud de egreso";
-          } else {
-            console.log("datos nullos");
-          }
-
-          break;
-        case "Formato de no adeudos":
-          this.srcPDF = generarFormatoNoAdeudos(
+          this.srcPDF = genFSolicitudEgreso(
             true,
-            this.alumno,
-            this.noControl,
-            this.carrera,
-            this.selectGeneracion,
-            this.municipio,
-            this.estado,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
             this.meses
           );
           this.dialog = true;
-          this.tituloPDF = "Solicitud del estudiante";
+          this.tituloPDF = "Solicitud de egreso";
           break;
+        //Formatos de titulacion
         case "Solicitud del estudiante":
-          let datosSolicitudEstudiante = {
-            nJefeCarrera: this.jefeCarrera, //nombre del jefe de carrera
-            nAlumno: this.alumno, // nombre completo del alumno
-            nCarrera: this.carrera, // 
-            noControl: this.noControl,
-            semestre: this.selectSemestre,
-            generacion: this.selectGeneracion,
-            direccion: this.direccion,
-            colonia: this.colonia,
-            localidad: this.localidad,
-            municipio: this.municipio,
-            estado: this.estado,
-            cp: this.cp,
-            telefono: this.telefono,
-            correo: this.correo,
-            nProyecto: this.nombreProyecto,
-            nProducto: this.producto
-          }
-          this.srcPDF = generarSolicitudEstudiante(
+          this.srcPDF = genFSolicitudEstudiante(
             true,
-            datosSolicitudEstudiante
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
           );
           this.dialog = true;
           this.tituloPDF = "Solicitud del estudiante";
@@ -584,97 +311,60 @@ export default {
         case "Formato de registro de proyecto":
           this.srcPDF = genFRegistroProyecto(
             true,
-            this.jefeCarrera,
-            this.alumno,
-            this.carrera,
-            this.noControl,
-            this.selectSemestre,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
           );
           this.dialog = true;
           this.tituloPDF = "Formato de registro de proyecto";
           break;
         case "Formato de liberación del proyecto para la Titulación integral":
-          let datos = {
-            lugar: "",
-            fecha: date,
-            /* 
-            1 Lugar y Fecha de expedición de la liberación  
-            2 Nombre del(a) Jefe(a) de División  
-            3 División correspondiente  
-            4 Nombre del estudiante y/o egresado 
-            5 Carrera a la cual pertenece el Estudiante  
-            6 Número de Control del Estudiante  
-            7 Nombre del Proyecto desarrollado  
-            8 Producto generado de la Titulación ejem: tesis profesional, tesina, informe técnico de residencias profesionales, proyecto etc 
-            9 Nombre y firma del (a) asesor(a) interno(a) 
-            10 Nombre y firma del(a) primer(a) revisor(a) 
-            11 Nombre y firma del(a) segundo(a) revisor(a) */
-          }
-
           this.srcPDF = genFLiberacionProyectoTitulacionIntegral(
             true,
-            this.jefeCarrera,
-            this.alumno,
-            this.carrera,
-            this.noControl,
-            this.nombreProyecto,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo,
-            this.producto
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
           );
           this.dialog = true;
           this.tituloPDF = "Formato de liberación del proyecto para la Titulación integral";
           break;
-          case "Portada para empastado y documento de Titulación":
-          let datosPortadaEmpastado = {
-            nProyecto: this.nombreProyecto,
-            nProducto: this.producto,
-            nCarrera: this.carrera,
-            nAlumno: this.alumno,
-            nAcesor: this.acesorInterno,
-            localidad: this.localidad,
-            estado: this.estado
-          }
-
+        case "Portada para empastado y documento de Titulación":
           this.srcPDF = genFPortadaEmpastadoDocummentoTitulacion(
             true,
-            datosPortadaEmpastado
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
           );
           this.dialog = true;
           this.tituloPDF = "Portada para empastado y documento de Titulación";
           break;
-        case "Formato de no adeudos titulacion":
-          let datosFNoAdeudos = {
-            nAlumno: this.alumno,
-            noControl: this.noControl,
-            carrera: this.carrera,
-            generacion: this.selectGeneracion,
-            nJefeCarrera: this.jefeCarrera,
-            fecha: date,
-            municipio: this.municipio,
-            estado: this.estado,
-            meses: this.meses
-          }
-
+        case "Portada para discos de Titulación":
+          this.srcPDF = genFPortadaDiscosTitulacion(
+            true,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.meses
+          );
+          this.dialog = true;
+          this.tituloPDF = "Portada para discos de Titulación";
+          break;
+        case "Formato de no adeudos":
           this.srcPDF = genFNoAdeudos(
             true,
-            datosFNoAdeudos
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.meses
+          );
+          this.dialog = true;
+          this.tituloPDF = "Solicitud del estudiante";
+          break;
+        case "Formato de no adeudos titulacion":
+          this.srcPDF = genFNoAdeudos(
+            true,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
+            this.meses
           );
           this.dialog = true;
           this.tituloPDF = "Formato de no adeudos";
@@ -693,60 +383,33 @@ export default {
           this.dialog = true;
           this.tituloPDF = "Solicitud de cedula";
           break;
+        //Formatos de recidencia
         case "Carta de autorizacion":
-          this.srcPDF = generarCartaAutorizacion(
+          this.srcPDF = genFCartaAutorizacion(
             true,
-            this.meses,
-            this.jefeCarrera,
-            this.carrera,
-            this.alumno,
-            this.noControl,
-            this.nombreProyecto,
-            this.acesorInterno
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosProyecto.datos(),
+            this.meses
           );
           this.dialog = true;
           this.tituloPDF = "Carta de autorización";
           break;
         case "Cronograma":
-          this.srcPDF = generarCronograma(
+          this.srcPDF = genFCronograma(
             true,
-            this.carrera,
-            this.alumno,
-            this.noControl,
-            this.nombreEmpresa,
-            this.acesorExterno,
-            this.acesorInterno,
-            this.nombreProyecto
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosProyecto.datos()
           );
           this.dialog = true;
           this.tituloPDF = "Cronograma";
           break;
         case "Solicitud de recidencias":
-          this.srcPDF = generarSolicitudResidencias(
+          this.srcPDF = genFSolicitudResidencias(
             true,
-            this.meses,
-            this.jefeCarrera,
-            this.carrera,
-            this.nombreProyecto,
-            this.nombreEmpresa,
-            this.giroEmpresa,
-            this.rfcEmpresa,
-            this.domicilioEmpresa,
-            this.cpEmpresa,
-            this.faxEmpresa,
-            this.coloniaEmpresa,
-            this.telefonoEmpresa,
-            this.ciudadEmpresa,
-            this.misionEmpresa,
-            this.titularEmpresa,
-            this.puestoTitularEmpresa,
-            this.acesorExterno,
-            this.puestoAsesorExterno,
-            this.alumno,
-            this.noControl,
-            this.direccion,
-            this.correo,
-            this.localidad
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
+            this.meses
           );
           this.dialog = true;
           this.tituloPDF = "Solicitud de residencias";
@@ -758,213 +421,186 @@ export default {
 
     descargar(nombre) {
       switch (nombre) {
+        //Formatos egresos
         case "Solicitud de egreso":
-          let resultado = new generarSolicitudEgreso(
+          let resultado = genFSolicitudEgreso(
             false,
-            this.meses,
-            this.alumno,
-            this.carrera,
-            this.clave,
-            this.selectSemestre,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo
-          );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
-          setTimeout(() => {
-            this.alertExito = false;
-          }, 2000);
-          break;
-        case "Formato de no adeudos":
-          resultado = new generarFormatoNoAdeudos(
-            false,
-            this.alumno,
-            this.noControl,
-            this.carrera,
-            this.selectGeneracion,
-            this.municipio,
-            this.estado,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
             this.meses
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
           }, 2000);
           break;
+        //Formatos de titulacion
         case "Solicitud del estudiante":
-          resultado = new generarSolicitudEstudiante(
-            false,
-            this.jefeCarrera,
-            this.alumno,
-            this.carrera,
-            this.noControl,
-            this.selectSemestre,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo
+        resultado = genFSolicitudEstudiante(
+          false,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
           }, 2000);
           break;
         case "Formato de registro de proyecto":
-          resultado = new genFRegistroProyecto(
+          resultado = genFRegistroProyecto(
             false,
-            this.jefeCarrera,
-            this.alumno,
-            this.carrera,
-            this.noControl,
-            this.selectSemestre,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
           }, 2000);
           break;
         case "Formato de liberación del proyecto para la Titulación integral":
-          resultado = new genFLiberacionProyectoTitulacionIntegral(
+          resultado = genFLiberacionProyectoTitulacionIntegral(
             false,
-            this.jefeCarrera,
-            this.alumno,
-            this.carrera,
-            this.noControl,
-            this.selectSemestre,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo,
-            this.producto
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
+          }, 2000);
+          break;
+        case "Portada para empastado y documento de Titulación":
+          resultado = genFPortadaEmpastadoDocummentoTitulacion(
+            false,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
+          );
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
+          setTimeout(() => {
+            this.alertaGeneral = false;
+          }, 2000);
+          break;
+        case "Portada para discos de Titulación":
+          resultado = genFPortadaDiscosTitulacion(
+            false,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.meses
+          );
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
+          setTimeout(() => {
+            this.alertaGeneral = false;
           }, 2000);
           break;
         case "Formato de no adeudos":
-          resultado = new genFNoAdeudos(
+          resultado = genFNoAdeudos(
             false,
-            this.jefeCarrera,
-            this.alumno,
-            this.carrera,
-            this.noControl,
-            this.selectSemestre,
-            this.selectGeneracion,
-            this.direccion,
-            this.colonia,
-            this.localidad,
-            this.municipio,
-            this.estado,
-            this.cp,
-            this.telefono,
-            this.correo,
-            this.producto
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.meses
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
           }, 2000);
           break;
-        case "Carta de autorizacion":
-          resultado = new generarCartaAutorizacion(
+        case "Formato de no adeudos titulacion":
+          resultado = genFNoAdeudos(
             false,
-            this.meses,
-            this.jefeCarrera,
-            this.carrera,
-            this.alumno,
-            this.noControl,
-            this.nombreProyecto,
-            this.acesorInterno
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
+            this.meses
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
+          }, 2000);
+          break;
+        case "Formato de firma":
+          resultado = genFFirma(
+            false
+          );
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
+          setTimeout(() => {
+            this.alertaGeneral = false;
+          }, 2000);
+          break;
+        case "Solicitud de cedula":
+          resultado = genFSolicitudCedula(
+            false
+          );
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
+          setTimeout(() => {
+            this.alertaGeneral = false;
+          }, 2000);
+          break;
+        //Formatos de recidencia
+        case "Carta de autorizacion":
+          resultado = genFCartaAutorizacion(
+            false,
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosProyecto.datos(),
+            this.meses
+          );
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
+          setTimeout(() => {
+            this.alertaGeneral = false;
           }, 2000);
           break;
         case "Cronograma":
-          resultado = new generarCronograma(
+          resultado = genFCronograma(
             false,
-            this.carrera,
-            this.alumno,
-            this.noControl,
-            this.nombreEmpresa,
-            this.acesorExterno,
-            this.acesorInterno,
-            this.nombreProyecto
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosProyecto.datos()
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
           }, 2000);
           break;
         case "Solicitud de recidencias":
-          resultado = new generarSolicitudResidencias(
+          resultado = genFSolicitudResidencias(
             false,
-            this.meses,
-            this.jefeCarrera,
-            this.carrera,
-            this.nombreProyecto,
-            this.nombreEmpresa,
-            this.giroEmpresa,
-            this.rfcEmpresa,
-            this.domicilioEmpresa,
-            this.cpEmpresa,
-            this.faxEmpresa,
-            this.coloniaEmpresa,
-            this.telefonoEmpresa,
-            this.ciudadEmpresa,
-            this.misionEmpresa,
-            this.titularEmpresa,
-            this.puestoTitularEmpresa,
-            this.acesorExterno,
-            this.puestoAsesorExterno,
-            this.alumno,
-            this.noControl,
-            this.direccion,
-            this.correo,
-            this.localidad
+            this.$refs.datosGenerales.datos(),
+            this.$refs.datosContacto.datos(),
+            this.$refs.datosProyecto.datos(),
+            this.meses
           );
-          this.alertExito = resultado.alertExito;
-          this.textExito = resultado.textExito;
+          this.alertaGeneral = resultado.alertExito;
+          this.tipoAGeneral = 'success';
+          this.textoAGeneral = resultado.textExito;
           setTimeout(() => {
-            this.alertExito = false;
+            this.alertaGeneral = false;
           }, 2000);
           break;
-
         default:
           break;
       }
@@ -974,146 +610,41 @@ export default {
       this.dialog = dialog;
     },
 
-    buscar() {
-      //
-      axios
-        .get("/alumno/alumnoNoControl?noControl=" + this.noControlBuscar)
-        .then((response) => {
-          //console.log(response.data);
-          this.alumno =
-            response.data[0].nombre +
-            response.data[0].apellidoP +
-            response.data[0].apellidoM;
-          this.noControl = response.data[0].noControl;
-        })
-        .catch((error) => {
-          //console.log(error+"");
-          this.alertError = true;
-          this.textError = error + "";
-          setTimeout(() => {
-            this.alertError = false;
-          }, 2000);
-        });
-    },
+    validDatosGenerales(datos) {
+      let validacion = true;
+      if (!datos.nombre) {
+        validacion = false;
+      }
+      if (!datos.noControl) {
+        validacion = false;
+      }
+      if (!datos.carrera) {
+        validacion = false;
+      }
+      if (!datos.clave) {
+        validacion = false;
+      }
+      if (!datos.generacion) {
+        validacion = false;
+      }
+      if (!datos.semestre) {
+        validacion = false;
+      }
+
+      return validacion;
+    }
   },
   watch: {
     // cada vez que la variable cambie, esta función será ejecutada
-    //Datos Generales
-    alumno(val) {
-      localStorage.setItem("alumno", val);
-    },
-    noControl(val) {
-      localStorage.setItem("noControl", val);
-    },
-    carrera(val) {
-      localStorage.setItem("carrera", val);
-    },
-    clave(val) {
-      localStorage.setItem("clave", val);
-    },
-    selectGeneracion(val) {
-      localStorage.setItem("selectGeneracion", val);
-    },
-    selectSemestre(val) {
-      localStorage.setItem("selectSemestre", val);
-    },
-
     mainCanvas64(val) {
       localStorage.setItem("mainCanvas64", val);
     },
-
-    //Direccion
-    direccion(val) {
-      localStorage.setItem("direccion", val);
-    },
-    colonia(val) {
-      localStorage.setItem("colonia", val);
-    },
-    localidad(val) {
-      localStorage.setItem("localidad", val);
-    },
-    municipio(val) {
-      localStorage.setItem("municipio", val);
-    },
-    estado(val) {
-      localStorage.setItem("estado", val);
-    },
-    cp(val) {
-      localStorage.setItem("cp", val);
-    },
-
-    telefono(val) {
-      localStorage.setItem("telefono", val);
-    },
-    correo(val) {
-      localStorage.setItem("correo", val);
-    },
-
-    //Proyecto
-    nombreProyecto(val) {
-      localStorage.setItem("nombreProyecto", val);
-    },
-    producto(val) {
-      localStorage.setItem("producto", val);
-    },
-    jefeCarrera(val) {
-      localStorage.setItem("jefeCarrera", val);
-    },
-    acesorInterno(val) {
-      localStorage.setItem("acesorInterno", val);
-    },
-    acesorExterno(val) {
-      localStorage.setItem("acesorExterno", val);
-    },
-    puestoAsesorExterno(val) {
-      localStorage.setItem("puestoAsesorExterno", val);
-    },
-    nombreEmpresa(val) {
-      localStorage.setItem("nombreEmpresa", val);
-    },
-    giroEmpresa(val) {
-      localStorage.setItem("giroEmpresa", val);
-    },
-    rfcEmpresa(val) {
-      localStorage.setItem("rfcEmpresa", val);
-    },
-    domicilioEmpresa(val) {
-      localStorage.setItem("domicilioEmpresa", val);
-    },
-
-    coloniaEmpresa(val) {
-      localStorage.setItem("coloniaEmpresa", val);
-    },
-    cpEmpresa(val) {
-      localStorage.setItem("cpEmpresa", val);
-    },
-    faxEmpresa(val) {
-      localStorage.setItem("faxEmpresa", val);
-    },
-    telefonoEmpresa(val) {
-      localStorage.setItem("telefonoEmpresa", val);
-    },
-    ciudadEmpresa(val) {
-      localStorage.setItem("ciudadEmpresa", val);
-    },
-    misionEmpresa(val) {
-      localStorage.setItem("misionEmpresa", val);
-    },
-    titularEmpresa(val) {
-      localStorage.setItem("titularEmpresa", val);
-    },
-    puestoTitularEmpresa(val) {
-      localStorage.setItem("puestoTitularEmpresa", val);
-    },
-  },
-  computed: {
-    //
-  },
+  }
 };
 </script>
 
 <style>
-.hoverManito:hover {
+.hoverPointer:hover {
   cursor: pointer !important;
 }
 
@@ -1126,19 +657,11 @@ export default {
   color: white;
 }
 
-.nms {
-  border: #888888, 3px, solid;
-}
-
 .tabla {
   margin-left: 10% !important;
   margin-right: 10% !important;
   margin-bottom: 5% !important;
   margin-top: 5% !important;
-}
-
-.titulo {
-  border-bottom: #002655 solid 2px !important;
 }
 
 .colorPanel {

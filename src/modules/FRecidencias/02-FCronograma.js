@@ -1,15 +1,14 @@
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import { getBase64 } from "./getBase64.js";
+import { getBase64 } from "../getBase64.js";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-export function generarCronograma(accion, carrera, alumno, noControl, nombreEmpresa, acesorExterno, acesorInterno, nombreProyecto) {
+export function genFCronograma(accion, alumno, proyecto) {
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF({ orientation: "l" });
     //get base64
     let itsch = getBase64(document.getElementById("imag"));
     //get fecha
     let date = new Date();
-
     doc.addImage(itsch, "jpeg", 20, 15, 20, 20);
     doc.setFontSize(12);
     doc.setFont(undefined, "bold");
@@ -26,7 +25,7 @@ export function generarCronograma(accion, carrera, alumno, noControl, nombreEmpr
         "center"
     );
     doc.text(
-        "DIVISIÓN DE " + carrera.toUpperCase(),
+        "DIVISIÓN DE " + alumno.carrera.toUpperCase(),
         doc.internal.pageSize.width / 2,
         55,
         "center"
@@ -41,7 +40,7 @@ export function generarCronograma(accion, carrera, alumno, noControl, nombreEmpr
     doc.setFont(undefined, "italic");
     doc.text("ALUMNO:", 70, 75);
     const textWidthA = doc.getTextWidth("ALUMNO:");
-    doc.text(alumno, 70 + textWidthA, 75);
+    doc.text(alumno.nombre, 70 + textWidthA, 75);
     doc.text(
         "_________________________________________________________",
         70 + textWidthA,
@@ -49,12 +48,11 @@ export function generarCronograma(accion, carrera, alumno, noControl, nombreEmpr
     );
     doc.text("No. DE CONTROL:", 190, 75);
     const textWidthN = doc.getTextWidth("No. DE CONTROL:");
-    doc.text(noControl, 190 + textWidthN, 75);
+    doc.text(alumno.noControl, 190 + textWidthN, 75);
     doc.text("______________________________", 190 + textWidthN, 76);
 
     doc.text("PERIODO DE REALIZACIÓN:", 41, 80);
-    doc.text(
-        " del      de          del 2021 al     de              del 2021",
+    doc.text("",
         90,
         80
     );
@@ -64,22 +62,22 @@ export function generarCronograma(accion, carrera, alumno, noControl, nombreEmpr
         81
     );
     doc.text("EMPRESA:", 201, 80);
-    doc.text(" " + nombreEmpresa, 217, 81);
+    doc.text(" " + proyecto.nombreEmpresa, 217, 81);
     doc.text("______________________________", 217, 81);
 
     doc.text("ASESOR EXTERNO:", 54, 85);
-    doc.text(" " + acesorExterno, 84, 86);
+    doc.text(" " + proyecto.acesorExterno, 84, 86);
     doc.text(
         "_________________________________________________________",
         84,
         86
     );
     doc.text("ASESOR INTERNO:", 188, 85);
-    doc.text(" " + acesorInterno, 217, 86);
+    doc.text(" " + proyecto.acesorInterno, 217, 86);
     doc.text("______________________________", 217, 86);
 
     doc.text("NOMBRE DEL PROYECTO:", 44, 90);
-    doc.text(" " + nombreProyecto, 84, 91);
+    doc.text(" " + proyecto.nombreProyecto, 84, 91);
     doc.text(
         "_________________________________________________________________________________________________________",
         84,

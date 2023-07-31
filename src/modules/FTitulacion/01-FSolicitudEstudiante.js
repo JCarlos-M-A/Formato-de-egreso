@@ -2,7 +2,7 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import { getBase64 } from "../getBase64";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-export function generarSolicitudEstudiante(accion, datosSolicitudEstudiante) {
+export function genFSolicitudEstudiante(accion, alumno, contacto, proyecto) {
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF();
     //get base64
@@ -15,17 +15,17 @@ export function generarSolicitudEstudiante(accion, datosSolicitudEstudiante) {
     doc.setFont(undefined, "bold");
     doc.text("INSTITUTO TECNOLÓGICO SUPERIOR DE CIUDAD HIDALGO", 50, 25);
     doc.setFont(undefined, "normal");
-    doc.text("Lugar y fecha: " + datosSolicitudEstudiante.localidad + ", " + datosSolicitudEstudiante.estado + " a " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear(), 90, 50);
+    doc.text("Lugar y fecha: " + contacto.localidad + ", " + contacto.estado + " a " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear(), 90, 50);
     doc.setLineWidth(0.5); 
     doc.line(90+doc.getTextWidth('Lugar y fecha: '), 52, (doc.internal.pageSize.width-20), 52);
 
     doc.setFontSize(12);
     doc.setFont(undefined, "bold");
-    doc.text("C. " + datosSolicitudEstudiante.nJefeCarrera, 20, 63);
+    doc.text("C. " + proyecto.jefeCarrera, 20, 63);
     doc.line(25, 64, (doc.internal.pageSize.width/2), 64);
 
     doc.setFontSize(10);
-    doc.text("JEFE(A) DE DIVISIÓN DE " + datosSolicitudEstudiante.nCarrera, 20, 70);
+    doc.text("JEFE(A) DE DIVISIÓN DE " + alumno.carrera, 20, 70);
     doc.text("P R E S E N T E", 20, 75);
 
 
@@ -58,23 +58,23 @@ export function generarSolicitudEstudiante(accion, datosSolicitudEstudiante) {
         body: [
             [
                 { content: "Nombre:" },
-                { content: datosSolicitudEstudiante.nAlumno },
+                { content: alumno.nombre },
             ],
             [
                 { content: "Carrera:" },
-                { content: datosSolicitudEstudiante.nCarrera },
+                { content: alumno.carrera },
             ],
             [
                 { content: "No. de Control:" },
-                { content: datosSolicitudEstudiante.noControl },
+                { content: alumno.noControl },
             ],
             [
                 { content: "Nombre del proyecto:" },
-                { content: datosSolicitudEstudiante.nProyecto },
+                { content: proyecto.nombreProyecto },
             ],
             [
                 { content: "Producto:" },
-                { content: datosSolicitudEstudiante.nProducto },
+                { content: proyecto.producto },
             ],
         ],
     });
@@ -87,7 +87,7 @@ export function generarSolicitudEstudiante(accion, datosSolicitudEstudiante) {
         "center"
     );
     doc.text(
-        datosSolicitudEstudiante.nAlumno,
+        alumno.nombre,
         doc.internal.pageSize.width / 2,
         198,
         "center"
@@ -127,15 +127,15 @@ export function generarSolicitudEstudiante(accion, datosSolicitudEstudiante) {
         body: [
             [
                 { content: "Dirección:" },
-                { content: datosSolicitudEstudiante.localidad + " " + datosSolicitudEstudiante.estado },
+                { content: contacto.localidad + " " + contacto.estado },
             ],
             [
                 { content: "Teléfono particular o de contacto:" },
-                { content: datosSolicitudEstudiante.telefono },
+                { content: contacto.telefono },
             ],
             [
                 { content: "Correo electrónico del estudiante:" },
-                { content: datosSolicitudEstudiante.correo },
+                { content: contacto.correo },
             ],
         ],
     });

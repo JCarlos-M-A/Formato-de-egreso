@@ -1,33 +1,40 @@
 <template>
-  <v-text-field
-    style="margin-right: 2rem; margin-top: 1rem"
-    outlined
-    label="Busqueda"
-    v-model="busqueda"
-    prepend-inner-icon="mdi-magnify"
-  >
-  </v-text-field>
+  <div class="d-flex justify-space-between mx-4 mt-2">
+    <v-text-field outlined label="N° de control" v-model="busqueda" prepend-inner-icon="mdi-magnify" :color="color"
+      @keyup.enter="buscar()">
+    </v-text-field>
+    <v-btn :color="color" class="ml-3 mt-2" dark @click="buscar()">
+      Buscar
+    </v-btn>
+  </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  props: {
-    buscar: {
-      type: String,
-      default: "",
-    },
-  },
-  watch: {
-    busqueda(val) {
-      this.$emit("update-buscar", val);
-    },
-    buscar() {
-      this.busqueda = this.buscar;
-    },
-  },
-
   data: () => ({
     busqueda: "",
   }),
+  props: {
+    noControl: {
+      type: String,
+      default: "",
+    },
+    color: String,
+  },
+  methods: {
+    buscar() {
+      //
+      axios
+        .get("/alumno/alumnoNoControl?noControl=" + this.busqueda)
+        .then((response) => {
+          //console.log(response.data);
+          //emite response
+        })
+        .catch((error) => {
+          //emite error
+        });
+    },
+  }
 };
 </script>

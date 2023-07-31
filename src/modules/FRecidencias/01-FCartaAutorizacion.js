@@ -1,7 +1,7 @@
 import { jsPDF } from "jspdf";
-import { getBase64 } from "./getBase64.js";
+import { getBase64 } from "../getBase64";
 import { Filesystem, Directory } from "@capacitor/filesystem";
-export function generarCartaAutorizacion(accion, meses, jefeCarrera, carrera, alumno, noControl, nombreProyecto, acesorInterno) {
+export function genFCartaAutorizacion(accion, alumno, proyecto, meses) {
     // Default export is a4 paper, portrait, using millimeters for units
     const doc = new jsPDF();
     //get base64
@@ -28,13 +28,13 @@ export function generarCartaAutorizacion(accion, meses, jefeCarrera, carrera, al
 
     doc.setFont(undefined, "bold");
     doc.text("C.", 20, 80);
-    doc.text(jefeCarrera, 23, 80);
+    doc.text(proyecto.jefeCarrera, 23, 80);
     doc.text("___________________________________", 23, 80);
 
     doc.setFontSize(10);
     doc.text("JEFE(A) DE CARRERA DE INGENIERÍA", 20, 85);
-    doc.text(carrera.toUpperCase(), 20, 90);
-    const textWidth = doc.getTextWidth(carrera.toUpperCase());
+    doc.text(alumno.carrera.toUpperCase(), 20, 90);
+    const textWidth = doc.getTextWidth(alumno.carrera.toUpperCase());
     doc.line(20, 91, 20 + textWidth, 91);
     doc.text("  DEL ITSCH", 20 + textWidth, 90);
     doc.text("P R E S E N T E", 20, 95);
@@ -47,13 +47,13 @@ export function generarCartaAutorizacion(accion, meses, jefeCarrera, carrera, al
         20,
         130
     );
-    doc.text(alumno, 20, 133);
-    const textWidth2 = doc.getTextWidth(alumno);
+    doc.text(alumno.nombre, 20, 133);
+    const textWidth2 = doc.getTextWidth(alumno.nombre);
     doc.line(20, 134, 20 + textWidth2, 134);
     doc.text("con numero de control ", 20 + textWidth2, 133);
     const textWidth3 = doc.getTextWidth(" con numero de control ");
-    doc.text(noControl, 20 + textWidth2 + textWidth3, 133);
-    const textWidth4 = doc.getTextWidth(noControl);
+    doc.text(alumno.noControl, 20 + textWidth2 + textWidth3, 133);
+    const textWidth4 = doc.getTextWidth(alumno.noControl);
     doc.line(
         20 + textWidth2 + textWidth3,
         134,
@@ -67,11 +67,11 @@ export function generarCartaAutorizacion(accion, meses, jefeCarrera, carrera, al
     );
     const textWidth5 = doc.getTextWidth(" de la carrera de ");
     doc.text(
-        carrera,
+        alumno.carrera,
         20 + textWidth2 + textWidth3 + textWidth4 + textWidth5,
         133
     );
-    const textWidth6 = doc.getTextWidth(carrera);
+    const textWidth6 = doc.getTextWidth(alumno.carrera);
     doc.line(
         20 + textWidth2 + textWidth3 + textWidth4 + textWidth5,
         134,
@@ -88,7 +88,7 @@ export function generarCartaAutorizacion(accion, meses, jefeCarrera, carrera, al
     doc.text(" con título ", 20 + textWidth7 + textWidth8, 137);
     const textWidth9 = doc.getTextWidth(" con título ");
     doc.text(
-        nombreProyecto,
+        proyecto.nombreProyecto,
         20 + textWidth7 + textWidth8 + textWidth9,
         137
     );
@@ -125,7 +125,7 @@ export function generarCartaAutorizacion(accion, meses, jefeCarrera, carrera, al
     );
 
     doc.text(
-        acesorInterno,
+        proyecto.acesorInterno,
         doc.internal.pageSize.width / 2,
         230,
         "center"
